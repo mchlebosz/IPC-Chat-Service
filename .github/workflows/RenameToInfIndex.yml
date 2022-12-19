@@ -16,6 +16,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   RenameFiles:
+    if: github.event.commits[0].author.name != 'GitHubActions'
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -23,6 +24,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
 
       # Runs a single command using the runners shell
       - name: Rename .c files
@@ -36,8 +40,8 @@ jobs:
         
       - name: Commit files back to branch
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config user.name "GitHubActions"
+          git config u ser.email "<>"          
           git commit -a -m "Add changes"
       - name: Push changes
         uses: ad-m/github-push-action@master
