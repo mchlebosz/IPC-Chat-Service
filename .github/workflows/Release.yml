@@ -21,11 +21,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
       - name: Go to src
-      - run: cd src
+        run: cd src
       
       - name: Rename .c files
         continue-on-error: true
@@ -40,27 +40,27 @@ jobs:
         run: ls -l
         
       - name: Exit src
-      - run: cd ..
+        run: cd ..
         
       - name: Compress source files
-      - run: tar -czvf Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz .
+        run: tar -czvf Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz .
       
       - name: Download GCC
-      - run: apt install build-essential
+        run: apt install build-essential
       
       - name: Check GCC
-      - run: gcc --version          
+        run: gcc --version          
       
       - name: Create directories
         run: mkdir bin
       
       - name: Build
-      - run: |
+        run: |
               gcc src/server.c -o bin/server.run
               gcc src/client.c -o bin/client.run
               
       - name: Compress build
-      - run: tar -czvf Binaries.tar.gz bin
+        run: tar -czvf Binaries.tar.gz bin
       
       - name: Show result
         run: ls -l
