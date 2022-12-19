@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Rename To Format
 
 # Controls when the workflow will run
 on:
@@ -31,3 +31,15 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Rename .h files
         run: for file in *.h; do mv "$file" "inf151817_151817_$file"; done;
+        
+      - name: Commit files back to branch
+        run: |
+          git config --local user.name "jpadfield"
+          git add ./docs
+          git commit -m "Updating the repository files prefixes"
+          
+      - name: Push changes # push the output folder to your repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
