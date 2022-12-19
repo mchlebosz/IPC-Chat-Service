@@ -41,7 +41,8 @@ jobs:
       - name: Commit files back to branch
         run: |
           git config user.name "GitHubActions"
-          git config user.email "<>"          
+          git config user.email "<>"       
+          git add -A  
           git commit -a -m "Add changes"
       - name: Push changes
         uses: ad-m/github-push-action@master
