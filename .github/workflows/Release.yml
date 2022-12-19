@@ -1,0 +1,100 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Rename To Format
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  Compress-Build-Release:
+    if: github.event.commits[0].author.name != 'GitHubActions'
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Go to src
+      - run: cd src
+      
+      - name: Rename .c files
+        continue-on-error: true
+        run: for file in *.c; do mv "$file" "inf151817_151841_$file"; done;
+
+      # Runs a set of commands using the runners shell
+      - name: Rename .h files
+        continue-on-error: true
+        run: for file in *.h; do mv "$file" "inf151817_151841_$file"; done; 
+        
+      - name: Show result
+        run: ls -l
+        
+      - name: Exit src
+      - run: cd ..
+        
+      - name: Compress source files
+      - run: tar -czvf Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz src
+      
+      - name: Download GCC
+      - run: apt install build-essential
+      
+      - name: Check GCC
+      - run: gcc --version          
+      
+      - name: Create directories
+        run: mkdir bin
+      
+      - name: Build
+      - run: |
+              gcc src/server.c -o bin/server.run
+              gcc src/client.c -o bin/client.run
+              
+      - name: Compress build
+      - run: tar -czvf Binaries.tar.gz bin
+      
+      - name: Show result
+        run: ls -l
+      
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+          
+          
+      - name: Upload Source
+        id: upload-release-source
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz
+          asset_name:  Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz
+          asset_content_type: application/gzip
+          
+      - name: Upload Binaries
+        id: upload-release-binareis
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./Binaries.tar.gz
+          asset_name:  Binaries.tar.gz
+          asset_content_type: application/gzip
+        
