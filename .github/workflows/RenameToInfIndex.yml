@@ -35,6 +35,9 @@ jobs:
         continue-on-error: true
         run: for file in *.h; do mv "$file" "inf151817_151817_$file"; done; 
         
+      - name: Show result
+        run: ls -l
+        
       - name: Commit files back to branch
         run: |
           git config user.name "GitHubActions"
