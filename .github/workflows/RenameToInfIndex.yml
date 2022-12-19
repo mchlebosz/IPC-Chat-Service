@@ -37,7 +37,7 @@ jobs:
       - name: Commit files back to branch
         run: |
           git config --local user.name "jpadfield"
-          git add ./docs
+          git add -A
           git commit -m "Updating the repository files prefixes"
           
       - name: Push changes # push the output folder to your repo
