@@ -26,13 +26,13 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Rename .c files
-        if: success() || failure()
-        run: for file in *.c; do mv "$file" "inf151817_151817_$file"; done; || true
+        continue-on-error: true
+        run: for file in *.c; do mv "$file" "inf151817_151817_$file"; done;
 
       # Runs a set of commands using the runners shell
       - name: Rename .h files
-        if: success() || failure()
-        run: for file in *.h; do mv "$file" "inf151817_151817_$file"; done; || true
+        continue-on-error: true
+        run: for file in *.h; do mv "$file" "inf151817_151817_$file"; done; 
         
       - name: Commit files back to branch
         run: |
