@@ -26,45 +26,34 @@ jobs:
       # Runs a single command using the runners shell
       - name: Go to src
         run: cd src
-      
-      - name: Rename .c files
-        continue-on-error: true
-        run: for file in *.c; do mv "$file" "inf151817_151841_$file"; done;
 
-      # Runs a set of commands using the runners shell
-      - name: Rename .h files
-        continue-on-error: true
-        run: for file in *.h; do mv "$file" "inf151817_151841_$file"; done; 
-        
+      - name: Rename .c and .h files
+        run: find ./ -type f \( -iname \*.h -o -iname \*.c \) -execdir bash -c 'mv "$1" "inf151817_151841_${1#./}"' mover {} \;
+
       - name: Show result
         run: ls -l
-        
+
       - name: Exit src
         run: cd ..
-        
+
       - name: Compress source files
-        run: tar -czvf Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz .
-      
+        run: tar --exclude=".*" --exclude"./*.gz" -czvf Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz *
+
       - name: Download GCC
-        run: apt install build-essential
-      
+        run: sudo apt install build-essential
+
       - name: Check GCC
-        run: gcc --version          
-      
-      - name: Create directories
-        run: mkdir bin
-      
+        run: gcc --version
+
       - name: Build
-        run: |
-              gcc src/server.c -o bin/server.run
-              gcc src/client.c -o bin/client.run
-              
+        run: make
+
       - name: Compress build
-        run: tar -czvf Binaries.tar.gz bin
-      
+        run: tar -czvf --exclude"./*.gz" Binaries.tar.gz bin/.
+
       - name: Show result
         run: ls -l
-      
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -75,27 +64,27 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
-          
-          
+
+
       - name: Upload Source
         id: upload-release-source
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: ./Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz
           asset_name:  Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz
           asset_content_type: application/gzip
-          
+
       - name: Upload Binaries
         id: upload-release-binareis
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: ./Binaries.tar.gz
           asset_name:  Binaries.tar.gz
           asset_content_type: application/gzip
-        
+
