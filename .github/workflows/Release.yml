@@ -59,6 +59,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz,Binaries.tar.gz"
+          tag: ${{github.ref}}
 
 
       - name: Upload Source
