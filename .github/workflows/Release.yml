@@ -46,7 +46,7 @@ jobs:
         run: tar --exclude=".*" -czvf Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz .
       
       - name: Download GCC
-        run: apt install build-essential
+        run: sudo apt install build-essential
       
       - name: Check GCC
         run: gcc --version          
