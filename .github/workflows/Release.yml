@@ -38,7 +38,7 @@ jobs:
 
       - name: Compress source files
 
-        run: tar --exclude"*.gz" --exclude=".*" -czvf Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz *
+        run: tar --exclude="./*.gz" --exclude=".*" -czvf Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz *
 
       - name: Download GCC
         run: sudo apt install build-essential
