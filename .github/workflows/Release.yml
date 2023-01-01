@@ -49,7 +49,7 @@ jobs:
         run: make
 
       - name: Compress build
-        run: tar -czvf --exclude="./*.gz" Binaries.tar.gz bin/.
+        run: tar -czvf Binaries.tar.gz bin/.
 
       - name: Show result
         run: ls -l
