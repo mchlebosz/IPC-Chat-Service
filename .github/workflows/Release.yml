@@ -56,14 +56,10 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+          artifacts: "Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz,Binaries.tar.gz"
+          tag: Release ${{github.ref}}
 
 
       - name: Upload Source
