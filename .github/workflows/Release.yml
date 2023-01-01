@@ -43,7 +43,7 @@ jobs:
         run: cd ..
         
       - name: Compress source files
-        run: tar -czvf Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz .
+        run: tar --exclude=".*" -czvf Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz .
       
       - name: Download GCC
         run: apt install build-essential
@@ -51,13 +51,8 @@ jobs:
       - name: Check GCC
         run: gcc --version          
       
-      - name: Create directories
-        run: mkdir bin
-      
       - name: Build
-        run: |
-              gcc src/server.c -o bin/server.run
-              gcc src/client.c -o bin/client.run
+        run: make
               
       - name: Compress build
         run: tar -czvf Binaries.tar.gz bin
