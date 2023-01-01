@@ -37,6 +37,7 @@ jobs:
         run: cd ..
 
       - name: Compress source files
+
         run: tar --exclude=".*" --exclude"./*.gz" -czvf Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz *
 
       - name: Download GCC
@@ -47,6 +48,7 @@ jobs:
 
       - name: Build
         run: make
+
 
       - name: Compress build
         run: tar -czvf --exclude"./*.gz" Binaries.tar.gz bin/.
