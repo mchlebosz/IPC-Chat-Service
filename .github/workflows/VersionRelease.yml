@@ -19,7 +19,7 @@ jobs:
     outputs:
       new_tag: ${{ steps.tag_version.outputs.new_tag }}
       changelog: ${{ steps.tag_version.outputs.changelog }}
-      release_type: ${{ steps.tag_version.outputs.new_tag.release_type }}
+      release_type: ${{ steps.tag_version.outputs.release_type }}
     steps:
       - name: Bump version and push tag
         id: tag_version
