@@ -38,7 +38,7 @@ jobs:
     
     needs: BumpVersion
     #check if it is not quickfix
-    if: needs.BumpVersion.outputs.release_type == 'major' || needs.BumpVersion.outputs.release_type == 'minor'
+    if: needs.BumpVersion.outputs.release_type != 'patch'
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
