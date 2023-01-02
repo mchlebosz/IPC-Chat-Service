@@ -28,9 +28,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Show outputs
         run: |
-          echo ${{ steps.tag_version.outputs.new_tag }}
-          echo ${{ steps.tag_version.outputs.changelog }}
-          echo ${{ steps.tag_version.outputs.release_type }}          
+          echo "${{ steps.tag_version.outputs.new_tag }}"
+          echo "${{ steps.tag_version.outputs.changelog }}"
+          echo "${{ steps.tag_version.outputs.release_type }}"       
           
   Compress-Build-Release:
     # The type of runner that the job will run on
