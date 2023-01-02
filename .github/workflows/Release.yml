@@ -6,8 +6,8 @@ name: Release
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - 'main'
 
 permissions:
   contents: write
@@ -56,15 +56,21 @@ jobs:
 
       - name: Show result
         run: ls -l
+      
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Check tag name
-        run: |
-         echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
-         echo "Tag name from github.ref_name: ${{ github.ref_name }}"
+        run: echo "Tag name from github.ref_name:" ${{ steps.tag_version.outputs.new_tag }}
 
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz,Binaries.tar.gz"
-          tag: ${{ github.ref_name }}
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
