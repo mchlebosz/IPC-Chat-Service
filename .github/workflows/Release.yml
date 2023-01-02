@@ -55,10 +55,15 @@ jobs:
 
       - name: Show result
         run: ls -l
+        
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "Mateusz.Chlebosz.151817.Jakub.Aszyk.151841.tar.gz,Binaries.tar.gz"
-          tag: test-${{ github.sha }}
