@@ -1,0 +1,29 @@
+name: VersionRelease
+
+# Controls when the workflow will run
+on:
+	push:
+  		paths-ignore: "docs/**"
+	pull_request:
+  		paths-ignore: "docs/**"
+jobs:
+	cpp-linter:
+	runs-on: ubuntu-latest
+		steps:
+			- uses: actions/checkout@v3
+			- name: Linter
+				id: linter
+				continue-on-error: true
+				uses: cpp-linter/cpp-linter-action@v2
+				env:
+					GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+				with:
+					style: file
+					files-changed-only: false
+
+			- name: Fail fast?!
+				if: steps.linter.outputs.checks-failed != 0
+				run: | 
+					echo "some linter checks failed. ${{ steps.linter.outputs.checks-failed }}"
+			# for actual deployment 
+			# run: exit 1
