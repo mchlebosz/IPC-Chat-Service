@@ -8,39 +8,46 @@ SRC = src
 
 #Programs
 PROG = client server
-
 # Specify the target executables
 TARGETS = $(addprefix $(BIN)/, $(PROG))
 
 # Use the wildcard function to find all .c and .h files in the src/client and src/server directories
-CLIENT_SRC = $(wildcard $(SRC)/client/*.c)
-SERVER_SRC = $(wildcard $(SRC)/server/*.c)
-CLIENT_HEADERS = $(wildcard $(SRC)/client/*.h)
-SERVER_HEADERS = $(wildcard $(SRC)/server/*.h)
-
-
 # Specify the object files for each target
-CLIENT_OBJS = $(patsubst %.c,%.o,$(CLIENT_SRC))
-SERVER_OBJS = $(patsubst %.c,%.o,$(SERVER_SRC))
+
+$(foreach prog, $(PROG), \
+$(eval $(prog)_SRC = $(wildcard $(SRC)/$(prog)/*.c)) \
+$(eval $(prog)_OBJS = $(patsubst %.c,%.o,$($(prog)_SRC))) \
+$(info $($(prog)_SRC)))
+
+$(foreach prog, $(PROG), \
+$(eval $(prog)_HEADERS = $(wildcard $(SRC)/$(prog)/*.h)))
 
 #build all
+.PHONY: all
 all: $(BIN) $(TARGETS)
 
 #create binaries directories if not exists
+
 $(BIN):
 	mkdir $(BIN)
 
-# Create a rule to build the client executable
-$(BIN)/client: $(CLIENT_OBJS) $(CLIENT_HEADERS)
-	$(CC) $(CFLAGS) $^ -o $@
+#define building
+define make-target
+$(BIN)/$(1): $$($1_OBJS) $$($1_HEADERS)
+endef
 
-# Create a rule to build the server executable
-$(BIN)/server: $(SERVER_OBJS) $(SERVER_HEADERS)
-	$(CC) $(CFLAGS) $^ -o $@
+#Create compiling rules
+$(foreach prog,$(PROG), $(eval $(call make-target,$(prog))))
 
-
+$(TARGETS):
+	$(CC) $(CFLAGS) $< -o $@
 
 # Create a rule to clean up the built executables and object files
 .PHONY: clean
 clean:
-	rm -f $(TARGETS) $(CLIENT_OBJS) $(SERVER_OBJS)
+ifeq ($(OS),Windows_NT)
+	del /F /Q $(BIN)\*
+	del /F /s *.o *.d *.elf *.map *.log
+else
+	rm -f $(BIN)/* $(foreach prog, $(PROG), $($(prog)_OBJS))
+endif
