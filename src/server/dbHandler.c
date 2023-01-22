@@ -56,20 +56,39 @@ void removeData(const char* file_name, const char* data) {
 }
 
 // Function to search for data in a file
-void searchData(const char* file_name, const char* data) {
+int searchData(const char* file_name, const char* data) {
 	char buffer[1024];
 	FILE* file = fopen(file_name, "r");
 	if (file == NULL) {
 		printf("Error opening file: %s\n", file_name);
-		return;
+		return 404;
 	}
 
 	int line_num = 1;
 	while (fgets(buffer, 1024, file) != NULL) {
 		if (strstr(buffer, data) != NULL) {    // check if data is in buffer
 			printf("Data found in line %d: %s", line_num, buffer);
+			return 200;
 		}
 		line_num++;
 	}
 	fclose(file);
+	return 204;
+}
+
+// Function to get data from a file
+int getData(const char* file_name, const char* data, char** buffer) {
+	FILE* file = fopen(file_name, "r");
+	if (file == NULL) {
+		printf("Error opening file: %s\n", file_name);
+		return 404;
+	}
+	while (fgets(*buffer, 1024, file) != NULL) {
+		if (strstr(*buffer, data) != NULL) {    // check if data is in buffer
+			fclose(file);
+			return 200;
+		}
+	}
+	fclose(file);
+	return 204;
 }

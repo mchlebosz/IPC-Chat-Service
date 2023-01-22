@@ -20,8 +20,9 @@ void sigint_handler(int signum) {
 }
 
 int main(int argc, char *argv[]) {
-	// open DB
+	// open DB - create if it doesn't exist
 	FILE *db = openFile("serverdb.txt", "a+");
+	fclose(db);
 
 	// register signal handler
 	signal(SIGINT, sigint_handler);
@@ -32,7 +33,7 @@ int main(int argc, char *argv[]) {
 
 	int msgid = msgget(serverkey, 0666 | IPC_CREAT);
 
-	serve(&keep_running, &msgid, db);
+	serve(&keep_running, &msgid, "serverdb.txt");
 
 	// remove the message queue
 	msgctl(msgid, IPC_RMID, NULL);
