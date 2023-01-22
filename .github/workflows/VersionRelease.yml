@@ -19,7 +19,7 @@ jobs:
     outputs:
       new_tag: ${{ steps.tag_version.outputs.new_tag }}
       changelog: ${{ steps.tag_version.outputs.changelog }}
-      release_type: ${{ steps.tag_version.outputs.new_tag.release_type }}
+      release_type: ${{ steps.tag_version.outputs.release_type }}
     steps:
       - name: Bump version and push tag
         id: tag_version
@@ -42,6 +42,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Show version type
+        run: echo ${{ needs.BumpVersion.outputs.release_type }}
+        
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
         uses: actions/checkout@v3
