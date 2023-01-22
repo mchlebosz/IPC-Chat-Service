@@ -1,7 +1,7 @@
 #include "session.h"
 
-void session(key_t sessionKey, int* sessionQueue) {
-	while (1) {
+void session(int* keep_running, key_t sessionKey, int* sessionQueue) {
+	while (*keep_running) {
 		// receive message from client
 	}
 }

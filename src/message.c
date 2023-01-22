@@ -1,20 +1,22 @@
 #include "message.h"
 
-void msgInit(Message* msg, short type, char* sender, char* receiver,
-			 short statusCode, char* body) {
-	msg->header.type = type;
-	strcpy(msg->header.sender, sender);
-	strcpy(msg->header.receiver, receiver);
-	strcpy(msg->header.time, getTime());
-	msg->header.statusCode = 0;
-	strcpy(msg->body, body);
+void msgInit(Message* msg, long permission, short type, char* sender,
+			 char* receiver, short statusCode, char* body) {
+	msg->mtype             = permission;
+	msg->mtext.header.type = type;
+	strcpy(msg->mtext.header.sender, sender);
+	strcpy(msg->mtext.header.receiver, receiver);
+	strcpy(msg->mtext.header.time, getTime());
+	msg->mtext.header.statusCode = 0;
+	strcpy(msg->mtext.body, body);
 }
 
 void msgClear(Message* msg) {
-	msg->header.type = -1;
-	strcpy(msg->header.sender, "");
-	strcpy(msg->header.receiver, "");
-	strcpy(msg->header.time, "");
-	msg->header.statusCode = -1;
-	strcpy(msg->body, "");
+	msg->mtype             = 0;
+	msg->mtext.header.type = -1;
+	strcpy(msg->mtext.header.sender, "");
+	strcpy(msg->mtext.header.receiver, "");
+	strcpy(msg->mtext.header.time, "");
+	msg->mtext.header.statusCode = -1;
+	strcpy(msg->mtext.body, "");
 }
