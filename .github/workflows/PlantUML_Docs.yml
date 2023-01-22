@@ -28,16 +28,14 @@ jobs:
       - name: Remove PlantUML
         run: rm plantuml.jar
 
-      - name: Import GPG Key
-        id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@v5
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
-          git_user_signingkey: true
-          git_commit_gpgsign: true
-          git_push_gpgsign: true
-          git_config_global: true
+      - name: Setup GPG
+        run: |
+          echo ${{ secrets.GPG_PRIVATE_KEY }} | base64 --decode | gpg --import
+          echo ${{ secrets.PASSPHRASE }} | gpg --passphrase-fd 0 --batch --yes --pinentry-mode loopback --import-ownertrust
+          git config --global gpg.program gpg
+          git config --global commit.gpgsign true
+          git config --global user.signingkey ${{ secrets.GPG_KEY_ID }}
+
 
 
       - name: List keys
