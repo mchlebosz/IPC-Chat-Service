@@ -12,13 +12,13 @@ jobs:
         UML_FILES: ".puml"
     steps:
       - name: Checkout Source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Get UML files
         id: getfile
         run: |
-          echo "::set-output name=files::$(find . -name '*.puml')"
+          echo "files=$(find . -name '*.puml')" >> $GITHUB_OUTPUT
       - name: UML files considered echo output
         run: |
           echo ${{ steps.getfile.outputs.files }}
