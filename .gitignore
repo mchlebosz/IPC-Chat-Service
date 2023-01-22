@@ -1,7 +1,6 @@
 #Editors
 .idea/
 .vscode/
-out/
 *.html
 
 #Temps
