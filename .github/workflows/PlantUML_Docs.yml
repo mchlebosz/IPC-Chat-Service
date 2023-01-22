@@ -28,7 +28,17 @@ jobs:
       - name: Remove PlantUML
         run: rm plantuml.jar
 
-      - name: Push Local Changes
-        uses:  stefanzweifel/git-auto-commit-action@v4.1.2
+      - name: Commit Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add out
+          git commit -m "Generate SVG for PlantUML diagrams" -a
+
+      - name: Push Changes
+        uses: ad-m/github-push-action@master
         with:
-          commit_message: "Generate SVG for PlantUML diagrams"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+
