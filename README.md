@@ -54,4 +54,15 @@ const map_entry_t statusCodes[STATUS_CODES] = {
 };
 ```
 
+## MVP
+
+### Client
+- [x] Login
+- [ ] Send a message
+
+
+### Server
+- [] Login
+- [] Register
+- [] Message
 

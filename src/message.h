@@ -15,3 +15,8 @@ typedef struct Message {
 	} header;
 	char body[1000];
 } Message;
+
+void msgInit(Message* msg, short type, char* sender, char* receiver,
+			 short statusCode, char* body);
+
+void msgClear(Message* msg);
