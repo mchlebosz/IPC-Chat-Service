@@ -43,7 +43,7 @@ jobs:
       - name: Commit Changes
         run: |
           git add out -f
-          git commit -S -m "Generate SVG for PlantUML diagrams"
+          GIT_TRACE=1 git commit -S -m "Generate SVG for PlantUML diagrams"
 
       - name: Push Changes
         uses: ad-m/github-push-action@master
