@@ -36,8 +36,6 @@ jobs:
           git_user_signingkey: true
           git_commit_gpgsign: true
           git_push_gpgsign: true
-          git_committer_name: 'Mateusz Chlebosz'
-          git_committer_email: 'mateusz.chlebosz@outlook.com'
 
       - name: List keys
         run: gpg -K
