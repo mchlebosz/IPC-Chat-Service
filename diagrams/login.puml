@@ -33,33 +33,33 @@ alt Failure connection to server
         Client -> User : "Server is not responding"
         'exit app
     else Sucessfull connection to server
-        Client --> ServerQueue : msgsnd(client_key)
+        Client --> ServerQueue : msgsnd(client_id;client_seed;)
     end
 else Sucessfull connection to server
-    Client --> ServerQueue : msgsnd(client_key)
+    Client --> ServerQueue : msgsnd(client_id;client_seed;)
 end
 
 
 == Server Session ==
 ' Server receives client key and creates session
 group Create session
-    ServerQueue --> Server : msgrcv(client_key)
+    ServerQueue --> Server : msgrcv(client_id;client_seed;)
     create queue SessionQueue order 20
-    Server -> SessionQueue : msgget(session_key, IPC_CREAT)
+    Server -> SessionQueue : msgget(client_id;session_seed, IPC_CREAT)
     activate SessionQueue
     create Session order 21
     Server -> Session : fork()
     activate Session
-    Session -> SessionQueue : msgget(session_key)
-    Session -> ClientQueue : msgget(client_key)
-    Session --> ClientQueue : msgsnd(session_key)
+    Session -> SessionQueue : msgget(client_id;session_seed)
+    Session -> ClientQueue : msgget(client_id;client_seed;)
+    Session --> ClientQueue : msgsnd(client_id;session_seed)
 end
 ' Client receives session key and starts session and removes client queue
-ClientQueue --> Client : msgrcv(session_key)
-Client -> SessionQueue : msgget(session_key)
+ClientQueue --> Client : msgrcv(client_id;session_seed)
+Client -> SessionQueue : msgget(client_id;session_seed)
 alt Failure connection to session
     loop 10 times
-        Client -> SessionQueue : msgget(session_key)
+        Client -> SessionQueue : msgget(client_id;session_seed)
     end
     alt Failure
         Client -> User : "Server is not responding"
