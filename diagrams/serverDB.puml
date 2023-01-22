@@ -1,4 +1,4 @@
-@startjson ServerDB
+@startjson serverDB
 !theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
 
 {
