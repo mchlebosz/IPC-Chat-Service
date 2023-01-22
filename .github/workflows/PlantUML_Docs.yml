@@ -18,14 +18,16 @@ jobs:
       - name: Get UML files
         id: getfile
         run: |
-          echo "files=$(find . -name '*.puml')" >> $GITHUB_OUTPUT
+          echo 'FILES<<EOF' >> $GITHUB_OUTPUT
+          find . -name '*.puml' >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
       - name: UML files considered echo output
         run: |
           echo ${{ steps.getfile.outputs.files }}
       - name: Generate SVG Diagrams
         uses: cloudbees/plantuml-github-action@master
         with:
-            args: -v -tsvg ${{ steps.getfile.outputs.files }}
+            args: -v -tsvg ${{ steps.getfile.outputs.FILES }}
 
       - name: Push Local Changes
         uses:  stefanzweifel/git-auto-commit-action@v4.1.2
