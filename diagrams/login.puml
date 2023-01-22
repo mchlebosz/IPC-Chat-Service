@@ -82,6 +82,8 @@ else Sucessfull connection to session
         Server -> Server : set_status(login,'offline')
         Server -> SessionQueue : msgsnd(fail, message)
         SessionQueue --> Session : msgrcv(fail, message)
+        'change permissions
+        Session -> Session : change msg access rights()
         Session -> SessionQueue : msgsnd(fail, message)
         SessionQueue --> Client : msgrcv(fail, message)
         Client -> User : show_message(message)
@@ -93,6 +95,7 @@ else Sucessfull connection to session
         SessionQueue --> Session : msgrcv({login,password}, decrypt_key)
 
         'if everything is ok then change access rights and send to client
+        Session -> Session : change msg access rights()
         Session --> SessionQueue : msgsnd({login,password}, decrypt_key)
         SessionQueue --> Client : msgrcv({login,password}, decrypt_key)
         Client -> Client : check_credentials({login,password}, decrypt_key)

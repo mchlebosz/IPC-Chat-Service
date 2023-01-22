@@ -80,6 +80,7 @@ else Sucessfull connection to session
     alt User exists
         Server -> SessionQueue : msgsnd(fail, message)
         SessionQueue --> Session : msgrcv(fail, message)
+        Session -> Session : change msg access rights()
         Session -> SessionQueue : msgsnd(fail, message)
         SessionQueue --> Client : msgrcv(fail, message)
         Client -> User : show_message(message)
@@ -90,6 +91,7 @@ else Sucessfull connection to session
         Server -> Server : set_status(login,'online')
         Server --> SessionQueue : msgsnd({login,password}, decrypt_key)
         SessionQueue --> Session : msgrcv({login,password}, decrypt_key)
+        Session -> Session : change msg access rights()
         Session --> SessionQueue : msgsnd({login,password}, decrypt_key)
         SessionQueue --> Client : msgrcv({login,password}, decrypt_key)
         Client -> Client : check_credentials({login,password}, decrypt_key)

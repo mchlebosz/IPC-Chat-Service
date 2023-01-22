@@ -12,6 +12,22 @@ queue ServerQueue
 participant Server
 database ServerDB
 
+User -> Client : addFriend(Alice)
+Client -> ClientDB : getFriendList()
+Client -> Client : checkFriendList(Alice)
+alt Already friend
+    Client -> Client : displayAlreadyFriend()
+else Not friend
+    Client -> SessionQueue : msgsnd(addFriendRequest(Alice) )
+    SessionQueue -> Session : msgrcv()
+    Session -> Session : change msg access rights()
+    Session -> SessionQueue : msgsnd(addFriendRequest(Alice) )
+
+
+
+end
+
+
 
 
 @enduml
