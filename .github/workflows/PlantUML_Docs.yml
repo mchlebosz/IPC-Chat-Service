@@ -1,24 +1,45 @@
-name: Generate PlantUML
-on: push
+name: Generate PlantUML Diagrams
+on:
+  push:
+    paths:
+      - '**/**.puml'
+    branches-ignore:    
+      - 'main'
 jobs:
-  generate_plantuml:
+  ci:
     runs-on: ubuntu-latest
-    name: plantuml
+    env:
+        UML_FILES: ".puml"
     steps:
-    - name: checkout
-      uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
-    - name: change dir
-      run: |
-        cd puml
-        ls -l
+      - name: Checkout Source 
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Get changed UML files
+        id: getfile
+        run: |
+          git diff-tree -r --no-commit-id --summary ${{ github.sha }} \
+          | awk -F' ' '{
+            # ensure we are not trying to process deleted files
+            # only process puml files
+            # do not try to process our theme or custom config
+            if ( $1 !~ /^delete$/ && $4 ~ /\.puml$/ && $4 !~ /(theme|config)\.puml$/ )
+            {
+              # only print the file name and strip newlines for spaces
+              printf "::set-output name=files::" "%s ", $4
+            }
+          }
+          END { print "" } # ensure we do print a newline at the end
+          '
+      - name: UML files considered echo output
+        run: |
+          echo ${{ steps.getfile.outputs.files }}
+      - name: Generate SVG Diagrams
+        uses: cloudbees/plantuml-github-action@master
+        with:
+            args: -v -tsvg ${{ steps.getfile.outputs.files }}
     
-    - name: plantuml
-      id: plantuml
-      uses: grassedge/generate-plantuml-action@v1.5
-      with:
-        path: '../out'
-        message: "Render PlantUML files"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push Local Changes
+        uses:  stefanzweifel/git-auto-commit-action@v4.1.2 
+        with: 
+          commit_message: "Generate SVG for PlantUML diagrams" 
