@@ -41,7 +41,11 @@ jobs:
 
 
       - name: List keys
-        run: gpg -K
+        run: |
+          gpg -K
+          gpg --list-secret-keys --keyid-format LONG
+          gpg2 --list-secret-keys --keyid-format LONG
+
 
       - name: Commit Changes
         run: |
