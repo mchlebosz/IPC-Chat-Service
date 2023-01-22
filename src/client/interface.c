@@ -94,7 +94,7 @@ void clientLogin(void) {
 	// receive response from server
 	// if response is success, show chat interface
 	// else, show error message
-	printf("%s", getStatusCode(200));
+	// printf("%s", getStatusCode(200));
 
 	Message response = APILogin(username, password);
 	if (response.header.type == 0 && response.header.statusCode != 200) {

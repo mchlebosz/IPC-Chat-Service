@@ -15,12 +15,12 @@ TARGETS = $(addprefix $(BIN)/, $(PROG))
 # Specify the object files for each target
 
 $(foreach prog, $(PROG), \
-$(eval $(prog)_SRC = $(wildcard $(SRC)/$(prog)/*.c)) \
+$(eval $(prog)_SRC = $(wildcard $(SRC)/$(prog)/*.c) $(wildcard $(SRC)/*.c)) \
 $(eval $(prog)_OBJS = $(patsubst %.c,%.o,$($(prog)_SRC))) \
 $(info $($(prog)_SRC)))
 
 $(foreach prog, $(PROG), \
-$(eval $(prog)_HEADERS = $(wildcard $(SRC)/$(prog)/*.h)))
+$(eval $(prog)_HEADERS = $(wildcard $(SRC)/$(prog)/*.h) $(wildcard $(SRC)/*.h)))
 
 #build all
 .PHONY: all

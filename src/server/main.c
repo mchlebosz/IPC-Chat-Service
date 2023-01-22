@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 	key_t key = ftok("server.c", 'B');
 	int msgid = msgget(key, 0666 | IPC_CREAT);
 
-	serve(keep_running, msgid);
+	serve(&keep_running, &msgid);
 
 	// remove the message queue
 	msgctl(msgid, IPC_RMID, NULL);
