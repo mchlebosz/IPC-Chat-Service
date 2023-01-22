@@ -35,11 +35,17 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           git_user_signingkey: true
           git_commit_gpgsign: true
+          git_push_gpgsign: true
+          git_committer_name: 'Mateusz Chlebosz'
+          git_committer_email: 'mateusz.chlebosz@outlook.com'
+
+      - name: List keys
+        run: gpg -K
 
       - name: Commit Changes
         run: |
           git add out -f
-          git commit -S -m "Generate SVG for PlantUML diagrams" -a
+          git commit -S -m "Generate SVG for PlantUML diagrams"
 
       - name: Push Changes
         uses: ad-m/github-push-action@master
