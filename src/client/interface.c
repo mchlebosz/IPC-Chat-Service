@@ -87,9 +87,15 @@ void clientLogin(void) {
 	char username[30];
 	char password[30];
 	printf("Username: ");
-	scanf("%s", username);
+	if (scanf("%s", username) != 1) {
+		printf("Invalid username\n");
+		return;
+	}
 	printf("Password: ");
-	scanf("%s", password);
+	if (scanf("%s", password) != 1) {
+		printf("Invalid password\n");
+		return;
+	}
 	// send username and password to server
 	// receive response from server
 	// if response is success, show chat interface
@@ -171,7 +177,10 @@ void clientRegister(void) {
 		memset(username, 0, sizeof(username));
 
 		printf("Username: ");
-		scanf("%s", username);
+		if (scanf("%s", username) != 1) {
+			printf("%s", USERNAME_ERROR);
+			continue;
+		}
 		// check if username is valid
 		// if not, show error message
 		if (checkUsername(username) != 0) {
@@ -190,9 +199,15 @@ void clientRegister(void) {
 
 		printf("%s", PASSWORD_ERROR);
 		printf("Password: ");
-		scanf("%s", password);
+		if (scanf("%s", password) != 1) {
+			printf("%s", PASSWORD_ERROR);
+			continue;
+		}
 		printf("Confirm password: ");
-		scanf("%s", confirmPassword);
+		if (scanf("%s", confirmPassword) != 1) {
+			printf("%s", PASSWORD_ERROR);
+			continue;
+		}
 
 		// check if password is valid
 		// check if password and confirm password are the same
@@ -232,7 +247,10 @@ void showInterface(void) {
 		printf("3. Exit\n");
 		printf("Please choose one of the options: ");
 		int option;
-		scanf("%d", &option);
+		if (scanf("%d", &option) != 1) {
+			printf("Invalid option. Please try again.\n");
+			continue;
+		}
 		switch (option) {
 			case 1: clientLogin(); break;
 			case 2: clientRegister(); break;
