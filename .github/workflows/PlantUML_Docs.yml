@@ -32,7 +32,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add out
+          git add out -f
           git commit -m "Generate SVG for PlantUML diagrams" -a
 
       - name: Push Changes
