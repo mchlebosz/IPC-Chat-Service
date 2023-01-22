@@ -32,8 +32,9 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git config --local user.signingkey ${{ secrets.GPG_KEY_ID }}
           git add out -f
-          git commit -m "Generate SVG for PlantUML diagrams" -a
+          git commit -S -m "Generate SVG for PlantUML diagrams" -a
 
       - name: Push Changes
         uses: ad-m/github-push-action@master
