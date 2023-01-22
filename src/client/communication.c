@@ -65,6 +65,7 @@ Message APILogin(char* username, char* password) {
 	// if response is success, return username auth token
 	// else return error code
 	Message response;
+	response.header.type = 10;
 	return response;
 }
 // register
@@ -73,7 +74,10 @@ Message APIRegister(char* username, char* password) {
 	// receive response from server
 	// if response is success, return username auth token
 	// else return error code
+
 	Message response;
+	response.header.type = 11;
+
 	return response;
 }
 // logout
@@ -83,5 +87,7 @@ Message APILogout(char* username) {
 	// if response is success, show login interface
 	// else, show error message
 	Message response;
+	response.header.type = 12;
+
 	return response;
 }
