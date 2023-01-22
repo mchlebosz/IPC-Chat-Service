@@ -28,11 +28,17 @@ jobs:
       - name: Remove PlantUML
         run: rm plantuml.jar
 
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 --decode | gpg --import
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
       - name: Commit Changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git config --global user.signingkey ${{ secrets.GPG_KEY_ID }}
+          git config --global user.signingkey $GPG_SIGNING_KEY
           git add out -f
           git commit -S -m "Generate SVG for PlantUML diagrams" -a
 
