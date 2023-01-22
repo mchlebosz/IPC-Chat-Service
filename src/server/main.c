@@ -11,7 +11,7 @@
 #include <unistd.h>
 
 #include "dbHandler.h"
-#include "queue.h"
+#include "serverQueue.h"
 
 int keep_running = 1;
 
@@ -20,8 +20,8 @@ void sigint_handler(int signum) {
 }
 
 int main(int argc, char *argv[]) {
-	FILE *db = openFile("serverdb.txt", "a+");
 	// open DB
+	FILE *db = openFile("serverdb.txt", "a+");
 
 	// register signal handler
 	signal(SIGINT, sigint_handler);

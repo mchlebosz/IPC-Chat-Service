@@ -34,4 +34,5 @@ void serve(int* keep_running, int* msgid, FILE* db);
 
 int registerUser(char* username, char* password);
 
-int openSession(int* sessionRunning, int* sessionQueue, key_t clientKey);
+int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
+				int clientSeed);

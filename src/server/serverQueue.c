@@ -35,15 +35,20 @@ void serve(int* keep_running, int* msgid, FILE* db) {
 			}
 		}
 
-		if (msg.mtext.header.type = 0) {
-			// extract client id from message
-			key_t clientKey = msg.mtext.body;
+		if (msg.mtext.header.type == 0) {
+			// extract client id and seed from message
+			// message format: clientID;clientSeed;
+			char* messageBody = msg.mtext.body;
+			char* clientID    = strtok(messageBody, ";");
+			int clientSeed    = atoi(strtok(NULL, ";"));
+
+			key_t clientKey = ftok(clientID, clientSeed);
 
 			int sessionQueue;
 			int sessionRunning;
 			// create session for new client
-			int sessionKey =
-				openSession(&sessionRunning, &sessionQueue, clientKey);
+			int sessionKey = openSession(&sessionRunning, &sessionQueue,
+										 clientID, clientSeed);
 			// on Error return 500 to client
 			if (sessionKey == 500) {
 				// send response message
@@ -63,27 +68,15 @@ void serve(int* keep_running, int* msgid, FILE* db) {
 				addSession(&sessions, session);
 			}
 		}
-
-		// check if the message is a register request
-		if (msg.mtext.header.type == 11) {
-			// check if the user is already registered
-			if (isRegistered(msg.mtext.header.sender)) {
-				// send response message
-				msg.mtext.header.type       = 1;
-				msg.mtext.header.statusCode = 409;
-				msgsnd(*msgid, &msg, sizeof(msg), 0);
-				continue;
-			}
-			// register the user
-			registerUser(msg.mtext.header.sender, msg.mtext.body);
-		}
 	}
 }
 
-int openSession(int* sessionRunning, int* sessionQueue, key_t clientKey) {
+int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
+				int clientSeed) {
 	// create the message queue for session, then in session connect to
 	// clientQueue create random session key based on client key
-	key_t sessionKey = ftok(clientKey, rand());
+	int sessionSeed  = rand();
+	key_t sessionKey = ftok(clientID, sessionSeed);
 	// create session queue
 	*sessionQueue   = msgget(sessionKey, 0666 | IPC_CREAT);
 	*sessionRunning = 1;
@@ -91,15 +84,24 @@ int openSession(int* sessionRunning, int* sessionQueue, key_t clientKey) {
 	if (fork() == 0) {
 		// send session key to client
 		//  connect to client queue
+		key_t clientKey = ftok(clientID, clientSeed);
 		int clientQueue = msgget(clientKey, 0666 | IPC_CREAT);
 		Message msg;
+		// send response message
+		// message format: clientID;sessionSeed;
+		char* MessageBody = strcat(clientID, ";");
+		char stringSessionSeed[10];
+		sprintf(stringSessionSeed, "%d", sessionSeed);
+		MessageBody = strcat(MessageBody, stringSessionSeed);
+		MessageBody = strcat(MessageBody, ";");
+
 		msgInit(&msg, 21, 1, "session", msg.mtext.header.sender, 200,
-				sessionKey);
+				MessageBody);
 		// send response message
 		msgsnd(clientQueue, &msg, sizeof(msg), 0);
 
 		// serve session
-		session(sessionRunning, sessionKey, *sessionQueue);
+		session(sessionRunning, sessionKey);
 
 	} else {
 		return sessionKey;

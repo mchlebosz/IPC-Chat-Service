@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 // file handler
-FILE* openFile(const char* fileName, char* mode);
+FILE* openFile(const char* fileName, const char* mode);
 
 void addData(const char* fileName, const char* data);
 

@@ -1,6 +1,9 @@
 #include "dbHandler.h"
 
-FILE* open_file(char* filename, char* mode) {
+#include <stdio.h>
+#include <string.h>
+
+FILE* openFile(const char* filename, const char* mode) {
 	FILE* file = fopen(filename, mode);
 	if (file == NULL) {
 		// create file if it doesn't exist
@@ -10,9 +13,6 @@ FILE* open_file(char* filename, char* mode) {
 	}
 	return file;
 }
-
-#include <stdio.h>
-#include <string.h>
 
 // Function to add data to a file
 void addData(const char* file_name, const char* data) {

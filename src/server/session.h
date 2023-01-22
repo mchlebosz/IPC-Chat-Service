@@ -6,4 +6,4 @@
 #include <sys/msg.h>
 #include <sys/types.h>
 
-void session(int* keep_running, key_t sessionKey, int* sessionQueue);
+void session(int* keep_running, key_t sessionKey);

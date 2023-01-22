@@ -6,7 +6,7 @@ void msgInit(Message* msg, long permission, short type, char* sender,
 	msg->mtext.header.type = type;
 	strcpy(msg->mtext.header.sender, sender);
 	strcpy(msg->mtext.header.receiver, receiver);
-	strcpy(msg->mtext.header.time, getTime());
+	strcpy(msg->mtext.header.time, "2023.12.31 23:59:59");
 	msg->mtext.header.statusCode = 0;
 	strcpy(msg->mtext.body, body);
 }
