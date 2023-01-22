@@ -40,8 +40,6 @@ int registerUser(char* username, char* password, char** key, char* db);
 int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 				int clientSeed);
 
-int receiveMessage(int* msgid, Message* msg, long permittedType);
-
 char* generateKey();
 
 int loginUser(char* username, char* password, char** key, char* db);

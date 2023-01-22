@@ -35,3 +35,5 @@ void msgInit(Message* msg, long permission, short type, char* sender,
 			 char* receiver, short statusCode, char* body);
 
 void msgClear(Message* msg);
+
+int receiveMessage(int* msgid, Message* msg, long permittedType);

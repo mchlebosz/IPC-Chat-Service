@@ -261,29 +261,6 @@ int getSessionQueue(Sessions* sessions, char* sessionID) {
 	}
 	return 404;
 }
-
-int receiveMessage(int* msgid, Message* msg, long permittedType) {
-	ssize_t msg_size = msgrcv(*msgid, msg, sizeof(msg), permittedType, 0);
-	if (msg_size < 0) {
-		perror("msgrcv");
-		return 500;
-	}
-	if (msg_size > sizeof(Message)) {
-		printf("Error: message size exceeds buffer size, discarding message\n");
-		return 413;
-	}
-	// handle the received message
-	for (int i = 0; i < TYPE_CODES; i++) {
-		if (msg->mtext.header.type == typeCodes[i].code) {
-			printf("Received %s request from %s at %s: %s\n", typeCodes[i].name,
-				   msg->mtext.header.sender, msg->mtext.header.time,
-				   msg->mtext.body);
-			break;
-		}
-	}
-	return 200;
-}
-
 int registerUser(char* username, char* password, char** key, char* db) {
 	// check if username is already taken
 	if (searchData(db, username) == 200) {
