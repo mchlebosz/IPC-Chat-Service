@@ -3,14 +3,67 @@
 autonumber
 
 
-actor Bob as User
-database ClientDB
-participant Client
-queue SessionQueue
-participant  Session
+actor Bob as User1
+database ClientDB_Bob as ClientDB1
+participant Client_Bob as Client1
+queue SessionQueue_Bob as SessionQueue1
+participant  Session_Bob as Session1
 queue ServerQueue
 participant Server
 database ServerDB
+
+participant  Session_Alice as Session2
+queue SessionQueue_Alice as SessionQueue2
+participant Client_Alice as Client2
+database ClientDB_Alice as ClientDB2
+actor Alice as User2
+
+
+User1 -> Client1 : send message to Alice
+Client1 -> Client1: check if Alice is online and on friend list
+alt Alice is offline
+    Client1 -> User1 : notify user that Alice is offline
+else Alice is online
+    Client1 -> ClientDB1 : get Alice's public key
+    Client1 -> Client1 : encrypt message with Alice's public key
+    Client1 -> SessionQueue1 : send message to SessionQueue
+    SessionQueue1 -> Session1 : send message to Session
+    Session1 -> ServerQueue : send message to ServerQueue
+    ServerQueue -> Server : send message to Server
+    Server -> ServerDB : get Alice's ID
+    Server -> Server : check if Alice is online
+    Server -> Server : Find Alice's Session
+    alt alice is offline or no session found
+        Server -> SessionQueue1 : send Error message to SessionQueue1
+    else
+        Server -> SessionQueue2 : send message to ServerQueue2
+        SessionQueue2 -> Session2 : send message to Session2
+        Session2 -> Session2 : change msg access rights
+        Session2 -> SessionQueue2 : send message to SessionQueue2
+        SessionQueue2 -> Client2 : send message to Client2
+        Client2 -> Client2 : decrypt message with Alice's private key
+        Client2 -> ClientDB2 : save message to ClientDB2
+        Client2 -> User2 : notify user that message was received
+
+        Client2 -> SessionQueue2 : Confirm message was received
+        SessionQueue2 -> Session2 : confirm(received, user_id)
+        Session2 -> ServerQueue : confirm(received, user_id)
+        ServerQueue -> Server : confirm(received, user_id)
+        Server -> Server : confirm(received, user_id)
+        Server -> SessionQueue1 : confirm(received, user_id)
+        SessionQueue1 -> Session1 : confirm(received, user_id)
+        Session1 -> Session1 : change msg access rights
+        Session1 -> SessionQueue1 : confirm(received, user_id)
+        SessionQueue1 -> Client1 : confirm(received, user_id)
+        Client1 -> Client1 : confirm(received, user_id)
+        Client1 -> User1 : notify user that message was received
+    end
+end
+
+
+
+
+
 
 
 

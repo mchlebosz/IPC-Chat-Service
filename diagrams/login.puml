@@ -91,6 +91,7 @@ else Sucessfull connection to session
     else Sucessfull login
         Server -> Server : connect(login,session_key)
         Server -> Server : set_status(login,'online')
+        Server -> Server : propagate_status(login,'online')
         Server --> SessionQueue : msgsnd({login,password}, decrypt_key)
         SessionQueue --> Session : msgrcv({login,password}, decrypt_key)
 

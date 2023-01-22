@@ -1,4 +1,4 @@
-@startuml removeFromGroup
+@startuml removeFriend
 !theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
 autonumber
 
@@ -11,6 +11,39 @@ participant  Session
 queue ServerQueue
 participant Server
 database ServerDB
+
+User -> Client : removeFromGroup(Username, GroupName)
+Client -> ClientDB : checkIfInGroup(Username, GroupName)
+alt You are not in this group or group does not exist or user does not exist
+    Client -> User : Error
+else Everything is ok
+    Client -> SessionQueue : removeFromGroup(Username, GroupName)
+    Session -> Session : removeFromGroup(Username, GroupName)
+    Session -> ServerQueue : removeFromGroup(Username, GroupName)
+    ServerQueue -> Server : removeFromGroup(Username, GroupName)
+    Server -> ServerDB : checkGroup(GroupName)
+    Server -> ServerDB : checkUser(Username)
+    alt On Error
+        Server -> SessionQueue : removeFromGroup(Error)
+        SessionQueue -> Session : removeFromGroup(Error)
+        Session -> Session : change msg access rights
+        Session -> SessionQueue : removeFromGroup(Error)
+        SessionQueue -> Client : removeFromGroup(Error)
+        Client -> Client : removeFromGroup(Error)
+        Client -> User : (Server Error)
+    else Everything is ok
+        Server -> ServerDB : removeFromGroup(Username, GroupName)
+        Server -> Server: propagateGroupChange(GroupName)
+        Server -> SessionQueue : removeFromGroup(Username, GroupName)
+        Session <- SessionQueue : removeFromGroup(Username, GroupName)
+        Session -> Session : change msg access rights
+        Session -> SessionQueue : removeFromGroup(Username, GroupName)
+        SessionQueue -> Client : removeFromGroup(Username, GroupName)
+        Client -> Client : removeFromGroup(Username, GroupName)
+        Client -> ClientDB : removeFromGroup(Username, GroupName)
+        Client -> User : User removed successfully from group
+    end
+end
 
 
 

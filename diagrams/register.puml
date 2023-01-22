@@ -89,6 +89,7 @@ else Sucessfull connection to session
         Server -> ServerDB : register({login,password}, decrypt_key)
         Server -> Server : connect(login,session_key)
         Server -> Server : set_status(login,'online')
+        Server -> Server : propagate_status(login,'online')
         Server --> SessionQueue : msgsnd({login,password}, decrypt_key)
         SessionQueue --> Session : msgrcv({login,password}, decrypt_key)
         Session -> Session : change msg access rights()

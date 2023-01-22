@@ -21,10 +21,6 @@
         "type": "char[20]"
         },
         {
-        "name": "last_update",
-        "type": "char[20]"
-        },
-        {
         "name": "groups",
         "type": "int[]",
         "fk": "Groups.id"
@@ -35,7 +31,7 @@
         "fk": "Users.id"
         },
         {
-        "name": "key",
+        "name": "publicKey",
         "type": "char[100]"
         }
     ]
@@ -58,6 +54,14 @@
         "name": "users",
         "type": "int[]",
         "fk": "Users.id"
+        },
+        {
+        "name": "publicKey",
+        "type": "char[100]"
+        },
+        {
+        "name": "privateKey",
+        "type": "char[100]"
         }
     ]
 }
