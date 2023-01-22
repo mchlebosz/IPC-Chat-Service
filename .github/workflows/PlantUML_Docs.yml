@@ -30,8 +30,8 @@ jobs:
 
       - name: Setup GPG
         run: |
-          echo ${{ secrets.GPG_PRIVATE_KEY }} | base64 --decode | gpg --import
-          echo ${{ secrets.PASSPHRASE }} | gpg --passphrase-fd 0 --batch --yes --pinentry-mode loopback --import-ownertrust
+          gpg --import <(echo ${{ secrets.GPG_PRIVATE_KEY }} | base64 --decode) || true # ignore error if key already exists in keyring
+          gpg --import-ownertrust <(echo ${{ secrets.PASSPHRASE }} | base64 --decode) || true # ignore error if key already exists in keyring
           git config --global gpg.program gpg
           git config --global commit.gpgsign true
           git config --global user.signingkey ${{ secrets.GPG_KEY_ID }}
