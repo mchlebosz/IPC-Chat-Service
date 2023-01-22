@@ -1,6 +1,8 @@
 #include "codes.h"
 
 const map_entry_t typeCodes[TYPE_CODES] = {
+	{ 0, "Connection" },
+	{ 1, "Response" },
 	{ 10, "Login" },
 	{ 11, "Register" },
 	{ 12, "Logout" },
