@@ -19,18 +19,7 @@ extern const map_entry_t typeCodes[TYPE_CODES];
 #define STATUS_CODES 24
 extern const map_entry_t statusCodes[STATUS_CODES];
 // body
-
-typedef struct Message {
-	struct header {
-		short type;
-		char* sender;
-		char* receiver;
-		char* time;
-		short statusCode;
-	} header;
-	char* body;
-} Message;
-
+#include "../message.h"
 // get status code
 char* getStatusCode(int key);
 

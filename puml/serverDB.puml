@@ -1,0 +1,64 @@
+@startjson ServerDB
+!theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
+
+{
+    "Users": [
+        {
+        "name": "id",
+        "type": "int",
+        "pk": true
+        },
+        {
+        "name": "name",
+        "type": "char[20]"
+        },
+        {
+        "name": "password",
+        "type": "char[20]"
+        },
+        {
+        "name": "status",
+        "type": "char[20]"
+        },
+        {
+        "name": "last_update",
+        "type": "char[20]"
+        },
+        {
+        "name": "groups",
+        "type": "int[]",
+        "fk": "Groups.id"
+        },
+        {
+        "name": "friends",
+        "type": "int[]",
+        "fk": "Users.id"
+        },
+        {
+        "name": "key",
+        "type": "char[100]"
+        }
+    ]
+    ,
+    "Groups": [
+        {
+        "name": "id",
+        "type": "int",
+        "pk": true
+        },
+        {
+        "name": "name",
+        "type": "char[20]"
+        },
+        {
+        "name": "description",
+        "type": "char[255]"
+        },
+        {
+        "name": "users",
+        "type": "int[]",
+        "fk": "Users.id"
+        }
+    ]
+}
+@endjson

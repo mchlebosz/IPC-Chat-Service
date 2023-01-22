@@ -1,0 +1,45 @@
+@startjson clientDB
+!theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
+
+{
+    "Messages":[
+        {
+        "name": "id",
+        "type": "int",
+        "pk": true
+        },
+        {
+        "name": "type",
+        "type": "int"
+        },
+        {
+        "name": "sender",
+        "type": "int",
+        "fk": "Server.User.id"
+        },
+        {
+        "name": "receiver",
+        "type": "int",
+        "fk": "Server.User.id"
+        },
+        {
+        "name": "message",
+        "type": "char[1000]"
+        },
+        {
+        "name": "time",
+        "type": "char[20]"
+        }
+    ],
+    "Friends": {
+    "name": "id",
+    "type": "int[]",
+    "fk": "Server.Users.id"
+    },
+    "Groups": {
+    "name": "id",
+    "type": "int[]",
+    "fk": "Server.Groups.id"
+    }
+}
+@endjson

@@ -1,0 +1,17 @@
+@startuml addToGroup
+!theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
+autonumber
+
+
+actor Bob as User
+database ClientDB
+participant Client
+queue SessionQueue
+participant  Session
+queue ServerQueue
+participant Server
+database ServerDB
+
+
+
+@enduml

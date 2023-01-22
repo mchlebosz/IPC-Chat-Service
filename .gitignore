@@ -1,6 +1,7 @@
 #Editors
 .idea/
 .vscode/
+out/
 
 #Temps
 ./bin

@@ -1,0 +1,14 @@
+@startuml exitClient
+!theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
+autonumber
+
+actor Bob as User
+database ServerDB
+participant Server
+queue ServerQueue
+participant Client
+queue SessionQueue
+participant  Session
+
+
+@enduml
