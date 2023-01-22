@@ -10,6 +10,8 @@ void serve(int* keep_running, int* msgid, FILE* db) {
 
 	// create sessions list
 	Sessions sessions;
+	sessions.size     = 0;
+	sessions.sessions = NULL;
 
 	while (*keep_running) {
 		Message msg;
