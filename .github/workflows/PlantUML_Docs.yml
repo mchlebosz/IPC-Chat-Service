@@ -14,7 +14,7 @@ jobs:
         run: |
           sudo apt-get install graphviz
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download PlantUML
         run: |
@@ -28,17 +28,16 @@ jobs:
       - name: Remove PlantUML
         run: rm plantuml.jar
 
-      - name: Configure GPG Key
-        run: |
-          echo -n "$GPG_SIGNING_KEY" | base64 --decode | gpg --import
-        env:
-          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+      - name: Import GPG Key
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.GPG_SIGNIN_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
 
       - name: Commit Changes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git config --global user.signingkey $GPG_SIGNING_KEY
           git add out -f
           git commit -S -m "Generate SVG for PlantUML diagrams" -a
 
