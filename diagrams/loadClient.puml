@@ -19,6 +19,8 @@ ServerQueue -> Server : msgrecv(loadData, ClientID)
 Server <-> ServerDB : loadData(ClientID)
 Server -> Server : verifyData(data)
 Server -> Server : checkUserStatus(data)
+Server -> Server : status(ClientID, Online)
+Server -> Server : propagateStatus
 
 Server -> SessionQueue : msgsnd(data)
 SessionQueue -> Session : msgrecv(data)

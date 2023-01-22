@@ -15,19 +15,33 @@ database ServerDB
 User -> Client : addFriend(Alice)
 Client -> ClientDB : getFriendList()
 Client -> Client : checkFriendList(Alice)
+
 alt Already friend
     Client -> Client : displayAlreadyFriend()
 else Not friend
     Client -> SessionQueue : msgsnd(addFriendRequest(Alice) )
     SessionQueue -> Session : msgrcv()
-    Session -> Session : change msg access rights()
-    Session -> SessionQueue : msgsnd(addFriendRequest(Alice) )
-
-
-
+    Session -> ServerQueue : msgsnd(addFriendRequest(Alice),ClientID) )
+    ServerQueue -> Server : msgrcv()
+    Server <-> ServerDB : getUserID(Alice)
+    Server -> ServerDB : addFriend(ClientID,FriendID)
+    alt On failure (FriendID not found)
+        Server -> SessionQueue : msgsnd(Error)
+        SessionQueue -> Session : msgrcv()
+        Session -> Session: Change msg access rights
+        Session -> SessionQueue : msgsnd(Error)
+        SessionQueue -> Client : msgrcv()
+        Client -> Client : displayError()
+        Client -> User : display(Error)
+    else On success
+        ServerDB -> Server : return ClientID.friendList
+        Server -> SessionQueue : msgsnd(ClientID.friendList))
+        SesssionQueue -> Session : msgrcv()
+        Session -> Session: Change msg access rights
+        Session -> SessionQueue : msgsnd(ClientID.friendList))
+        SessionQueue -> Client : msgrcv()
+        Client -> Client : displayFriendList()
+    end
 end
-
-
-
 
 @enduml

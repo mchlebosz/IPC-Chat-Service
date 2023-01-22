@@ -2,6 +2,7 @@
 !theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
 
 {
+    "PrivateKey": "char[1000]",
     "Messages":[
         {
         "name": "id",
@@ -31,15 +32,31 @@
         "type": "char[20]"
         }
     ],
-    "Friends": {
+    "Friends": [
+        {
     "name": "id",
-    "type": "int[]",
+    "type": "int",
     "fk": "Server.Users.id"
-    },
-    "Groups": {
-    "name": "id",
-    "type": "int[]",
-    "fk": "Server.Groups.id"
-    }
+        },
+        {
+    "name": "publicKey",
+    "type": "char[1000]"
+        }
+    ],
+    "Groups": [
+        {
+        "name": "id",
+        "type": "int",
+        "fk": "Server.Groups.id"
+        },
+        {
+        "name": "publicKey",
+        "type": "char[1000]"
+        },
+        {
+        "name": "privateKey",
+        "type": "char[1000]"
+        }
+    ]
 }
 @endjson

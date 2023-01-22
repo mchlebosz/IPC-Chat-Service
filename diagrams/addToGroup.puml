@@ -12,6 +12,40 @@ queue ServerQueue
 participant Server
 database ServerDB
 
+'already all running
+User -> Client : add to group (groupname, username)
+Client <-> ClientDB : validate groupname, username
+alt groupname exists or username already in group
+    Client -> User : groupname/username exists
+else
+    Client -> SessionQueue : Add(groupname, username)
+    SessionQueue -> Session : Add (groupname, username)
+    Session -> ServerQueue : Add (groupname, username)
+    ServerQueue -> Server : Add (groupname, username)
+    Server -> Server : nameToID (groupname, username)
+    Server <-> ServerDB : validate groupID, UserID
+    alt group exists or user already in group
+        Server -> Server : error
+        Server -> SessionQueue : error
+        SessionQueue -> Session : error
+        Session -> Session: Change msg access level
+        Session -> SessionQueue : error
+        SessionQueue -> Client : error
+        Client -> User : error
+    else
+        Server -> ServerDB : add user to group
+        Server -> Server: propagate to all users in group
+        Server -> SessionQueue : success
+        SessionQueue -> Session : success
+        Session -> Session: Change msg access level
+        Session -> SessionQueue : success
+        SessionQueue -> Client : success
+        Client -> ClientDB : add user to group
+        Client -> User : success
+    end
+end
+
+
 
 
 @enduml

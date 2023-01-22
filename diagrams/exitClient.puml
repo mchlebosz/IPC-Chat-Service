@@ -24,6 +24,7 @@ Session -> ServerQueue : exit(ClientID)
 ServerQueue -> Server : exit(ClientID)
 Server -> Server : status(ClientID) = offline
 Server -> ServerDB : update status(ClientID) = offline
+Server -> Server: propagate status to all friends
 Server -> SessionQueue : close()
 Server -> Server : update destroy(SessionID)
 SessionQueue -> Session : close()
