@@ -6,28 +6,27 @@ on:
     branches-ignore:
       - 'main'
 jobs:
-  ci:
+  generate_plantuml:
     runs-on: ubuntu-latest
-    env:
-        UML_FILES: ".puml"
+    name: plantuml
     steps:
-      - name: Checkout Source
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Get UML files
-        id: getfile
+      - name: Install Dependencies
         run: |
-          echo 'FILES<<EOF' >> $GITHUB_OUTPUT
-          find . -name '*.puml' >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
-      - name: UML files considered echo output
+          sudo apt-get install graphviz
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Download PlantUML
         run: |
-          echo ${{ steps.getfile.outputs.files }}
-      - name: Generate SVG Diagrams
-        uses: cloudbees/plantuml-github-action@master
-        with:
-            args: -v -tsvg ${{ steps.getfile.outputs.FILES }}
+          wget https://sourceforge.net/projects/plantuml/files/plantuml.jar/download -O plantuml.jar
+
+      - name: Process Diagrams
+        run: java -jar plantuml.jar -v -tsvg -r -o "${{ github.workspace }}/out" "diagrams/**.puml"
+      - name: Display Diagrams
+        run: pwd && ls out/** | grep \.svg$
+
+      - name: Remove PlantUML
+        run: rm plantuml.jar
 
       - name: Push Local Changes
         uses:  stefanzweifel/git-auto-commit-action@v4.1.2
