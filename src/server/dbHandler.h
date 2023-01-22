@@ -12,4 +12,6 @@ void addData(const char* fileName, const char* data);
 
 void removeData(const char* fileName, const char* data);
 
-void searchData(const char* fileName, const char* data);
+int searchData(const char* fileName, const char* data);
+
+int getData(const char* file_name, const char* data, char** buffer);

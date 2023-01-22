@@ -13,6 +13,7 @@
 
 // session type
 typedef struct {
+	char* sessionID;
 	int sessionRunning;
 	key_t sessionKey;
 	int sessionQueue;
@@ -28,11 +29,19 @@ typedef struct {
 void addSession(Sessions* sessions, Session session);
 
 // remove session from sessions list
-void removeSession(Sessions* sessions, key_t sessionKey);
+void removeSession(Sessions* sessions, char* sessionID);
 
-void serve(int* keep_running, int* msgid, FILE* db);
+int getSessionQueue(Sessions* sessions, char* sessionID);
 
-int registerUser(char* username, char* password);
+void serve(int* keep_running, int* msgid, char* db);
+
+int registerUser(char* username, char* password, char** key, char* db);
 
 int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 				int clientSeed);
+
+int receiveMessage(int* msgid, Message* msg, long permittedType);
+
+char* generateKey();
+
+int loginUser(char* username, char* password, char** key, char* db);
