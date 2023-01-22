@@ -10,7 +10,9 @@ jobs:
       with:
         fetch-depth: 1
     - name: change dir
-      run: cd puml
+      run: |
+        cd puml
+        ls -l
     
     - name: plantuml
       id: plantuml
