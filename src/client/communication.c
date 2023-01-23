@@ -1,5 +1,7 @@
 #include "communication.h"
 
+int clientQueueID;
+
 void APICreateConnection(void) {
 	int sessionId = rand();
 	char name[5];
@@ -7,11 +9,11 @@ void APICreateConnection(void) {
 	int clientKey = ftok(name, sessionId);
 	clientQueueID = msgget(clientKey, 0666 | IPC_CREAT);
 	Message msg;
-	msg.mtype = 31;
+	msg.mtype             = 31;
 	msg.mtext.header.type = 0;
 	sprintf(msg.mtext.body, "%s;%d;", name, sessionId);
-	
-	char *path      = "/tmp";
+
+	char* path      = "/tmp";
 	int id          = 'A';
 	key_t serverKey = ftok(path, id);
 	printf("serverKey: %d\n", serverKey);

@@ -2,13 +2,12 @@
 //
 #pragma once
 
-#include "../codes.h"
-#include "../message.h"
-#include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
+#include <sys/types.h>
 
-int clientQueueID;
+#include "../codes.h"
+#include "../message.h"
 
 // connect to the server
 void APICreateConnection(void);
