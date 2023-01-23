@@ -171,6 +171,7 @@ void clientRegister(void) {
 	char username[30];
 	char password[30];
 	char confirmPassword[30];
+	APICreateConnection();
 	// username
 	while (1) {
 		// reset username to empty string

@@ -4,7 +4,14 @@
 
 #include "../codes.h"
 #include "../message.h"
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
 
+int clientQueueID;
+
+// connect to the server
+void APICreateConnection(void);
 // login
 Message APILogin(char* username, char* password);
 // register
