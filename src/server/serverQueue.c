@@ -35,10 +35,11 @@ void serve(int* keep_running, int* msgid, char* db) {
 			int sessionQueue;
 			int sessionRunning;
 			// create session for new client
-			int sessionKey = openSession(&sessionRunning, &sessionQueue,
-										 clientID, clientSeed);
+			key_t sessionKey;
+			int sessionPID;
 			// on Error return 500 to client
-			if (sessionKey == 500) {
+			if (openSession(&sessionRunning, &sessionQueue, clientID,
+							clientSeed, &sessionKey, &sessionPID) == 500) {
 				// send response message
 				char* receiver = msg.mtext.header.sender;
 
@@ -52,8 +53,13 @@ void serve(int* keep_running, int* msgid, char* db) {
 				continue;
 			} else {
 				// add session to sessions list
+				printf(
+					"Session created for %s with PID %d and Queue %d and Key %d and running %d\n",
+					clientID, sessionPID, sessionQueue, sessionKey,
+					sessionRunning);
+
 				Session session = { clientID, sessionRunning, sessionKey,
-									sessionQueue };
+									sessionQueue, sessionPID };
 				addSession(&sessions, session);
 			}
 		}
@@ -182,20 +188,78 @@ void serve(int* keep_running, int* msgid, char* db) {
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 			}
 		}
+		// Send Message to User
+		if (msg.mtext.header.type == 24) {
+			// extract message body
+			// message format: message;
+			char* messageBody = msg.mtext.body;
+			char* sender      = msg.mtext.header.sender;
+			char* receiver    = msg.mtext.header.receiver;
+
+			// check if receiver exists
+			int status = searchData(db, receiver);
+			if (status == 200) {
+				// send message to receiver
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, receiver);
+				// send response message
+				msgInit(&msg, 12, 34, sender, receiver, 200, messageBody);
+
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+
+								continue;
+			} else if (status == 404) {
+				// internal server error - error opening database
+				//  send response message to sender
+				msgInit(&msg, 12, 1, "server", sender, 500,
+						"Internal Server Error (Send Message)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+			} else if (status == 204) {
+				// user not found
+				// send response message to sender
+				msgInit(&msg, 12, 1, "server", sender, 404,
+						"Not Found (User does not exist)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+			}
+
+			// transfer message to session
+		}
 	}
+	// close all sessions
+	for (int i = 0; i < sessions.size; i++) {
+		// end session queues
+		msgctl(sessions.sessions[i].sessionQueue, IPC_RMID, NULL);
+		printf("Session %d queue closed\n", sessions.sessions[i].sessionQueue);
+		// end session processes
+		kill(sessions.sessions[i].sessionPID, SIGKILL);
+		printf("Session %d ended\n", sessions.sessions[i].sessionPID);
+	}
+	printf("Closing server\n");
+
+	// remove all dynamic memory
+	free(sessions.sessions);
 }
 
 int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
-				int clientSeed) {
+				int clientSeed, key_t* sessionKey, int* sessionPID) {
 	// create the message queue for session, then in session connect to
 	// clientQueue create random session key based on client key
-	int sessionSeed  = rand();
-	key_t sessionKey = ftok(clientID, sessionSeed);
+	int sessionSeed = rand();
+	*sessionKey     = ftok(clientID, sessionSeed);
 	// create session queue
-	*sessionQueue   = msgget(sessionKey, 0666 | IPC_CREAT);
+	*sessionQueue   = msgget(*sessionKey, 0666 | IPC_CREAT);
 	*sessionRunning = 1;
 	// create session subprocess
-	if (fork() == 0) {
+	*sessionPID = fork();
+	if (*sessionPID == 0) {
 		// send session key to client
 		//  connect to client queue
 		key_t clientKey = ftok(clientID, clientSeed);
@@ -215,10 +279,10 @@ int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 		msgsnd(clientQueue, &msg, sizeof(msg), 0);
 
 		// serve session
-		session(sessionRunning, sessionKey);
+		session(sessionRunning, *sessionKey);
 
 	} else {
-		return sessionKey;
+		return 200;
 	}
 	*sessionRunning = 0;
 	return 500;

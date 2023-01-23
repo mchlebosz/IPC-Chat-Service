@@ -17,6 +17,7 @@ typedef struct {
 	int sessionRunning;
 	key_t sessionKey;
 	int sessionQueue;
+	int sessionPID;
 } Session;
 
 // sessions list
@@ -38,7 +39,7 @@ void serve(int* keep_running, int* msgid, char* db);
 int registerUser(char* username, char* password, char** key, char* db);
 
 int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
-				int clientSeed);
+				int clientSeed, key_t* sessionKey, int* sessionPID);
 
 char* generateKey();
 
