@@ -30,8 +30,8 @@ Assumptions for this project are:
 Account:
 - [x] Login
 - [ ] Logout
-- [ ] Register
-- [ ] Send a message to a user
+- [x] Register
+- [x] Send a message to a user
 - [ ] Send a message to a group
 - [ ] See who is online
 - [ ] See who is in a group
