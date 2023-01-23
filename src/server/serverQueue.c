@@ -35,10 +35,11 @@ void serve(int* keep_running, int* msgid, char* db) {
 			int sessionQueue;
 			int sessionRunning;
 			// create session for new client
-			int sessionKey = openSession(&sessionRunning, &sessionQueue,
-										 clientID, clientSeed);
+			key_t sessionKey;
+			int sessionPID;
 			// on Error return 500 to client
-			if (sessionKey == 500) {
+			if (openSession(&sessionRunning, &sessionQueue, clientID,
+							clientSeed, &sessionKey, &sessionPID) == 500) {
 				// send response message
 				char* receiver = msg.mtext.header.sender;
 
@@ -52,8 +53,13 @@ void serve(int* keep_running, int* msgid, char* db) {
 				continue;
 			} else {
 				// add session to sessions list
+				printf(
+					"Session created for %s with PID %d and Queue %d and Key %d and running %d\n",
+					clientID, sessionPID, sessionQueue, sessionKey,
+					sessionRunning);
+
 				Session session = { clientID, sessionRunning, sessionKey,
-									sessionQueue };
+									sessionQueue, sessionPID };
 				addSession(&sessions, session);
 			}
 		}
@@ -182,85 +188,66 @@ void serve(int* keep_running, int* msgid, char* db) {
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 			}
 		}
-	}
-}
+		// Send Message to User
+		if (msg.mtext.header.type == 24) {
+			// extract message body
+			// message format: message;
+			char* messageBody = msg.mtext.body;
+			char* sender      = msg.mtext.header.sender;
+			char* receiver    = msg.mtext.header.receiver;
 
-int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
-				int clientSeed) {
-	// create the message queue for session, then in session connect to
-	// clientQueue create random session key based on client key
-	int sessionSeed  = rand();
-	key_t sessionKey = ftok(clientID, sessionSeed);
-	// create session queue
-	*sessionQueue   = msgget(sessionKey, 0666 | IPC_CREAT);
-	*sessionRunning = 1;
-	// create session subprocess
-	if (fork() == 0) {
-		// send session key to client
-		//  connect to client queue
-		key_t clientKey = ftok(clientID, clientSeed);
-		int clientQueue = msgget(clientKey, 0666 | IPC_CREAT);
-		Message msg;
-		// send response message
-		// message format: clientID;sessionSeed;
-		char* MessageBody = strcat(clientID, ";");
-		char stringSessionSeed[10];
-		sprintf(stringSessionSeed, "%d", sessionSeed);
-		MessageBody = strcat(MessageBody, stringSessionSeed);
-		MessageBody = strcat(MessageBody, ";");
+			// check if receiver exists
+			int status = searchData(db, receiver);
+			if (status == 200) {
+				// send message to receiver
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, receiver);
+				// send response message
+				msgInit(&msg, 12, 34, sender, receiver, 200, messageBody);
 
-		msgInit(&msg, 21, 1, "session", msg.mtext.header.sender, 200,
-				MessageBody);
-		// send response message
-		msgsnd(clientQueue, &msg, sizeof(msg), 0);
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 
-		// serve session
-		session(sessionRunning, sessionKey);
+				continue;
+			} else if (status == 404) {
+				// internal server error - error opening database
+				//  send response message to sender
+				msgInit(&msg, 12, 1, "server", sender, 500,
+						"Internal Server Error (Send Message)");
 
-	} else {
-		return sessionKey;
-	}
-	*sessionRunning = 0;
-	return 500;
-}
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+			} else if (status == 204) {
+				// user not found
+				// send response message to sender
+				msgInit(&msg, 12, 1, "server", sender, 404,
+						"Not Found (User does not exist)");
 
-void addSession(Sessions* sessions, Session session) {
-	// increase sessions list size
-	sessions->size++;
-	// allocate memory for new session
-	sessions->sessions =
-		realloc(sessions->sessions, sessions->size * sizeof(Session));
-	// add new session to sessions list
-	sessions->sessions[sessions->size - 1] = session;
-}
-
-void removeSession(Sessions* sessions, char* sessionID) {
-	// find session in sessions list
-	for (int i = 0; i < sessions->size; i++) {
-		if (sessions->sessions[i].sessionID == sessionID) {
-			// remove session from sessions list
-			for (int j = i; j < sessions->size - 1; j++) {
-				sessions->sessions[j] = sessions->sessions[j + 1];
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 			}
-			// decrease sessions list size
-			sessions->size--;
-			// reallocate memory for sessions list
-			sessions->sessions =
-				realloc(sessions->sessions, sessions->size * sizeof(Session));
-			break;
+
+			// transfer message to session
 		}
 	}
+	// close all sessions
+	for (int i = 0; i < sessions.size; i++) {
+		// end session queues
+		msgctl(sessions.sessions[i].sessionQueue, IPC_RMID, NULL);
+		printf("Session %d queue closed\n", sessions.sessions[i].sessionQueue);
+		// end session processes
+		kill(sessions.sessions[i].sessionPID, SIGKILL);
+		printf("Session %d ended\n", sessions.sessions[i].sessionPID);
+	}
+	printf("Closing server\n");
+
+	// remove all dynamic memory
+	free(sessions.sessions);
 }
 
-int getSessionQueue(Sessions* sessions, char* sessionID) {
-	// find session in sessions list
-	for (int i = 0; i < sessions->size; i++) {
-		if (sessions->sessions[i].sessionID == sessionID) {
-			return sessions->sessions[i].sessionQueue;
-		}
-	}
-	return 404;
-}
 int registerUser(char* username, char* password, char** key, char* db) {
 	// check if username is already taken
 	if (searchData(db, username) == 200) {

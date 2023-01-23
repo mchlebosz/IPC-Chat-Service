@@ -67,7 +67,7 @@ int searchData(const char* file_name, const char* data) {
 	int line_num = 1;
 	while (fgets(buffer, 1024, file) != NULL) {
 		if (strstr(buffer, data) != NULL) {    // check if data is in buffer
-			printf("Data found in line %d: %s", line_num, buffer);
+			printf("Data found in line %d: %s\n", line_num, buffer);
 			return 200;
 		}
 		line_num++;

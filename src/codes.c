@@ -9,11 +9,13 @@ const map_entry_t typeCodes[TYPE_CODES] = {
 	{ 13, "Get list of users" },
 	{ 14, "Get list of messages" },
 	{ 15, "Get list of groups" },
-	{ 24, "Send a message" },
+	{ 24, "Send a message to User" },
 	{ 23, "Send a request to add a user to the contact list" },
 	{ 25, "Send a request to add a user to a group" },
 	{ 26, "Send a request to create a group" },
-	{ 34, "Receive a message" }
+	{ 27, "Send a message to Group" },
+	{ 34, "Receive a message from user" },
+	{ 37, "Receive a message from group" },
 };
 
 const map_entry_t statusCodes[STATUS_CODES] = {
