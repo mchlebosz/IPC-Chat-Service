@@ -13,14 +13,15 @@ void APICreateConnection(void) {
 	msg.mtext.header.type = 0;
 	sprintf(msg.mtext.body, "%s;%d;", name, sessionId);
 
-	char* path      = "/tmp";
-	int id          = 'A';
+	char* path      = "server";
+	int id          = 'B';
 	key_t serverKey = ftok(path, id);
+
 	printf("serverKey: %d\n", serverKey);
 	int serverSessionId = msgget(serverKey, 0666 | IPC_CREAT);
 	msgsnd(serverSessionId, &msg, sizeof(msg), 0);
 
-	msgrcv(clientQueueID, &msg, sizeof(msg), 2, 0);
+	msgrcv(clientQueueID, &msg, sizeof(msg), 23, 0);
 
 	if (msg.mtext.header.type == 1) {
 		printf("Connection established\n");

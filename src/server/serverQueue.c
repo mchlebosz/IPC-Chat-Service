@@ -52,15 +52,12 @@ void serve(int* keep_running, int* msgid, char* db) {
 				msgsnd(clientQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else {
-				// add session to sessions list
-				printf(
-					"Session created for %s with PID %d and Queue %d and Key %d and running %d\n",
-					clientID, sessionPID, sessionQueue, sessionKey,
-					sessionRunning);
-
 				Session session = { clientID, sessionRunning, sessionKey,
 									sessionQueue, sessionPID };
 				addSession(&sessions, session);
+
+				printf("Session added for client %s with sessionKey: %d\n",
+					   clientID, sessionKey);
 			}
 		}
 

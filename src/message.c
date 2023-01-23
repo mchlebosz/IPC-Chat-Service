@@ -28,7 +28,7 @@ void msgClear(Message* msg) {
 }
 
 int receiveMessage(int* msgid, Message* msg, long permittedType) {
-	ssize_t msg_size = msgrcv(*msgid, msg, sizeof(msg), permittedType, 0);
+	ssize_t msg_size = msgrcv(*msgid, msg, sizeof(*msg), permittedType, 0);
 	if (msg_size < 0) {
 		perror("msgrcv");
 		return 500;
@@ -37,6 +37,12 @@ int receiveMessage(int* msgid, Message* msg, long permittedType) {
 		printf("Error: message size exceeds buffer size, discarding message\n");
 		return 413;
 	}
+
+	// print msg
+	printf("Received message:\n");
+	printf("mtype: %ld\n", msg->mtype);
+	printf("type: %d\n", msg->mtext.header.type);
+	printf("body: %s\n", msg->mtext.body);
 	// handle the received message
 	for (int i = 0; i < TYPE_CODES; i++) {
 		if (msg->mtext.header.type == typeCodes[i].code) {
