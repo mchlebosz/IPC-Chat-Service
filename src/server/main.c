@@ -36,6 +36,11 @@ int main(int argc, char *argv[]) {
 
 	printf("Server key: %d\n", serverkey);
 
+	if (msgid == -1) {
+		printf("Error creating message queue\n");
+		return 1;
+	}
+
 	serve(&keep_running, &msgid, "serverdb.txt");
 
 	// remove the message queue
