@@ -103,10 +103,10 @@ void clientLogin(void) {
 	// printf("%s", getStatusCode(200));
 
 	Message response = APILogin(username, password);
-	if (response.header.type == 0 && response.header.statusCode != 200) {
+	if (response.mtext.header.type == 0 && response.mtext.header.statusCode != 200) {
 		printf("Login failed\n");
 	} else {
-		show_chat_interface(response.body);
+		show_chat_interface(response.mtext.body);
 	}
 }
 
@@ -171,6 +171,7 @@ void clientRegister(void) {
 	char username[30];
 	char password[30];
 	char confirmPassword[30];
+	APICreateConnection();
 	// username
 	while (1) {
 		// reset username to empty string
@@ -227,14 +228,14 @@ void clientRegister(void) {
 	// if response is success, show chat interface
 	// else, show error message
 	Message response = APIRegister(username, password);
-	if (response.header.statusCode != 200) {
+	if (response.mtext.header.statusCode != 200) {
 		printf("Register failed\n");
 	} else {
 		response = APILogin(username, password);
-		if (response.header.type == 0 && response.header.statusCode != 200) {
+		if (response.mtext.header.type == 0 && response.mtext.header.statusCode != 200) {
 			printf("Login failed\n");
 		} else {
-			show_chat_interface(response.body);
+			show_chat_interface(response.mtext.body);
 		}
 	}
 }

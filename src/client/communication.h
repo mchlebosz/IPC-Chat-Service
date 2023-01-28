@@ -2,9 +2,15 @@
 //
 #pragma once
 
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <sys/types.h>
+
 #include "../codes.h"
 #include "../message.h"
 
+// connect to the server
+void APICreateConnection(void);
 // login
 Message APILogin(char* username, char* password);
 // register

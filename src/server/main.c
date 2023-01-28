@@ -10,7 +10,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "communication.h"
+#include "dbHandler.h"
+#include "serverQueue.h"
 
 int keep_running = 1;
 
@@ -19,13 +20,23 @@ void sigint_handler(int signum) {
 }
 
 int main(int argc, char *argv[]) {
+	printf("Server started\n");
+	// open DB - create if it doesn't exist
+	FILE *db = openFile("serverdb.txt", "a+");
+	fclose(db);
+
 	// register signal handler
 	signal(SIGINT, sigint_handler);
 	// create the message queue
-	key_t key = ftok("server.c", 'B');
-	int msgid = msgget(key, 0666 | IPC_CREAT);
+	char *path      = "server";
+	int id          = 'B';
+	key_t serverkey = ftok(path, id);
 
-	serve(&keep_running, &msgid);
+	int msgid = msgget(serverkey, 0666 | IPC_CREAT);
+
+	printf("Server key: %d\n", serverkey);
+
+	serve(&keep_running, &msgid, "serverdb.txt");
 
 	// remove the message queue
 	msgctl(msgid, IPC_RMID, NULL);

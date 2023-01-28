@@ -1,4 +1,4 @@
-@startuml removeFriend
+@startuml removeFromGroup
 !theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
 
 

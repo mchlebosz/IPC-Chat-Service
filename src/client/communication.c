@@ -1,5 +1,35 @@
 #include "communication.h"
 
+int clientQueueID;
+
+void APICreateConnection(void) {
+	int sessionId = rand();
+	char name[5];
+	sprintf(name, "p%d", sessionId);
+	int clientKey = ftok(name, sessionId);
+	clientQueueID = msgget(clientKey, 0666 | IPC_CREAT);
+	Message msg;
+	msg.mtype             = 31;
+	msg.mtext.header.type = 0;
+	sprintf(msg.mtext.body, "%s;%d;", name, sessionId);
+
+	char* path      = "server";
+	int id          = 'B';
+	key_t serverKey = ftok(path, id);
+
+	printf("serverKey: %d\n", serverKey);
+	int serverSessionId = msgget(serverKey, 0666 | IPC_CREAT);
+	msgsnd(serverSessionId, &msg, sizeof(msg), 0);
+
+	msgrcv(clientQueueID, &msg, sizeof(msg), 23, 0);
+
+	if (msg.mtext.header.type == 1) {
+		printf("Connection established\n");
+	} else {
+		printf("Connection failed\n");
+	}
+}
+
 // login
 Message APILogin(char* username, char* password) {
 	// send username and password to server
@@ -7,7 +37,7 @@ Message APILogin(char* username, char* password) {
 	// if response is success, return username auth token
 	// else return error code
 	Message response;
-	response.header.type = 10;
+	response.mtext.header.type = 10;
 	return response;
 }
 // register
@@ -18,7 +48,7 @@ Message APIRegister(char* username, char* password) {
 	// else return error code
 
 	Message response;
-	response.header.type = 11;
+	response.mtext.header.type = 11;
 
 	return response;
 }
@@ -29,7 +59,7 @@ Message APILogout(char* username) {
 	// if response is success, show login interface
 	// else, show error message
 	Message response;
-	response.header.type = 12;
+	response.mtext.header.type = 12;
 
 	return response;
 }

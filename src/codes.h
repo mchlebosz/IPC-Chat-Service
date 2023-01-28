@@ -8,7 +8,7 @@ typedef struct {
 // struct for message that contains the following:
 // header:
 //  - type:
-#define TYPE_CODES 11
+#define TYPE_CODES 15
 extern const map_entry_t typeCodes[TYPE_CODES];
 //  - sender
 //  - receiver
