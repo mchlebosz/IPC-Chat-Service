@@ -1,6 +1,5 @@
 @startuml messageToFriend
 !theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
-autonumber
 
 
 actor Bob as User1
@@ -18,6 +17,7 @@ participant Client_Alice as Client2
 database ClientDB_Alice as ClientDB2
 actor Alice as User2
 
+autonumber
 
 User1 -> Client1 : send message to Alice
 Client1 -> Client1: check if Alice is online and on friend list

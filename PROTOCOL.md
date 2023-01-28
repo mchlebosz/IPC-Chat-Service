@@ -14,6 +14,9 @@ Goal is to provide secure communication between client and server.
 
 For communication between client and server we use IPC (Inter Process Communication). We use `struct Message` to send data between client and server. Message struct is defined in `./src/message.h` file.
 
+### 2.0. Connection
+![Diagram Image Link](./out/establishConnection.svg)
+
 ### 2.1. Login
 ![Diagram Image Link](./out/loginProtocol.svg)
 ### 2.2. Register
