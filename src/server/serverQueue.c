@@ -13,13 +13,15 @@ void serve(int* keep_running, int* msgid, char* db) {
 	Sessions sessions;
 	sessions.size     = 0;
 	sessions.sessions = NULL;
-
 	while (*keep_running) {
 		Message msg;
 
 		// receive message from client
-		if (receiveMessage(msgid, &msg, 31) != 200) {
-			continue;
+		if (receiveMessageNoWait(msgid, &msg, 31) != 200) {
+			if (receiveMessageNoWait(msgid, &msg, 21) != 200) {
+				usleep(1500);
+				continue;
+			}
 		}
 
 		// New Connection
@@ -30,7 +32,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 			char* clientID    = strtok(messageBody, ";");
 			int clientSeed    = atoi(strtok(NULL, ";"));
 
-			key_t clientKey = ftok(clientID, clientSeed);
+			key_t clientKey = hash(clientID);
 
 			int sessionQueue;
 			int sessionRunning;
@@ -58,18 +60,17 @@ void serve(int* keep_running, int* msgid, char* db) {
 					clientID, sessionPID, sessionQueue, sessionKey,
 					sessionRunning);
 
-				Session session = { clientID, sessionRunning, sessionKey,
+				srand(time(NULL));
+				Session session = { "", sessionRunning, sessionKey,
 									sessionQueue, sessionPID };
-				addSession(&sessions, session);
+				strcpy(session.sessionID, clientID);
+				addSession(&sessions, &session);
 			}
 		}
-
 		// Receive Message from Session
-		if (receiveMessage(msgid, &msg, 21) != 200) {
-			continue;
-		}
+		
 		// Register User
-		if (msg.mtext.header.type == 11) {
+		else if (msg.mtext.header.type == 11) {
 			// extract username and password from message
 			// message format: username;password;
 			char* messageBody = msg.mtext.body;
@@ -78,52 +79,49 @@ void serve(int* keep_running, int* msgid, char* db) {
 
 			char* decryptKey;
 
+			char receiver[32]; strcpy(receiver, msg.mtext.header.sender);
+
+			char sender[32]; strcpy(sender, msg.mtext.header.sender);
+
+			int sessionQueue = getSessionQueue(&sessions, receiver);
+
+			printf("registering %s with pswd %s...!\n", username, password);
+
 			// register user
 			int status = registerUser(username, password, &decryptKey, db);
+			printf("register status: %d\n", status);
 			// check status
 			if (status == 409) {
 				// send response message
-				char* receiver = msg.mtext.header.sender;
-
-				msgInit(&msg, 12, 1, "server", receiver, status,
+				printf("session queue: %d\n", sessionQueue);
+				msgInit(&msg, 12, 1, "server", receiver, 409,
 						"Conflict (User already exists)");
-
-				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, receiver);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else if (status == 200) {
 				// send response message
 				// message format: login;password;decryptKey;
-				char* receiver = msg.mtext.header.sender;
-
-				char* body = malloc(100 * sizeof(char));
+				char body[128];
 				// add decrypt key to message body
 				sprintf(body, "%s;%s;%s;", username, password, decryptKey);
+				msgInit(&msg, 12, 1, "server", receiver, 200, body);
 
-				msgInit(&msg, 12, 1, "server", receiver, status, body);
-
-				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, receiver);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else {
 				// internal server error
 				// send response message
-				char* receiver = msg.mtext.header.sender;
 				msgInit(&msg, 12, 1, "server", receiver, 500,
 						"Internal Server Error (Register)");
 
-				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, receiver);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 			}
 		}
 		// Login User
-		if (msg.mtext.header.type == 10) {
+		else if (msg.mtext.header.type == 10) {
 			// extract username and password from message
 			// message format: username;password;
 			char* messageBody = msg.mtext.body;
@@ -131,65 +129,57 @@ void serve(int* keep_running, int* msgid, char* db) {
 			char* password    = strtok(NULL, ";");
 
 			char* decryptKey;
+
+			char receiver[32]; 
+			strcpy(receiver, msg.mtext.header.sender);
+			char sender[32]; 
+			strcpy(sender, msg.mtext.header.sender);
+			// connect to session queue
+			int sessionQueue = getSessionQueue(&sessions, receiver);
 
 			// login user
 			int status = loginUser(username, password, &decryptKey, db);
 			// check status
 			if (status == 401) {
 				// send response message
-				char* receiver = msg.mtext.header.sender;
-
-				msgInit(&msg, 12, 1, "server", receiver, status,
+				msgInit(&msg, 12, 1, "server", sender, 401,
 						"Unauthorized (Wrong username or password)");
 
-				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, receiver);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else if (status == 200) {
 				// send response message
 				// message format: login;password;decryptKey;
-				char* receiver = msg.mtext.header.sender;
-
-				char* body = malloc(100 * sizeof(char));
+				char body[100];
 				// add decrypt key to message body
 				sprintf(body, "%s;%s;%s;", username, password, decryptKey);
 
-				msgInit(&msg, 12, 1, "server", receiver, status, body);
-
-				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, receiver);
+				
+				msgInit(&msg, 12, 1, "server", sender, 200, body);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else if (status == 404) {
 				// send response message
-				char* receiver = msg.mtext.header.sender;
-
-				msgInit(&msg, 12, 1, "server", receiver, status,
+				msgInit(&msg, 12, 1, "server", sender, 404,
 						"Not Found (User does not exist)");
 
-				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, receiver);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else {
 				// internal server error
 				// send response message
-				char* receiver = msg.mtext.header.sender;
 				msgInit(&msg, 12, 1, "server", receiver, 500,
 						"Internal Server Error (Login)");
 
-				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, receiver);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 			}
 		}
 		// Send Message to User
-		if (msg.mtext.header.type == 24) {
+		else if (msg.mtext.header.type == 24) {
 			// extract message body
 			// message format: message;
 			char* messageBody = msg.mtext.body;
@@ -259,12 +249,9 @@ int registerUser(char* username, char* password, char** key, char* db) {
 		// char* encryptedPassword = encrypt(password, key);
 		// add user to database
 		// format: username;password;key;
-		char* data;
-		data = strcat(username, ";");
-		data = strcat(data, password);
-		data = strcat(data, ";");
-		data = strcat(data, *key);
-		data = strcat(data, ";");
+		char data[128];
+		sprintf(data, "%s;%s;%s;", username, password, *key);
+
 		addData(db, data);
 		return 200;
 	}

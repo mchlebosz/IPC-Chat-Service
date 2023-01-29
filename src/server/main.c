@@ -20,6 +20,7 @@ void sigint_handler(int signum) {
 }
 
 int main(int argc, char *argv[]) {
+	srand(time(NULL));
 	printf("Server started\n");
 	// open DB - create if it doesn't exist
 	FILE *db = openFile("serverdb.txt", "a+");
@@ -28,9 +29,8 @@ int main(int argc, char *argv[]) {
 	// register signal handler
 	signal(SIGINT, sigint_handler);
 	// create the message queue
-	char *path      = "server";
-	int id          = 'B';
-	key_t serverkey = ftok(path, id);
+	const char *path      = "server";
+	key_t serverkey = hash(path);
 
 	int msgid = msgget(serverkey, 0666 | IPC_CREAT);
 

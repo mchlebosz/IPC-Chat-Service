@@ -4,11 +4,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "../utils.h"
 #include "../message.h"
 
 void session(int* keep_running, key_t sessionKey) {
 	// connect to session queue
-	int sessionQueue = msgget(sessionKey, 0);
+	int serverQueue = msgget(hash("server"), 0666);
+	int sessionQueue = msgget(sessionKey, 0666 | IPC_CREAT);
+	printf("queue %d ready! key=%d\n", sessionQueue, sessionKey);
 	Message msg;
 	while (*keep_running) {
 		// receive message from client
@@ -18,7 +21,7 @@ void session(int* keep_running, key_t sessionKey) {
 		// place to handle messages from client
 		//  pass message to server with msg.mtype = 21
 		msg.mtype = 21;
-		msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+		msgsnd(serverQueue, &msg, sizeof(msg), 0);
 
 		// receive message from server
 		status = receiveMessage(&sessionQueue, &msg, 12);
@@ -35,7 +38,7 @@ int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 	// create the message queue for session, then in session connect to
 	// clientQueue create random session key based on client key
 	int sessionSeed = rand();
-	*sessionKey     = ftok(clientID, sessionSeed);
+	*sessionKey     = createSessonKey(clientSeed, sessionSeed);
 	// create session queue
 	*sessionQueue   = msgget(*sessionKey, 0666 | IPC_CREAT);
 	*sessionRunning = 1;
@@ -44,7 +47,7 @@ int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 	if (*sessionPID == 0) {
 		// send session key to client
 		//  connect to client queue
-		key_t clientKey = ftok(clientID, clientSeed);
+		key_t clientKey = hash(clientID);
 		int clientQueue = msgget(clientKey, 0666 | IPC_CREAT);
 		Message msg;
 		// send response message
@@ -70,14 +73,14 @@ int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 	return 500;
 }
 
-void addSession(Sessions* sessions, Session session) {
+void addSession(Sessions* sessions, Session* session) {
 	// increase sessions list size
 	sessions->size++;
 	// allocate memory for new session
 	sessions->sessions =
 		realloc(sessions->sessions, sessions->size * sizeof(Session));
 	// add new session to sessions list
-	sessions->sessions[sessions->size - 1] = session;
+	sessions->sessions[sessions->size - 1] = *session;
 }
 
 void removeSession(Sessions* sessions, char* sessionID) {
@@ -98,10 +101,12 @@ void removeSession(Sessions* sessions, char* sessionID) {
 	}
 }
 
-int getSessionQueue(Sessions* sessions, char* sessionID) {
+int getSessionQueue(Sessions* sessions, const char* sessionID) {
 	// find session in sessions list
 	for (int i = 0; i < sessions->size; i++) {
-		if (sessions->sessions[i].sessionID == sessionID) {
+		printf("id: '%s', dst: '%s'\n", sessions->sessions[i].sessionID,
+			   sessionID);
+		if (strcmp(sessions->sessions[i].sessionID, sessionID) == 0) {
 			return sessions->sessions[i].sessionQueue;
 		}
 	}

@@ -6,14 +6,23 @@
 
 #include "codes.h"
 
-void msgInit(Message* msg, long permission, short type, char* sender,
-			 char* receiver, short statusCode, char* body) {
+void msgInit(Message* msg, long permission, short type, const char* sender,
+			 const char* receiver, short statusCode, const char* body) {
+
+	time_t t 	 = time(NULL);
+  	struct tm tm = *localtime(&t);
+
 	msg->mtype             = permission;
 	msg->mtext.header.type = type;
 	strcpy(msg->mtext.header.sender, sender);
 	strcpy(msg->mtext.header.receiver, receiver);
-	strcpy(msg->mtext.header.time, "2023.12.31 23:59:59");
-	msg->mtext.header.statusCode = 0;
+	char time[128];
+	sprintf(time, "%04d.%02d.%02d %02d:%02d:%02d", 
+		(tm.tm_year + 1900), (tm.tm_mon + 1), tm.tm_mday, 
+		tm.tm_hour, tm.tm_min, tm.tm_sec
+		);
+	memcpy(msg->mtext.header.time, time, 20);
+	msg->mtext.header.statusCode = statusCode;
 	strcpy(msg->mtext.body, body);
 }
 
@@ -27,10 +36,10 @@ void msgClear(Message* msg) {
 	strcpy(msg->mtext.body, "");
 }
 
-int receiveMessage(int* msgid, Message* msg, long permittedType) {
-	ssize_t msg_size = msgrcv(*msgid, msg, sizeof(msg), permittedType, 0);
+int _receiveMessage(int* msgid, Message* msg, long permittedType, bool nowait) {
+	ssize_t msg_size = msgrcv(*msgid, msg, sizeof(*msg), permittedType, nowait ? IPC_NOWAIT : 0);
 	if (msg_size < 0) {
-		perror("msgrcv");
+		if (!nowait) perror("msgrcv");
 		return 500;
 	}
 	if (msg_size > sizeof(Message)) {
@@ -47,4 +56,12 @@ int receiveMessage(int* msgid, Message* msg, long permittedType) {
 		}
 	}
 	return 200;
+}
+
+int receiveMessageNoWait(int* msgid, Message* msg, long permittedType) {
+	return _receiveMessage(msgid, msg, permittedType, true);
+}
+
+int receiveMessage(int* msgid, Message* msg, long permittedType) {
+	return _receiveMessage(msgid, msg, permittedType, false);
 }
