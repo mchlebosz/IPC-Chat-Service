@@ -7,13 +7,12 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "../utils.h"
 #include "../codes.h"
 #include "../message.h"
-
+#include "../utils.h"
 
 // connect to the server
-void APICreateConnection(void);
+int APICreateConnection(void);
 
 void APIStart(void);
 
