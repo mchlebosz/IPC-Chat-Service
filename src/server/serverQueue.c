@@ -54,6 +54,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 				msgsnd(clientQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else {
+
 				// add session to sessions list
 				printf(
 					"Session created for %s with PID %d and Queue %d and Key %d and running %d\n",
@@ -65,6 +66,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 									sessionQueue, sessionPID };
 				strcpy(session.sessionID, clientID);
 				addSession(&sessions, &session);
+
 			}
 		}
 		// Receive Message from Session

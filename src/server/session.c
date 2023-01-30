@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+// include random
+#include <time.h>
 
 #include "../utils.h"
 #include "../message.h"
@@ -37,8 +39,12 @@ int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 				int clientSeed, key_t* sessionKey, int* sessionPID) {
 	// create the message queue for session, then in session connect to
 	// clientQueue create random session key based on client key
+	srand(time(0));
+
 	int sessionSeed = rand();
+
 	*sessionKey     = createSessonKey(clientSeed, sessionSeed);
+
 	// create session queue
 	*sessionQueue   = msgget(*sessionKey, 0666 | IPC_CREAT);
 	*sessionRunning = 1;
@@ -52,14 +58,10 @@ int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 		Message msg;
 		// send response message
 		// message format: clientID;sessionSeed;
-		char* MessageBody = strcat(clientID, ";");
-		char stringSessionSeed[10];
-		sprintf(stringSessionSeed, "%d", sessionSeed);
-		MessageBody = strcat(MessageBody, stringSessionSeed);
-		MessageBody = strcat(MessageBody, ";");
+		char* MessageBody = malloc(1000 * sizeof(char));
+		sprintf(MessageBody, "%s;%d;", clientID, sessionSeed);
 
-		msgInit(&msg, 21, 1, "session", msg.mtext.header.sender, 200,
-				MessageBody);
+		msgInit(&msg, 23, 1, "session", clientID, 200, MessageBody);
 		// send response message
 		msgsnd(clientQueue, &msg, sizeof(msg), 0);
 
@@ -67,6 +69,10 @@ int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 		session(sessionRunning, *sessionKey);
 
 	} else {
+		printf(
+			"Session created for: %s, with PID: %d, and Queue: %d, and Key: %d, with seed: %d, and running is:%d\n",
+			clientID, *sessionPID, *sessionQueue, *sessionKey, sessionSeed,
+			*sessionRunning);
 		return 200;
 	}
 	*sessionRunning = 0;

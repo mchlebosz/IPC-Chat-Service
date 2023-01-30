@@ -23,6 +23,7 @@ void msgInit(Message* msg, long permission, short type, const char* sender,
 		);
 	memcpy(msg->mtext.header.time, time, 20);
 	msg->mtext.header.statusCode = statusCode;
+	printf("[prebody]%s[/body]\n", body);
 	strcpy(msg->mtext.body, body);
 }
 
@@ -36,8 +37,10 @@ void msgClear(Message* msg) {
 	strcpy(msg->mtext.body, "");
 }
 
+
 int _receiveMessage(int* msgid, Message* msg, long permittedType, bool nowait) {
 	ssize_t msg_size = msgrcv(*msgid, msg, sizeof(*msg), permittedType, nowait ? IPC_NOWAIT : 0);
+
 	if (msg_size < 0) {
 		if (!nowait) perror("msgrcv");
 		return 500;
@@ -46,6 +49,12 @@ int _receiveMessage(int* msgid, Message* msg, long permittedType, bool nowait) {
 		printf("Error: message size exceeds buffer size, discarding message\n");
 		return 413;
 	}
+
+	// print msg
+	printf("Received message:\n");
+	printf("mtype: %ld\n", msg->mtype);
+	printf("type: %d\n", msg->mtext.header.type);
+	printf("body: %s\n", msg->mtext.body);
 	// handle the received message
 	for (int i = 0; i < TYPE_CODES; i++) {
 		if (msg->mtext.header.type == typeCodes[i].code) {

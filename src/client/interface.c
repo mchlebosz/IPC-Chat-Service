@@ -84,8 +84,10 @@ ssize_t getpasswd(char** pw, size_t sz, int mask, FILE* fp) {
 }
 
 void clientLogin(void) {
-	char username[30];
-	char password[30];
+	char username[32];
+	char password[32];
+	memset(username, 0, sizeof(username));
+	memset(password, 0, sizeof(password));
 	printf("Username: ");
 	if (scanf("%s", username) != 1) {
 		printf("Invalid username\n");
@@ -103,7 +105,7 @@ void clientLogin(void) {
 	// printf("%s", getStatusCode(200));
 
 	Message response = APILogin(username, password);
-	if (response.mtext.header.type == 0 && response.mtext.header.statusCode != 200) {
+	if (response.mtext.header.statusCode != 200) {
 		printf("Login failed\n");
 	} else {
 		show_chat_interface(response.mtext.body);
@@ -114,7 +116,7 @@ short MAX_CHARACTERS = 29;
 short MIN_CHARACTERS = 8;
 
 char* USERNAME_ERROR =
-	"Username must contain at least 8 characters, maximum of 29 characters.\n";
+	"Username must contain at least 4 characters, maximum of 29 characters.\n";
 char* PASSWORD_ERROR =
 	"Password must contain at least 8 characters, maximum of 29 characters,\n ";
 
@@ -128,7 +130,7 @@ short checkUsername(char* username) {
 		return 1;
 	}
 	int length = strlen(username);
-	if (length < MIN_CHARACTERS || length > MAX_CHARACTERS) {
+	if (length < MIN_CHARACTERS / 2 || length > MAX_CHARACTERS) {
 		return 2;
 	}
 	// check if contains only alphanumeric characters
@@ -231,12 +233,37 @@ void clientRegister(void) {
 		printf("Register failed\n");
 	} else {
 		response = APILogin(username, password);
-		if (response.mtext.header.type == 0 && response.mtext.header.statusCode != 200) {
+		if (response.mtext.header.type == 0 &&
+			response.mtext.header.statusCode != 200) {
 			printf("Login failed\n");
 		} else {
 			show_chat_interface(response.mtext.body);
 		}
 	}
+}
+
+bool isNumber(const char* s) {
+	while (*s) {
+		if (!('0' <= *s && *s <= '9')) return false;
+		s++;
+	}
+	return true;
+}
+
+int scanfInt(void) {
+	char buff[64];
+	do {
+		memset(buff, 0, sizeof(buff));
+		if (scanf("%s", buff) != 1) {
+			printf("Wrong input\n> ");
+			continue;
+		}
+		if (isNumber(buff))
+			break;
+		else
+			printf("not a number!  try again\n> ");
+	} while (true);
+	return atoi(buff);
 }
 
 void showInterface(void) {
@@ -246,11 +273,8 @@ void showInterface(void) {
 		printf("2. Register\n");
 		printf("3. Exit\n");
 		printf("Please choose one of the options: ");
-		int option;
-		if (scanf("%d", &option) != 1) {
-			printf("Invalid option. Please try again.\n");
-			continue;
-		}
+		int option = scanfInt();
+
 		switch (option) {
 			case 1: clientLogin(); break;
 			case 2: clientRegister(); break;

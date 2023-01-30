@@ -1,6 +1,5 @@
 @startuml messageToGroup
 !theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
-autonumber
 
 
 actor Bob as User
@@ -12,6 +11,7 @@ queue ServerQueue
 participant Server
 database ServerDB
 
+autonumber
 
 
 @enduml
