@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <stdbool.h>
 
 typedef struct Message {
 	long mtype;
@@ -37,3 +38,5 @@ void msgInit(Message* msg, long permission, short type, const char* sender,
 void msgClear(Message* msg);
 
 int receiveMessage(int* msgid, Message* msg, long permittedType);
+
+int receiveMessageNoWait(int* msgid, Message* msg, long permittedType);

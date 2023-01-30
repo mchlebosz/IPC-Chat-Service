@@ -10,6 +10,7 @@
 
 #include "../codes.h"
 #include "../message.h"
+#include "../utils.h"
 
 void serve(int* keep_running, int* msgid, char* db);
 

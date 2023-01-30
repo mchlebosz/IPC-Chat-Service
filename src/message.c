@@ -8,6 +8,7 @@
 
 void msgInit(Message* msg, long permission, short type, const char* sender,
 			 const char* receiver, short statusCode, const char* body) {
+
 	time_t t 	 = time(NULL);
   	struct tm tm = *localtime(&t);
 
@@ -36,10 +37,12 @@ void msgClear(Message* msg) {
 	strcpy(msg->mtext.body, "");
 }
 
-int receiveMessage(int* msgid, Message* msg, long permittedType) {
-	ssize_t msg_size = msgrcv(*msgid, msg, sizeof(*msg), permittedType, 0);
+
+int _receiveMessage(int* msgid, Message* msg, long permittedType, bool nowait) {
+	ssize_t msg_size = msgrcv(*msgid, msg, sizeof(*msg), permittedType, nowait ? IPC_NOWAIT : 0);
+
 	if (msg_size < 0) {
-		perror("msgrcv");
+		if (!nowait) perror("msgrcv");
 		return 500;
 	}
 	if (msg_size > sizeof(Message)) {
@@ -62,4 +65,12 @@ int receiveMessage(int* msgid, Message* msg, long permittedType) {
 		}
 	}
 	return 200;
+}
+
+int receiveMessageNoWait(int* msgid, Message* msg, long permittedType) {
+	return _receiveMessage(msgid, msg, permittedType, true);
+}
+
+int receiveMessage(int* msgid, Message* msg, long permittedType) {
+	return _receiveMessage(msgid, msg, permittedType, false);
 }

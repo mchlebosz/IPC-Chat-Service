@@ -7,14 +7,15 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "../utils.h"
 #include "../codes.h"
 #include "../message.h"
+#include "../utils.h"
 
-// load data
-void APIStart(void);
 // connect to the server
 int APICreateConnection(void);
+
+void APIStart(void);
+
 // login
 Message APILogin(const char* username, const char* password);
 // register
