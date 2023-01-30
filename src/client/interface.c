@@ -233,7 +233,8 @@ void clientRegister(void) {
 		printf("Register failed\n");
 	} else {
 		response = APILogin(username, password);
-		if (response.mtext.header.type == 0 && response.mtext.header.statusCode != 200) {
+		if (response.mtext.header.type == 0 &&
+			response.mtext.header.statusCode != 200) {
 			printf("Login failed\n");
 		} else {
 			show_chat_interface(response.mtext.body);
@@ -243,20 +244,24 @@ void clientRegister(void) {
 
 bool isNumber(const char* s) {
 	while (*s) {
-		if (!('0' <= *s && *s <= '9')) 
-			return false;
+		if (!('0' <= *s && *s <= '9')) return false;
 		s++;
 	}
 	return true;
-} 
+}
 
 int scanfInt(void) {
 	char buff[64];
 	do {
 		memset(buff, 0, sizeof(buff));
-		scanf("%s", buff);
-		if (isNumber(buff)) break;
-		else printf("not a number!  try again\n> ");
+		if (scanf("%s", buff) != 1) {
+			printf("Wrong input\n> ");
+			continue;
+		}
+		if (isNumber(buff))
+			break;
+		else
+			printf("not a number!  try again\n> ");
 	} while (true);
 	return atoi(buff);
 }
