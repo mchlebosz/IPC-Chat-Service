@@ -1,6 +1,6 @@
 @startuml exitClient
 !theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
-autonumber
+
 
 actor Bob as User
 participant Client
@@ -9,6 +9,8 @@ participant  Session
 queue ServerQueue
 participant Server
 database ServerDB
+
+autonumber
 
 'we are already connected to the server
 activate Session

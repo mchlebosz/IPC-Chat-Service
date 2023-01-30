@@ -33,7 +33,8 @@ int APICreateConnection(void) {
 	msgsnd(serverSessionId, &msg, sizeof(msg), 0);
 
 	Message response;
-	msgrcv(clientQueueID, &response, sizeof(Message), 21, 0);
+	msgrcv(clientQueueID, &response, sizeof(Message), 23, 0);
+
 
 	msgctl(clientQueueID, IPC_RMID, NULL);
 	if (response.mtext.header.type == 1) {

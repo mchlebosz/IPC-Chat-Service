@@ -1,6 +1,6 @@
 @startuml removeFromGroup
 !theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
-autonumber
+
 
 
 actor Bob as User
@@ -11,6 +11,8 @@ participant  Session
 queue ServerQueue
 participant Server
 database ServerDB
+
+autonumber
 
 User -> Client : removeFromGroup(Username, GroupName)
 Client -> ClientDB : checkIfInGroup(Username, GroupName)

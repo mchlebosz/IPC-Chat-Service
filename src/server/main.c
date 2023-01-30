@@ -20,6 +20,7 @@ void sigint_handler(int signum) {
 }
 
 int main(int argc, char *argv[]) {
+	printf("Server started\n");
 	// open DB - create if it doesn't exist
 	FILE *db = openFile("serverdb.txt", "a+");
 	fclose(db);
@@ -32,6 +33,8 @@ int main(int argc, char *argv[]) {
 	key_t serverkey = ftok(path, id);
 
 	int msgid = msgget(serverkey, 0666 | IPC_CREAT);
+
+	printf("Server key: %d\n", serverkey);
 
 	serve(&keep_running, &msgid, "serverdb.txt");
 

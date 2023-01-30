@@ -1,6 +1,5 @@
 @startuml loadClient
 !theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
-autonumber
 
 actor Bob as User
 database ClientDB
@@ -11,6 +10,7 @@ queue ServerQueue
 participant Server
 database ServerDB
 
+autonumber
 
 Client -> SessionQueue : msgsnd(loadData)
 SessionQueue -> Session : msgrecv(loadData)
