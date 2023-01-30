@@ -5,16 +5,20 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <sys/types.h>
+#include <unistd.h>
 
+#include "../utils.h"
 #include "../codes.h"
 #include "../message.h"
 
+// load data
+void APIStart(void);
 // connect to the server
-void APICreateConnection(void);
+int APICreateConnection(void);
 // login
-Message APILogin(char* username, char* password);
+Message APILogin(const char* username, const char* password);
 // register
-Message APIRegister(char* username, char* password);
+Message APIRegister(const char* username, const char* password);
 // logout
 Message APILogout(char* username);
 

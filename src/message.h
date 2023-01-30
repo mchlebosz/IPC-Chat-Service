@@ -31,8 +31,8 @@ typedef struct Message {
 	} mtext;
 } Message;
 
-void msgInit(Message* msg, long permission, short type, char* sender,
-			 char* receiver, short statusCode, char* body);
+void msgInit(Message* msg, long permission, short type, const char* sender,
+			 const char* receiver, short statusCode, const char* body);
 
 void msgClear(Message* msg);
 
