@@ -10,6 +10,8 @@ jobs:
           sudo apt-get install graphviz
       - name: Checkout Repository
         uses: actions/checkout@v2
+      - name: Download PlantUML
+        run: wget https://sourceforge.net/projects/plantuml/files/plantuml.jar/download -O plantuml.jar
       - name: Process Diagrams
         run: java -jar plantuml.jar -v -tsvg -r -o "${{ github.workspace }}/out" "diagrams/**.puml"
       - name: Display Diagrams
