@@ -89,6 +89,16 @@ jobs:
         run: cat ~/.gnupg/log
         continue-on-error: true
 
-
       - name: gpg log 2
         run: journalctl -u gnupg.service
+
+      - name: gpg log 3
+        run: journalctl -u gpg-agent.service
+
+      - name: gpg log 4
+        run: journalctl -u gpg-agent.socket
+
+      - name: gpg log 5
+        run: journalctl -u git.service | grep "git"
+
+
