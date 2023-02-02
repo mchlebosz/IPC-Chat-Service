@@ -13,6 +13,8 @@ jobs:
           sudo apt-get install graphviz
       - name: Checkout Repository
         uses: actions/checkout@v3
+
+        
       - name: Download PlantUML
         run: wget https://sourceforge.net/projects/plantuml/files/plantuml.jar/download -O plantuml.jar
       - name: Process Diagrams
@@ -32,11 +34,12 @@ jobs:
           git_user_signingkey: true
           git_commit_gpgsign: true
 
+      - name: Check if gpg exists
+        run: gpg --version
+
       -
         name: List keys
-        run: |
-          gpg -K
-          gpg --list-secret-keys
+        run: gpg --list-secret-keys --keyid-format LONG
 
       - name: Commit and Push
         run: |
