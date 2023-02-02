@@ -21,6 +21,8 @@ For building project use Makefile
 This is a project for Parallel and System programing course at PUT. The goal is to create a chat service using IPC (Inter Process Communication) methods. We are using C11 standard for programming. We are using Makefile for building project. \
 [Original project description](https://www.cs.put.poznan.pl/akobusinska/downloads/projekt2022.pdf) \
 
+[Full Docs](https://mchlebosz.github.io/IPC-Chat-Service/)
+
 Assumptions for this project are:
 - Creating a chat service using IPC Queue
 - 2 programs: client and server

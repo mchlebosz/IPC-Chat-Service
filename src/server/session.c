@@ -6,12 +6,20 @@
 // include random
 #include <time.h>
 
-#include "../utils.h"
 #include "../message.h"
+#include "../utils.h"
 
+/**
+ * It receives messages from the client, passes them to the server, receives
+ * messages from the server, and passes them to the client
+ *
+ * @param keep_running a pointer to a variable that is set to 0 when the program
+ * should exit
+ * @param sessionKey the key of the session queue
+ */
 void session(int* keep_running, key_t sessionKey) {
 	// connect to session queue
-	int serverQueue = msgget(hash("server"), 0666);
+	int serverQueue  = msgget(hash("server"), 0666);
 	int sessionQueue = msgget(sessionKey, 0666 | IPC_CREAT);
 	printf("queue %d ready! key=%d\n", sessionQueue, sessionKey);
 	Message msg;
@@ -35,6 +43,19 @@ void session(int* keep_running, key_t sessionKey) {
 	}
 }
 
+/**
+ * It creates a session for a client, and returns the session key to the client
+ *
+ * @param sessionRunning a pointer to an integer that is used to determine if
+ * the session is running or not.
+ * @param sessionQueue the queue for the session
+ * @param clientID the client's ID
+ * @param clientSeed the seed used to generate the client's key
+ * @param sessionKey the key for the session queue
+ * @param sessionPID the PID of the session process
+ *
+ * @return The return value is the status code of the session.
+ */
 int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 				int clientSeed, key_t* sessionKey, int* sessionPID) {
 	// create the message queue for session, then in session connect to
@@ -43,7 +64,7 @@ int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 
 	int sessionSeed = rand();
 
-	*sessionKey     = createSessonKey(clientSeed, sessionSeed);
+	*sessionKey = createSessonKey(clientSeed, sessionSeed);
 
 	// create session queue
 	*sessionQueue   = msgget(*sessionKey, 0666 | IPC_CREAT);
@@ -79,6 +100,12 @@ int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 	return 500;
 }
 
+/**
+ * It adds a session to the sessions list
+ *
+ * @param sessions a pointer to a Sessions struct
+ * @param session The session to add to the sessions list.
+ */
 void addSession(Sessions* sessions, Session* session) {
 	// increase sessions list size
 	sessions->size++;
@@ -89,6 +116,12 @@ void addSession(Sessions* sessions, Session* session) {
 	sessions->sessions[sessions->size - 1] = *session;
 }
 
+/**
+ * It removes a session from the sessions list
+ *
+ * @param sessions a pointer to the Sessions struct
+ * @param sessionID The session ID of the session to be removed.
+ */
 void removeSession(Sessions* sessions, char* sessionID) {
 	// find session in sessions list
 	for (int i = 0; i < sessions->size; i++) {
@@ -107,6 +140,16 @@ void removeSession(Sessions* sessions, char* sessionID) {
 	}
 }
 
+/**
+ * It takes a pointer to a
+ * `Sessions` struct and a `sessionID` string, and returns the queue number of
+ * the session with the given `sessionID`
+ *
+ * @param sessions a pointer to the Sessions struct
+ * @param sessionID the session ID of the session you want to get the queue of
+ *
+ * @return The session queue of the session with the given sessionID.
+ */
 int getSessionQueue(Sessions* sessions, const char* sessionID) {
 	// find session in sessions list
 	for (int i = 0; i < sessions->size; i++) {
