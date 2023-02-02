@@ -80,6 +80,7 @@ jobs:
 
       - name: Commit and Push
         run: |
+          echo "test" > test.txt
           git add .
           git commit -S -m "Update diagrams [no ci]"
           git push
