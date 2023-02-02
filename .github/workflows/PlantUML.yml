@@ -25,6 +25,13 @@ jobs:
       #   run: rm plantuml.jar
 
 
+      - name: check if gpg1 exists
+        run: gpg1 --version
+
+      - name: check if gpg2 exists
+        run: gpg2 --version
+
+
       - name: Set keys to files
         run: |
           echo "${{ secrets.GPG_PRIVATE_KEY }}" > private.key
@@ -46,15 +53,7 @@ jobs:
       - name: Show gpgcontent
         run: ls -la ~/.gnupg
 
-      - name: Show gpg agent content
-        run: cat ~/.gnupg/gpg-agent.conf
-
-      - name: check if gpg1 exists
-        run: gpg1 --version
-
-      - name: check if gpg2 exists
-        run: gpg2 --version
-
+ 
       -
         name: List keys gpg1
         run: gpg1 --list-secret-keys --keyid-format LONG
