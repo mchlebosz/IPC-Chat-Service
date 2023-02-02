@@ -81,7 +81,12 @@ jobs:
           git config --global commit.gpgsign true
           
 
+      - name: Show git config
+        run: git config --list
 
+      - name: gpg log 
+        run: cat ~/.gnupg/log
+        continue-on-error: true
 
       - name: Commit and Push
         run: |
@@ -89,5 +94,10 @@ jobs:
           git add .
           git commit -S -m "Update diagrams [no ci]"
           git push
+        continue-on-error: true
+
+      - name: gpg log 
+        run: cat ~/.gnupg/log
+        continue-on-error: true
 
 
