@@ -1,5 +1,8 @@
 name: generate plantuml
-on: push
+on: 
+  push:
+   branches-ignore:
+     - "main"
 jobs:
   generate_plantuml:
     runs-on: ubuntu-latest
@@ -9,7 +12,7 @@ jobs:
         run: |
           sudo apt-get install graphviz
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Download PlantUML
         run: wget https://sourceforge.net/projects/plantuml/files/plantuml.jar/download -O plantuml.jar
       - name: Process Diagrams
@@ -18,22 +21,25 @@ jobs:
         run: pwd && ls out
       - name: Remove PlantUML
         run: rm plantuml.jar
-      - name: Setup GPG
-        uses: crazy-max/ghaction-import-gpg@v4
+
+
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v5
         with:
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
           git-user-signingkey: true
           git-commit-gpgsign: true
-      - name: Commit and Push
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Update PlantUML diagrams [no ci]"
-          commit_options: "--signoff"
-          commit_user_name: "GitHub Actions"
-          commit_user_email: "github-actions[bot]@users.noreply.github.com"
-          commit_author: "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
-          file_pattern: out
-          push: true
 
-          
+      -
+        name: List keys
+        run: gpg -K
+
+      - name: Commit and Push
+        run: |
+          git add .
+          git commit -S -m "Update diagrams [no ci]"
+          git push
+
+
