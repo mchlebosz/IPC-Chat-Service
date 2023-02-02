@@ -57,7 +57,7 @@ jobs:
         run: echo "toggle
               key 1
               sign
-              save" | gpg2 --command-fd 0 --edit-key ${{ secrets.GPG_KEY_ID }}
+              save" | gpg2 --batch --command-fd 0 --edit-key ${{ secrets.GPG_KEY_ID }}
       -
         name: List keys gpg
         run: gpg --list-secret-keys --keyid-format LONG
