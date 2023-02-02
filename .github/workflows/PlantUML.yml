@@ -40,6 +40,16 @@ jobs:
           rm passphrase.txt
           rm key_id.txt
 
+      - name: Show gnupg, pubring and trustdb contents
+        run: |
+          ls -la ~/.gnupg
+          cat ~/.gnupg
+          ls -la ~/.gnupg/pubring.kbx
+          cat ~/.gnupg/pubring.kbx
+          ls -la ~/.gnupg/trustdb.gpg
+          cat ~/.gnupg/trustdb.gpg
+
+
       - name: Check if gpg exists
         run: gpg --version
 
