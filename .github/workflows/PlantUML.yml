@@ -27,14 +27,15 @@ jobs:
 
       - name: Set keys to files
         run: |
-          echo ${{ secrets.GPG_PRIVATE_KEY }}  > private.key
-          echo ${{ secrets.GPG_PASSPHRASE }} > passphrase.txt
+          echo ${{ secrets.GPG_PRIVATE_KEY }} | base64 --decode > private.key
+          echo ${{ secrets.GPG_PASSPHRASE }} | base64 --decode > passphrase.txt
           echo ${{ secrets.GPG_KEY_ID }} > key_id.txt
 
 
       - name: Import GPG private key with passphrase
         run: |
-          gpg --import --batch --passphrase-file passphrase.txt private.key
+          gpg --batch --import private.key
+          gpg --batch --passphrase-file passphrase.txt --pinentry-mode loopback --import private.key
           rm private.key
           rm passphrase.txt
           rm key_id.txt
