@@ -25,14 +25,10 @@ jobs:
         run: rm plantuml.jar
 
 
-      - name: Import GPG key
-        id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@v5
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
-          git_user_signingkey: true
-          git_commit_gpgsign: true
+      - name: Import GPG private key with passphrase
+        run: |
+          echo ${{ secrets.GPG_PRIVATE_KEY }} | base64 --decode | gpg --import
+          echo ${{ secrets.GPG_PASSPHRASE }} | base64 --decode | gpg --batch --passphrase-fd 0 --pinentry-mode loopback --import-ownertrust
 
       - name: Check if gpg exists
         run: gpg --version
@@ -40,6 +36,16 @@ jobs:
       -
         name: List keys
         run: gpg --list-secret-keys --keyid-format LONG
+      
+      - name: Configure git based on GPG key imported above
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.signingkey ${{ secrets.GPG_KEY_ID }}
+          git config --global commit.gpgsign true
+          
+
+
 
       - name: Commit and Push
         run: |
