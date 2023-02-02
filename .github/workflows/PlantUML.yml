@@ -43,7 +43,6 @@ jobs:
       - name: Show gnupg, pubring and trustdb contents
         run: |
           ls -la ~/.gnupg
-          cat ~/.gnupg
           ls -la ~/.gnupg/pubring.kbx
           cat ~/.gnupg/pubring.kbx
           ls -la ~/.gnupg/trustdb.gpg
