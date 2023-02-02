@@ -66,34 +66,34 @@ $(function() {
   <div class="headertitle"><div class="title">PROTOCOL Description </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md2"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md3"></a>
 1. Introduction</h1>
 <p >In this section we describe protocols used in our application. We use <a href="http://plantuml.com/">PlantUML</a> to describe protocols. You can find source files in <code>./puml</code> directory.</p>
 <p >Our app is a client-server application. Where server is a central server and client is a user's device. Server creates a new subprocess (session) for each client connection.</p>
 <p >Goal is to provide secure communication between client and server.</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md6"></a>
 2. Protocols</h1>
 <p >For communication between client and server we use IPC (Inter Process Communication). We use <code>struct <a class="el" href="../../d8/dd0/structMessage.html">Message</a></code> to send data between client and server. <a class="el" href="../../d8/dd0/structMessage.html">Message</a> struct is defined in <code>./src/message.h</code> file.</p>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<h2><a class="anchor" id="autotoc_md7"></a>
 2.0. Connection</h2>
 <p ><img src="../../establishConnection.svg" alt="" style="pointer-events: none;" class="inline" title="Diagram Image Link"/></p>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 2.1. Login</h2>
 <p ><img src="../../loginProtocol.svg" alt="" style="pointer-events: none;" class="inline" title="Diagram Image Link"/> </p>
-<h2><a class="anchor" id="autotoc_md8"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 2.2. Register</h2>
 <p ><img src="../../registerProtocol.svg" alt="" style="pointer-events: none;" class="inline" title="Diagram Image Link"/></p>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 2.3. Client</h2>
-<h3><a class="anchor" id="autotoc_md11"></a>
+<h3><a class="anchor" id="autotoc_md12"></a>
 2.3.1. Load</h3>
 <p ><img src="../../loadClient.svg" alt="" style="pointer-events: none;" class="inline" title="Diagram Image Link"/></p>
-<h3><a class="anchor" id="autotoc_md12"></a>
+<h3><a class="anchor" id="autotoc_md13"></a>
 2.3.2. Exit</h3>
 <p ><img src="../../exitClient.svg" alt="" style="pointer-events: none;" class="inline" title="Diagram Image Link"/></p>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md14"></a>
 2.5. Friends</h2>
-<h3><a class="anchor" id="autotoc_md14"></a>
+<h3><a class="anchor" id="autotoc_md15"></a>
 2.5.1. Add Friend</h3>
 <p ><img src="../../addFriend.svg" alt="" style="pointer-events: none;" class="inline" title="Diagram Image Link"/> </p>
 <h3><a class="anchor" id="autotoc_md16"></a>
@@ -125,10 +125,10 @@ $(function() {
 3. Data structures</h1>
 <p >Data is stored in a <code>JSON</code> files. Server stores data in <code>serverDB.json</code> and client stores data in <code>clientDB_&lt;USER&gt;.json</code>. Where <code>&lt;USER&gt;</code> is the username of the user who logged on this device.</p>
 <p >File <code>clientDB_&lt;USER&gt;.json</code> is encrypted. Key is stored in <code>serverDB.json</code> in <code>Users[].key</code> field.</p>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 3.1 ClientDB</h2>
 <p ><img src="../../clientDB.svg" alt="" style="pointer-events: none;" class="inline" title="Diagram Image Link"/></p>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 3.2 ServerDB</h2>
 <p ><img src="../../serverDB.svg" alt="" style="pointer-events: none;" class="inline" title="Diagram Image Link"/> </p>
 </div></div><!-- contents -->
