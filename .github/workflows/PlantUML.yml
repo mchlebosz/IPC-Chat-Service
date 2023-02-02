@@ -44,7 +44,7 @@ jobs:
         run: gpgconf --list-dirs
 
       - name: Show gpg agent content
-        run: cat $GNUPGHOME/gpg-agent.conf
+        run: cat ~/.gnupg/gpg-agent.conf
 
 
       - name: Check if gpg exists
