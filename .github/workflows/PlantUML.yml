@@ -43,6 +43,9 @@ jobs:
       - name: Show gpg agent
         run: gpgconf --list-dirs
 
+      - name: Show gpgcontent
+        run: ls -la ~/.gnupg
+
       - name: Show gpg agent content
         run: cat ~/.gnupg/gpg-agent.conf
 
