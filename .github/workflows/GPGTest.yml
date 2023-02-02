@@ -6,7 +6,7 @@ on:
 jobs:
   generate_plantuml:
     runs-on: ubuntu-latest
-    name: plantuml
+    name: GPGtest
     steps:
       # - name: Install Dependencies
       #   run: |
