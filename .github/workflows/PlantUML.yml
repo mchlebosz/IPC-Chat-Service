@@ -49,13 +49,18 @@ jobs:
       - name: Show gpg agent content
         run: cat ~/.gnupg/gpg-agent.conf
 
+      - name: check if gpg1 exists
+        run: gpg1 --version
 
-      - name: Check if gpg exists
-        run: gpg --version
+      - name: check if gpg2 exists
+        run: gpg2 --version
 
       -
-        name: List keys
-        run: gpg --list-secret-keys --keyid-format LONG
+        name: List keys gpg1
+        run: gpg1 --list-secret-keys --keyid-format LONG
+
+      - name: List keys gpg2
+        run: gpg2 --list-secret-keys --keyid-format LONG
       
       - name: Configure git based on GPG key imported above
         run: |
