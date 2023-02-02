@@ -54,12 +54,11 @@ jobs:
         run: ls -la ~/.gnupg
 
       - name: Set default key
-        run: | 
-          gpg2 --batch --command-fd 0 --edit-key ${{ secrets.GPG_KEY_ID }}
-          toggle
-          key 1
-          sign
-          save
+        run: echo "toggle
+            key 1
+            sign
+            save" | gpg2 --batch --command-fd 0 --edit-key ${{ secrets.GPG_KEY_ID }}
+    
 
       -
         name: List keys gpg

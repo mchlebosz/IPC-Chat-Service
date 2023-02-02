@@ -42,6 +42,21 @@ jobs:
         name: List keys gpg
         run: gpg --list-secret-keys --keyid-format LONG
 
+      - name: List keys 2
+        run: gpg -K
+
+      - name: Set default key
+        run: echo "toggle
+            key 1
+            sign
+            save" | gpg2 --batch --command-fd 0 --edit-key ${{ secrets.GPG_KEY_ID }}
+
+      - name: Set trust level
+        run: echo "trust
+                    5
+                    y
+                    save" | gpg2 --batch --command-fd 0 --edit-key ${{ secrets.GPG_KEY_ID }}
+
       - name: Commit and Push
         run: |
           git add .
