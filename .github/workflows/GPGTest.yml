@@ -58,6 +58,12 @@ jobs:
             key 1
             sign
             save" | gpg2 --batch --command-fd 0 --edit-key ${{ secrets.GPG_KEY_ID }}
+
+      - name: Set trust level
+        run: echo "trust
+                    5
+                    y
+                    save" | gpg2 --batch --command-fd 0 --edit-key ${{ secrets.GPG_KEY_ID }}
     
 
       -
