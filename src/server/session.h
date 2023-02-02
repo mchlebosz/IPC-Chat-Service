@@ -8,7 +8,7 @@
 
 // session type
 typedef struct {
-	char sessionID[32];
+	char clientID[32];
 	int sessionRunning;
 	key_t sessionKey;
 	int sessionQueue;
@@ -25,9 +25,9 @@ typedef struct {
 void addSession(Sessions* sessions, Session* session);
 
 // remove session from sessions list
-void removeSession(Sessions* sessions, char* sessionID);
+void removeSession(Sessions* sessions, char* clientID);
 
-int getSessionQueue(Sessions* sessions, const char* sessionID);
+int getSessionQueue(Sessions* sessions, const char* clientID);
 
 void session(int* keep_running, key_t sessionKey);
 
@@ -35,3 +35,5 @@ int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 				int clientSeed, key_t* sessionKey, int* sessionPID);
 
 char* generateKey();
+
+int isSessionRunning(Sessions* sessions, const char* clientID);

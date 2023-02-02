@@ -24,7 +24,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 	while (*keep_running) {
 		Message msg;
 
-		// receive message from client
+		// receive message from client or session
 		if (receiveMessageNoWait(msgid, &msg, 31) != 200) {
 			if (receiveMessageNoWait(msgid, &msg, 21) != 200) {
 				usleep(1500);
@@ -47,9 +47,22 @@ void serve(int* keep_running, int* msgid, char* db) {
 			// create session for new client
 			key_t sessionKey;
 			int sessionPID;
-			// on Error return 500 to client
 			if (openSession(&sessionRunning, &sessionQueue, clientID,
-							clientSeed, &sessionKey, &sessionPID) == 500) {
+							clientSeed, &sessionKey, &sessionPID) == 200) {
+				// add session to sessions list
+				printf(
+					"Session created for %s with PID %d and Queue %d and Key %d and running %d\n",
+					clientID, sessionPID, sessionQueue, sessionKey,
+					sessionRunning);
+
+				srand(time(NULL));
+				Session session = { "", sessionRunning, sessionKey,
+									sessionQueue, sessionPID };
+				strcpy(session.clientID, clientID);
+				addSession(&sessions, &session);
+
+			} else {
+				// on Error return 500 to client
 				// send response message
 				char* receiver = msg.mtext.header.sender;
 
@@ -61,18 +74,6 @@ void serve(int* keep_running, int* msgid, char* db) {
 				// send response message
 				msgsnd(clientQueue, &msg, sizeof(msg), 0);
 				continue;
-			} else {
-				// add session to sessions list
-				printf(
-					"Session created for %s with PID %d and Queue %d and Key %d and running %d\n",
-					clientID, sessionPID, sessionQueue, sessionKey,
-					sessionRunning);
-
-				srand(time(NULL));
-				Session session = { "", sessionRunning, sessionKey,
-									sessionQueue, sessionPID };
-				strcpy(session.sessionID, clientID);
-				addSession(&sessions, &session);
 			}
 		}
 		// Receive Message from Session
@@ -187,6 +188,52 @@ void serve(int* keep_running, int* msgid, char* db) {
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 			}
 		}
+		// Log out user
+		else if (msg.mtext.header.type == 12) {
+			// message format: ClientID;
+			char* messageBody = msg.mtext.body;
+			char* clientID    = strtok(messageBody, ";");
+
+			char receiver[32];
+			strcpy(receiver, msg.mtext.header.sender);
+			char sender[32];
+			strcpy(sender, msg.mtext.header.sender);
+			// connect to session queue
+			int sessionQueue = getSessionQueue(&sessions, receiver);
+
+			// status check
+			int status = isSessionRunning(&sessions, clientID) == 200 &&
+								 searchData(db, clientID) == 200 ?
+							 200 :
+							 404;
+
+			if (status == 200) {
+				// send response message
+				msgInit(&msg, 12, 12, "server", sender, 200, "OK");
+
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				removeSession(&sessions, clientID);
+				continue;
+			} else if (status == 404) {
+				// send response message
+				msgInit(&msg, 12, 12, "server", sender, 404,
+						"Not Found (User does not exist)");
+
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else {
+				// internal server error
+				// send response message
+				msgInit(&msg, 12, 12, "server", receiver, 500,
+						"Internal Server Error (Logout)");
+
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+			}
+
+		}
 		// Send Message to User
 		else if (msg.mtext.header.type == 24) {
 			// extract message body
@@ -231,6 +278,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 
 			// transfer message to session
 		}
+		// Get list of active users
 	}
 	// close all sessions
 	for (int i = 0; i < sessions.size; i++) {

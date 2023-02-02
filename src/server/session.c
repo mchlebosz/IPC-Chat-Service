@@ -121,12 +121,12 @@ void addSession(Sessions* sessions, Session* session) {
  * It removes a session from the sessions list
  *
  * @param sessions a pointer to the Sessions struct
- * @param sessionID The session ID of the session to be removed.
+ * @param clientID The client ID of the session to be removed.
  */
-void removeSession(Sessions* sessions, char* sessionID) {
+void removeSession(Sessions* sessions, char* clientID) {
 	// find session in sessions list
 	for (int i = 0; i < sessions->size; i++) {
-		if (sessions->sessions[i].sessionID == sessionID) {
+		if (sessions->sessions[i].clientID == clientID) {
 			// remove session from sessions list
 			for (int j = i; j < sessions->size - 1; j++) {
 				sessions->sessions[j] = sessions->sessions[j + 1];
@@ -143,21 +143,31 @@ void removeSession(Sessions* sessions, char* sessionID) {
 
 /**
  * It takes a pointer to a
- * `Sessions` struct and a `sessionID` string, and returns the queue number of
- * the session with the given `sessionID`
+ * `Sessions` struct and a `clientID` string, and returns the queue number of
+ * the session with the given `clientID`
  *
  * @param sessions a pointer to the Sessions struct
- * @param sessionID the session ID of the session you want to get the queue of
+ * @param clientID the client ID of the session
  *
- * @return The session queue of the session with the given sessionID.
+ * @return The session queue of the session with the given clientID.
  */
-int getSessionQueue(Sessions* sessions, const char* sessionID) {
+int getSessionQueue(Sessions* sessions, const char* clientID) {
 	// find session in sessions list
 	for (int i = 0; i < sessions->size; i++) {
-		printf("id: '%s', dst: '%s'\n", sessions->sessions[i].sessionID,
-			   sessionID);
-		if (strcmp(sessions->sessions[i].sessionID, sessionID) == 0) {
+		printf("id: '%s', dst: '%s'\n", sessions->sessions[i].clientID,
+			   clientID);
+		if (strcmp(sessions->sessions[i].clientID, clientID) == 0) {
 			return sessions->sessions[i].sessionQueue;
+		}
+	}
+	return 404;
+}
+
+int isSessionRunning(Sessions* sessions, const char* clientID) {
+	// find session in sessions list
+	for (int i = 0; i < sessions->size; i++) {
+		if (strcmp(sessions->sessions[i].clientID, clientID) == 0) {
+			return 200;
 		}
 	}
 	return 404;

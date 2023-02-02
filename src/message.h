@@ -1,13 +1,13 @@
 #pragma once
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <stdbool.h>
 
 typedef struct Message {
-	long mtype;
+	long mtype;    // permission type
 	// 11: server to server
 	// 12: server to session
 	// 13: server to client
@@ -23,8 +23,8 @@ typedef struct Message {
 	struct mtext {
 		struct header {
 			short type;
-			char sender[20];
-			char receiver[20];
+			char sender[20];      // name or id
+			char receiver[20];    // name or id
 			char time[20];
 			short statusCode;
 		} header;
