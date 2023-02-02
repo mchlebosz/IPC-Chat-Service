@@ -59,6 +59,7 @@ jobs:
 
       - name: Commit and Push
         run: |
+          git config --global user.signingkey ${{ secrets.GPG_KEY_ID }}
           git add .
           git commit -S -m "Update diagrams [no ci]"
           git push
