@@ -87,6 +87,8 @@ jobs:
 
       - name: gpg log 
         run: cat ~/.gnupg/log
+        continue-on-error: true
+
 
       - name: gpg log 2
         run: journalctl -u gnupg.service
