@@ -1,5 +1,6 @@
 #include "codes.h"
 
+/* A constant array of type map_entry_t. */
 const map_entry_t typeCodes[TYPE_CODES] = {
 	{ 0, "Connection" },
 	{ 1, "Response" },
@@ -45,20 +46,34 @@ const map_entry_t statusCodes[STATUS_CODES] = {
 	{ 503, "Service Unavailable" }
 };
 
-// char* getTypeCode(int code) {
-// 	for (int i = 0; i < TYPE_CODES; i++) {
-// 		if (typeCodes[i].code == code) {
-// 			return typeCodes[i].name;
-// 		}
-// 	}
-// 	return "NULL";
-// }
+/**
+ * It returns a string representation of the type code
+ *
+ * @param code The code of the type you want to get the name of.
+ *
+ * @return The name of the type code.
+ */
+char* getTypeCode(int code) {
+	for (int i = 0; i < TYPE_CODES; i++) {
+		if (typeCodes[i].code == code) {
+			return typeCodes[i].name;
+		}
+	}
+	return "NULL";
+}
 
-// char* getStatusCode(int code) {
-// 	for (int i = 0; i < STATUS_CODES; i++) {
-// 		if (statusCodes[i].code == code) {
-// 			return statusCodes[i].name;
-// 		}
-// 	}
-// 	return "NULL";
-// }
+/**
+ * It returns the name of the status code that corresponds to the given code
+ *
+ * @param code The status code to get the name of.
+ *
+ * @return The name of the status code.
+ */
+char* getStatusCode(int code) {
+	for (int i = 0; i < STATUS_CODES; i++) {
+		if (statusCodes[i].code == code) {
+			return statusCodes[i].name;
+		}
+	}
+	return "NULL";
+}
