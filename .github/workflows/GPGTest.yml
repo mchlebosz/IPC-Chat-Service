@@ -1,0 +1,87 @@
+name: gpg tester
+on: 
+  push:
+   branches-ignore:
+     - "main"
+jobs:
+  generate_plantuml:
+    runs-on: ubuntu-latest
+    name: plantuml
+    steps:
+      # - name: Install Dependencies
+      #   run: |
+      #     sudo apt-get install graphviz
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+        
+      # - name: Download PlantUML
+      #   run: wget https://sourceforge.net/projects/plantuml/files/plantuml.jar/download -O plantuml.jar
+      # - name: Process Diagrams
+      #   run: java -jar plantuml.jar -v -tsvg -r -o "${{ github.workspace }}/out" "diagrams/**.puml"
+      # - name: Display Diagrams
+      #   run: pwd && ls out
+      # - name: Remove PlantUML
+      #   run: rm plantuml.jar
+
+
+      - name: check if gpg exists
+        run: gpg --version
+
+      - name: check if gpg2 exists
+        run: gpg2 --version
+
+
+      - name: Set keys to files
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" > private.key
+          echo "${{ secrets.GPG_PASSPHRASE }}" > passphrase.txt
+          echo ${{ secrets.GPG_KEY_ID }} > key_id.txt
+
+
+      - name: Import GPG private key with passphrase
+        run: |
+          gpg --batch --import private.key
+          gpg --batch --passphrase-file passphrase.txt --pinentry-mode loopback --import private.key
+          rm private.key
+          rm passphrase.txt
+          rm key_id.txt
+
+      - name: Show gpg agent
+        run: gpgconf --list-dirs
+
+      - name: Show gpgcontent
+        run: ls -la ~/.gnupg
+
+      - name: Set default key
+        run: | 
+          gpg2 --batch --command-fd 0 --edit-key ${{ secrets.GPG_KEY_ID }}
+          toggle
+          key 1
+          sign
+          save
+
+      -
+        name: List keys gpg
+        run: gpg --list-secret-keys --keyid-format LONG
+
+      - name: List keys gpg2
+        run: gpg2 --list-secret-keys --keyid-format LONG
+      
+      - name: Configure git based on GPG key imported above
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.signingkey ${{ secrets.GPG_KEY_ID }}
+          git config --global commit.gpgsign true
+          
+
+
+
+      - name: Commit and Push
+        run: |
+          git add .
+          git commit -S -m "Update diagrams [no ci]"
+          git push
+
+
