@@ -62,7 +62,8 @@ int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 	// clientQueue create random session key based on client key
 	srand(time(0));
 
-	int sessionSeed = rand();
+	// To prevent overflow make modulo of X
+	int sessionSeed = rand() % 1000000;
 
 	*sessionKey = createSessonKey(clientSeed, sessionSeed);
 
