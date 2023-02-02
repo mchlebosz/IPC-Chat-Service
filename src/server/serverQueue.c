@@ -1,8 +1,5 @@
 #include "serverQueue.h"
 
-#include "dbHandler.h"
-#include "session.h"
-
 /**
  * Main server loop. It waits for messages, and then processes them.
  *
@@ -279,6 +276,62 @@ void serve(int* keep_running, int* msgid, char* db) {
 			// transfer message to session
 		}
 		// Get list of active users
+		else if (msg.mtext.header.type == 13) {
+			// message format: ClientID;
+			char* messageBody = msg.mtext.body;
+			char* clientID    = strtok(messageBody, ";");
+
+			// check if client is logged in
+			int status = isSessionRunning(&sessions, clientID);
+
+			// if client is logged in
+			if (status == 200) {
+				// get list of active users
+				char* activeUsers = getOnlineUsers(sessions);
+
+				// if active users is empty
+				if (activeUsers == NULL) {
+					// send response message
+					msgInit(&msg, 12, 13, "server", clientID, 204,
+							"No Active Users");
+
+					// connect to session queue
+					int sessionQueue = getSessionQueue(&sessions, clientID);
+					// send response message
+					msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+					continue;
+				}
+
+				// send response message
+				msgInit(&msg, 12, 13, "server", clientID, 200, activeUsers);
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, clientID);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else if (status == 404) {
+				// send response message
+				msgInit(&msg, 12, 13, "server", clientID, 404,
+						"Not Found (User does not exist)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, clientID);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else {
+				// internal server error
+				// send response message
+				msgInit(&msg, 12, 13, "server", clientID, 500,
+						"Internal Server Error (Get Active Users)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, clientID);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+			}
+		}
 	}
 	// close all sessions
 	for (int i = 0; i < sessions.size; i++) {
@@ -376,4 +429,14 @@ int loginUser(char* username, char* password, char** key, char* db) {
 	} else {
 		return 404;
 	}
+}
+
+char* getOnlineUsers(Sessions sessions) {
+	// get string of inline clientIDs seperated by ;
+	char* onlineUsers = malloc(1000 * sizeof(char));
+	for (int i = 0; i < sessions.size; i++) {
+		strcat(onlineUsers, sessions.sessions[i].clientID);
+		strcat(onlineUsers, ";");
+	}
+	return onlineUsers;
 }
