@@ -3,6 +3,14 @@
 #include "dbHandler.h"
 #include "session.h"
 
+/**
+ * Main server loop. It waits for messages, and then processes them.
+ *
+ * @param keep_running a pointer to a variable that will be set to 0 when the
+ * server should stop running.
+ * @param msgid The message queue identifier.
+ * @param db The name of the database file.
+ */
 void serve(int* keep_running, int* msgid, char* db) {
 	if (*msgid < 0) {
 		perror("msgget");
@@ -54,7 +62,6 @@ void serve(int* keep_running, int* msgid, char* db) {
 				msgsnd(clientQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else {
-
 				// add session to sessions list
 				printf(
 					"Session created for %s with PID %d and Queue %d and Key %d and running %d\n",
@@ -66,11 +73,10 @@ void serve(int* keep_running, int* msgid, char* db) {
 									sessionQueue, sessionPID };
 				strcpy(session.sessionID, clientID);
 				addSession(&sessions, &session);
-
 			}
 		}
 		// Receive Message from Session
-		
+
 		// Register User
 		else if (msg.mtext.header.type == 11) {
 			// extract username and password from message
@@ -81,9 +87,11 @@ void serve(int* keep_running, int* msgid, char* db) {
 
 			char* decryptKey;
 
-			char receiver[32]; strcpy(receiver, msg.mtext.header.sender);
+			char receiver[32];
+			strcpy(receiver, msg.mtext.header.sender);
 
-			char sender[32]; strcpy(sender, msg.mtext.header.sender);
+			char sender[32];
+			strcpy(sender, msg.mtext.header.sender);
 
 			int sessionQueue = getSessionQueue(&sessions, receiver);
 
@@ -132,9 +140,9 @@ void serve(int* keep_running, int* msgid, char* db) {
 
 			char* decryptKey;
 
-			char receiver[32]; 
+			char receiver[32];
 			strcpy(receiver, msg.mtext.header.sender);
-			char sender[32]; 
+			char sender[32];
 			strcpy(sender, msg.mtext.header.sender);
 			// connect to session queue
 			int sessionQueue = getSessionQueue(&sessions, receiver);
@@ -157,7 +165,6 @@ void serve(int* keep_running, int* msgid, char* db) {
 				// add decrypt key to message body
 				sprintf(body, "%s;%s;%s;", username, password, decryptKey);
 
-				
 				msgInit(&msg, 12, 1, "server", sender, 200, body);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
@@ -240,6 +247,17 @@ void serve(int* keep_running, int* msgid, char* db) {
 	free(sessions.sessions);
 }
 
+/**
+ * It takes a username, password, and database file name as input, and returns a
+ * decryption key and a status code
+ *
+ * @param username the username of the user
+ * @param password the password to be encrypted
+ * @param key the decryption key
+ * @param db the database file to use
+ *
+ * @return The return value is the HTTP status code.
+ */
 int registerUser(char* username, char* password, char** key, char* db) {
 	// check if username is already taken
 	if (searchData(db, username) == 200) {
@@ -259,6 +277,11 @@ int registerUser(char* username, char* password, char** key, char* db) {
 	}
 }
 
+/**
+ * It generates a random key of length 16
+ *
+ * @return A pointer to a char array.
+ */
 char* generateKey() {
 	// generate random key
 	char* key = malloc(16 * sizeof(char));
@@ -268,6 +291,18 @@ char* generateKey() {
 	return key;
 }
 
+/**
+ * It checks if the username exists, if it does, it gets the user data, gets the
+ * user password, compares the passwords, and returns the appropriate status
+ * code
+ *
+ * @param username The username of the user trying to login.
+ * @param password The password the user entered
+ * @param key the key that will be used to encrypt the data
+ * @param db the database file to use
+ *
+ * @return The status code of the login attempt.
+ */
 int loginUser(char* username, char* password, char** key, char* db) {
 	// check if username exists
 	if (searchData(db, username) == 200) {

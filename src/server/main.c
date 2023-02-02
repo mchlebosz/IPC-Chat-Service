@@ -15,10 +15,24 @@
 
 int keep_running = 1;
 
+/**
+ * It sets the global variable `keep_running` to 0
+ *
+ * @param signum The signal number.
+ */
 void sigint_handler(int signum) {
 	keep_running = 0;
 }
 
+/**
+ * It creates a message queue, then calls the `serve` function, which loops
+ * forever, waiting for messages to arrive, and then processing them
+ *
+ * @param argc the number of arguments passed to the program
+ * @param argv the command line arguments
+ *
+ * @return The server key.
+ */
 int main(int argc, char *argv[]) {
 	srand(time(NULL));
 	printf("Server started\n");
@@ -29,8 +43,8 @@ int main(int argc, char *argv[]) {
 	// register signal handler
 	signal(SIGINT, sigint_handler);
 	// create the message queue
-	const char *path      = "server";
-	key_t serverkey = hash(path);
+	const char *path = "server";
+	key_t serverkey  = hash(path);
 
 	int msgid = msgget(serverkey, 0666 | IPC_CREAT);
 

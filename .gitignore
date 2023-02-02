@@ -1,4 +1,8 @@
-./.txt
+./*.txt
+
+# Doxygen
+docs/
+
 
 #Editors
 .idea/
