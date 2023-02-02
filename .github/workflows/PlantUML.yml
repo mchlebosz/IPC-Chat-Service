@@ -27,8 +27,8 @@ jobs:
 
       - name: Set keys to files
         run: |
-          echo ${{ secrets.GPG_PRIVATE_KEY }} | base64 --decode > private.key
-          echo ${{ secrets.GPG_PASSPHRASE }} | base64 --decode > passphrase.txt
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | base64 --decode > private.key
+          echo "${{ secrets.GPG_PASSPHRASE }}" | base64 --decode > passphrase.txt
           echo ${{ secrets.GPG_KEY_ID }} > key_id.txt
 
 
