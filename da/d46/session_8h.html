@@ -130,8 +130,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >It adds a session to the sessions list</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sessions</td><td>a pointer to a <a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> struct </td></tr>
+    <tr><td class="paramname">session</td><td>The session to add to the sessions list. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00082">82</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00109">109</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
 
 </div>
 </div>
@@ -181,8 +189,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >It takes a pointer to a <code><a class="el" href="../../dd/d1d/structSessions.html">Sessions</a></code> struct and a <code>sessionID</code> string, and returns the queue number of the session with the given <code>sessionID</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sessions</td><td>a pointer to the <a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> struct </td></tr>
+    <tr><td class="paramname">sessionID</td><td>the session ID of the session you want to get the queue of</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The session queue of the session with the given sessionID. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00110">110</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00153">153</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
 
 </div>
 </div>
@@ -235,8 +252,21 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >It creates a session for a client, and returns the session key to the client</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sessionRunning</td><td>a pointer to an integer that is used to determine if the session is running or not. </td></tr>
+    <tr><td class="paramname">sessionQueue</td><td>the queue for the session </td></tr>
+    <tr><td class="paramname">clientID</td><td>the client's ID </td></tr>
+    <tr><td class="paramname">clientSeed</td><td>the seed used to generate the client's key </td></tr>
+    <tr><td class="paramname">sessionKey</td><td>the key for the session queue </td></tr>
+    <tr><td class="paramname">sessionPID</td><td>the PID of the session process</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The return value is the status code of the session. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00038">38</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00059">59</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
 
 </div>
 </div>
@@ -265,8 +295,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >It removes a session from the sessions list</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sessions</td><td>a pointer to the <a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> struct </td></tr>
+    <tr><td class="paramname">sessionID</td><td>The session ID of the session to be removed. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00092">92</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00125">125</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
 
 </div>
 </div>
@@ -295,8 +333,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >It receives messages from the client, passes them to the server, receives messages from the server, and passes them to the client</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">keep_running</td><td>a pointer to a variable that is set to 0 when the program should exit </td></tr>
+    <tr><td class="paramname">sessionKey</td><td>the key of the session queue </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00012">12</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00020">20</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
 
 </div>
 </div>

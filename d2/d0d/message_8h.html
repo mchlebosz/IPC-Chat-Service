@@ -138,8 +138,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >It clears the message</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msg</td><td>The message to be cleared. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d6d/message_8c_source.html#l00030">30</a> of file <a class="el" href="../../d0/d6d/message_8c_source.html">message.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/d6d/message_8c_source.html#l00043">43</a> of file <a class="el" href="../../d0/d6d/message_8c_source.html">message.c</a>.</p>
 
 </div>
 </div>
@@ -198,8 +205,21 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >It initializes a message</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msg</td><td>The message to be initialized. </td></tr>
+    <tr><td class="paramname">permission</td><td>the permission number of the message </td></tr>
+    <tr><td class="paramname">type</td><td>the type of the message </td></tr>
+    <tr><td class="paramname">sender</td><td>the sender of the message </td></tr>
+    <tr><td class="paramname">receiver</td><td>the name of the user who will receive the message </td></tr>
+    <tr><td class="paramname">statusCode</td><td>the status code of the message </td></tr>
+    <tr><td class="paramname">body</td><td>the message body </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d6d/message_8c_source.html#l00009">9</a> of file <a class="el" href="../../d0/d6d/message_8c_source.html">message.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/d6d/message_8c_source.html#l00020">20</a> of file <a class="el" href="../../d0/d6d/message_8c_source.html">message.c</a>.</p>
 
 </div>
 </div>
@@ -234,8 +254,18 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >It receives a message from the message queue with the given ID, and stores it in the given <a class="el" href="../../d8/dd0/structMessage.html">Message</a> struct</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msgid</td><td>The message queue ID. </td></tr>
+    <tr><td class="paramname">msg</td><td>The message to be received. </td></tr>
+    <tr><td class="paramname">permittedType</td><td>The type of message you want to receive. If you want to receive any message, pass 0.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The return value is the message type. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d6d/message_8c_source.html#l00074">74</a> of file <a class="el" href="../../d0/d6d/message_8c_source.html">message.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/d6d/message_8c_source.html#l00122">122</a> of file <a class="el" href="../../d0/d6d/message_8c_source.html">message.c</a>.</p>
 
 </div>
 </div>
@@ -270,8 +300,18 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >It receives a message from the message queue with the given ID, and stores it in the given <a class="el" href="../../d8/dd0/structMessage.html">Message</a> struct</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msgid</td><td>The message queue ID. </td></tr>
+    <tr><td class="paramname">msg</td><td>The message to be sent. </td></tr>
+    <tr><td class="paramname">permittedType</td><td>If this is set to -1, then the message will be received regardless of its type. If it is set to a positive number, then the message will only be received if its type matches the permittedType.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The return value is the message type. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d6d/message_8c_source.html#l00070">70</a> of file <a class="el" href="../../d0/d6d/message_8c_source.html">message.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/d6d/message_8c_source.html#l00107">107</a> of file <a class="el" href="../../d0/d6d/message_8c_source.html">message.c</a>.</p>
 
 </div>
 </div>

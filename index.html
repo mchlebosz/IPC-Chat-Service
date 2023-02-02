@@ -67,13 +67,13 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p ><a class="anchor" id="md_README"></a>Parallel and System programing project</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md4"></a>
 IMPORTANT!</h1>
 <p >When commiting to main (and other branches too) please follow given structure: <a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines">Commit Guidelines</a></p>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 Stack</h1>
 <p >using C11 For building project use Makefile</p>
-<h1><a class="anchor" id="autotoc_md7"></a>
+<h1><a class="anchor" id="autotoc_md11"></a>
 How to run</h1>
 <ol type="1">
 <li>Clone repository</li>
@@ -83,9 +83,10 @@ How to run</h1>
 <li>Run <code>./bin/client</code> command</li>
 <li>Enjoy!</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 About</h1>
 <p >This is a project for Parallel and System programing course at PUT. The goal is to create a chat service using IPC (Inter Process Communication) methods. We are using C11 standard for programming. We are using Makefile for building project. \ <a href="https://www.cs.put.poznan.pl/akobusinska/downloads/projekt2022.pdf">Original project description</a> \</p>
+<p ><a href="https://mchlebosz.github.io/IPC-Chat-Service/">Full Docs</a></p>
 <p >Assumptions for this project are:</p><ul>
 <li>Creating a chat service using IPC Queue</li>
 <li>2 programs: client and server</li>
@@ -113,7 +114,7 @@ About</h1>
 <li>[ ] <a class="el" href="d8/dd0/structMessage.html">Message</a> confirmation</li>
 <li>[ ] <a class="el" href="d8/dd0/structMessage.html">Message</a> history</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md27"></a>
+<h1><a class="anchor" id="autotoc_md28"></a>
 Codes</h1>
 <p >File with codes is in <code><a class="el" href="dc/d0c/codes_8c.html">src/codes.c</a></code>. It contains all codes used in project. \ </p><div class="fragment"><div class="line"><span class="keyword">const</span> <a class="code hl_struct" href="d6/da2/structmap__entry__t.html">map_entry_t</a> <a class="code hl_variable" href="dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7">typeCodes</a>[<a class="code hl_define" href="d2/d11/codes_8h.html#ae4e5ec6def4a49f08bd981dbbf48bacd">TYPE_CODES</a>] = {</div>
 <div class="line">    { 0, <span class="stringliteral">&quot;Connection&quot;</span> },</div>
@@ -160,8 +161,8 @@ Codes</h1>
 <div class="line">    { 501, <span class="stringliteral">&quot;Not Implemented&quot;</span> },</div>
 <div class="line">    { 503, <span class="stringliteral">&quot;Service Unavailable&quot;</span> }</div>
 <div class="line">};</div>
-<div class="ttc" id="acodes_8c_html_a3ebe9760c9482954a8a72d4e378cd5dd"><div class="ttname"><a href="dc/d0c/codes_8c.html#a3ebe9760c9482954a8a72d4e378cd5dd">statusCodes</a></div><div class="ttdeci">const map_entry_t statusCodes[STATUS_CODES]</div><div class="ttdef"><b>Definition:</b> <a href="dc/d0c/codes_8c_source.html#l00021">codes.c:21</a></div></div>
-<div class="ttc" id="acodes_8c_html_a916839207e09adac16ed9b4c82e1c0d7"><div class="ttname"><a href="dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7">typeCodes</a></div><div class="ttdeci">const map_entry_t typeCodes[TYPE_CODES]</div><div class="ttdef"><b>Definition:</b> <a href="dc/d0c/codes_8c_source.html#l00003">codes.c:3</a></div></div>
+<div class="ttc" id="acodes_8c_html_a3ebe9760c9482954a8a72d4e378cd5dd"><div class="ttname"><a href="dc/d0c/codes_8c.html#a3ebe9760c9482954a8a72d4e378cd5dd">statusCodes</a></div><div class="ttdeci">const map_entry_t statusCodes[STATUS_CODES]</div><div class="ttdef"><b>Definition:</b> <a href="dc/d0c/codes_8c_source.html#l00022">codes.c:22</a></div></div>
+<div class="ttc" id="acodes_8c_html_a916839207e09adac16ed9b4c82e1c0d7"><div class="ttname"><a href="dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7">typeCodes</a></div><div class="ttdeci">const map_entry_t typeCodes[TYPE_CODES]</div><div class="ttdef"><b>Definition:</b> <a href="dc/d0c/codes_8c_source.html#l00004">codes.c:4</a></div></div>
 <div class="ttc" id="acodes_8h_html_a142f1e4bf79d287e1b7da0c27071067f"><div class="ttname"><a href="d2/d11/codes_8h.html#a142f1e4bf79d287e1b7da0c27071067f">STATUS_CODES</a></div><div class="ttdeci">#define STATUS_CODES</div><div class="ttdef"><b>Definition:</b> <a href="d2/d11/codes_8h_source.html#l00017">codes.h:17</a></div></div>
 <div class="ttc" id="acodes_8h_html_ae4e5ec6def4a49f08bd981dbbf48bacd"><div class="ttname"><a href="d2/d11/codes_8h.html#ae4e5ec6def4a49f08bd981dbbf48bacd">TYPE_CODES</a></div><div class="ttdeci">#define TYPE_CODES</div><div class="ttdef"><b>Definition:</b> <a href="d2/d11/codes_8h_source.html#l00011">codes.h:11</a></div></div>
 <div class="ttc" id="astructmap__entry__t_html"><div class="ttname"><a href="d6/da2/structmap__entry__t.html">map_entry_t</a></div><div class="ttdef"><b>Definition:</b> <a href="d2/d11/codes_8h_source.html#l00003">codes.h:3</a></div></div>

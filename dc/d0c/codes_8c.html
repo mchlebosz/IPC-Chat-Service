@@ -68,6 +68,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">codes.c File Reference</div></div>
 </div><!--header-->
@@ -76,6 +77,13 @@ $(function() {
 </div>
 <p><a href="../../dc/d0c/codes_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a92753ddd3dc3ab5be0d0afa6d33d54bf"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d0c/codes_8c.html#a92753ddd3dc3ab5be0d0afa6d33d54bf">getTypeCode</a> (int code)</td></tr>
+<tr class="separator:a92753ddd3dc3ab5be0d0afa6d33d54bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30d9dcec0e830cc24bb7e00a95aea7c0"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d0c/codes_8c.html#a30d9dcec0e830cc24bb7e00a95aea7c0">getStatusCode</a> (int code)</td></tr>
+<tr class="separator:a30d9dcec0e830cc24bb7e00a95aea7c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a916839207e09adac16ed9b4c82e1c0d7"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d6/da2/structmap__entry__t.html">map_entry_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7">typeCodes</a> [<a class="el" href="../../d2/d11/codes_8h.html#ae4e5ec6def4a49f08bd981dbbf48bacd">TYPE_CODES</a>]</td></tr>
@@ -83,6 +91,63 @@ Variables</h2></td></tr>
 <tr class="memitem:a3ebe9760c9482954a8a72d4e378cd5dd"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d6/da2/structmap__entry__t.html">map_entry_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d0c/codes_8c.html#a3ebe9760c9482954a8a72d4e378cd5dd">statusCodes</a> [<a class="el" href="../../d2/d11/codes_8h.html#a142f1e4bf79d287e1b7da0c27071067f">STATUS_CODES</a>]</td></tr>
 <tr class="separator:a3ebe9760c9482954a8a72d4e378cd5dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a30d9dcec0e830cc24bb7e00a95aea7c0" name="a30d9dcec0e830cc24bb7e00a95aea7c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30d9dcec0e830cc24bb7e00a95aea7c0">&#9670;&nbsp;</a></span>getStatusCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * getStatusCode </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>code</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >It returns the name of the status code that corresponds to the given code</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">code</td><td>The status code to get the name of.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The name of the status code. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../dc/d0c/codes_8c_source.html#l00072">72</a> of file <a class="el" href="../../dc/d0c/codes_8c_source.html">codes.c</a>.</p>
+
+</div>
+</div>
+<a id="a92753ddd3dc3ab5be0d0afa6d33d54bf" name="a92753ddd3dc3ab5be0d0afa6d33d54bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92753ddd3dc3ab5be0d0afa6d33d54bf">&#9670;&nbsp;</a></span>getTypeCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * getTypeCode </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>code</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >It returns a string representation of the type code</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">code</td><td>The code of the type you want to get the name of.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The name of the type code. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../dc/d0c/codes_8c_source.html#l00056">56</a> of file <a class="el" href="../../dc/d0c/codes_8c_source.html">codes.c</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Variable Documentation</h2>
 <a id="a3ebe9760c9482954a8a72d4e378cd5dd" name="a3ebe9760c9482954a8a72d4e378cd5dd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3ebe9760c9482954a8a72d4e378cd5dd">&#9670;&nbsp;</a></span>statusCodes</h2>
@@ -122,7 +187,7 @@ Variables</h2></td></tr>
 <div class="line">    { 503, <span class="stringliteral">&quot;Service Unavailable&quot;</span> }</div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../dc/d0c/codes_8c_source.html#l00021">21</a> of file <a class="el" href="../../dc/d0c/codes_8c_source.html">codes.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0c/codes_8c_source.html#l00022">22</a> of file <a class="el" href="../../dc/d0c/codes_8c_source.html">codes.c</a>.</p>
 
 </div>
 </div>
@@ -155,7 +220,7 @@ Variables</h2></td></tr>
 <div class="line">    { 37, <span class="stringliteral">&quot;Receive a message from group&quot;</span> },</div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../dc/d0c/codes_8c_source.html#l00003">3</a> of file <a class="el" href="../../dc/d0c/codes_8c_source.html">codes.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0c/codes_8c_source.html#l00004">4</a> of file <a class="el" href="../../dc/d0c/codes_8c_source.html">codes.c</a>.</p>
 
 </div>
 </div>

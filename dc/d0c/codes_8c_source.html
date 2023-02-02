@@ -72,74 +72,78 @@ $(function() {
 <div class="contents">
 <a href="../../dc/d0c/codes_8c.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="../../d2/d11/codes_8h.html">codes.h</a>&quot;</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno"><a class="line" href="../../dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7">    3</a></span><span class="keyword">const</span> <a class="code hl_struct" href="../../d6/da2/structmap__entry__t.html">map_entry_t</a> <a class="code hl_variable" href="../../dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7">typeCodes</a>[<a class="code hl_define" href="../../d2/d11/codes_8h.html#ae4e5ec6def4a49f08bd981dbbf48bacd">TYPE_CODES</a>] = {</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>    { 0, <span class="stringliteral">&quot;Connection&quot;</span> },</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>    { 1, <span class="stringliteral">&quot;Response&quot;</span> },</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    { 10, <span class="stringliteral">&quot;Login&quot;</span> },</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    { 11, <span class="stringliteral">&quot;Register&quot;</span> },</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    { 12, <span class="stringliteral">&quot;Logout&quot;</span> },</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    { 13, <span class="stringliteral">&quot;Get list of users&quot;</span> },</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    { 14, <span class="stringliteral">&quot;Get list of messages&quot;</span> },</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    { 15, <span class="stringliteral">&quot;Get list of groups&quot;</span> },</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    { 24, <span class="stringliteral">&quot;Send a message to User&quot;</span> },</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    { 23, <span class="stringliteral">&quot;Send a request to add a user to the contact list&quot;</span> },</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    { 25, <span class="stringliteral">&quot;Send a request to add a user to a group&quot;</span> },</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    { 26, <span class="stringliteral">&quot;Send a request to create a group&quot;</span> },</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    { 27, <span class="stringliteral">&quot;Send a message to Group&quot;</span> },</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    { 34, <span class="stringliteral">&quot;Receive a message from user&quot;</span> },</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    { 37, <span class="stringliteral">&quot;Receive a message from group&quot;</span> },</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>};</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="../../dc/d0c/codes_8c.html#a3ebe9760c9482954a8a72d4e378cd5dd">   21</a></span><span class="keyword">const</span> <a class="code hl_struct" href="../../d6/da2/structmap__entry__t.html">map_entry_t</a> <a class="code hl_variable" href="../../dc/d0c/codes_8c.html#a3ebe9760c9482954a8a72d4e378cd5dd">statusCodes</a>[<a class="code hl_define" href="../../d2/d11/codes_8h.html#a142f1e4bf79d287e1b7da0c27071067f">STATUS_CODES</a>] = {</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    { 100, <span class="stringliteral">&quot;Continue&quot;</span> },</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    { 101, <span class="stringliteral">&quot;Switching Protocols&quot;</span> },</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    { 200, <span class="stringliteral">&quot;OK&quot;</span> },</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    { 201, <span class="stringliteral">&quot;Created&quot;</span> },</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    { 202, <span class="stringliteral">&quot;Accepted&quot;</span> },</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    { 203, <span class="stringliteral">&quot;Non-Authoritative Information&quot;</span> },</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    { 204, <span class="stringliteral">&quot;No Content&quot;</span> },</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    { 205, <span class="stringliteral">&quot;Reset Content&quot;</span> },</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    { 206, <span class="stringliteral">&quot;Partial Content&quot;</span> },</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    { 400, <span class="stringliteral">&quot;Bad Request&quot;</span> },</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    { 401, <span class="stringliteral">&quot;Unauthorized&quot;</span> },</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    { 403, <span class="stringliteral">&quot;Forbidden&quot;</span> },</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    { 404, <span class="stringliteral">&quot;Not Found&quot;</span> },</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    { 408, <span class="stringliteral">&quot;Request Timeout&quot;</span> },</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    { 409, <span class="stringliteral">&quot;Conflict&quot;</span> },</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    { 410, <span class="stringliteral">&quot;Gone&quot;</span> },</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    { 411, <span class="stringliteral">&quot;Length Required&quot;</span> },</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    { 413, <span class="stringliteral">&quot;Request Entity Too Large&quot;</span> },</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    { 418, <span class="stringliteral">&quot;I&#39;m a teapot&quot;</span> },</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    { 429, <span class="stringliteral">&quot;Too Many Requests&quot;</span> },</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    { 440, <span class="stringliteral">&quot;Login timeout&quot;</span> },</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    { 500, <span class="stringliteral">&quot;Internal Server Error&quot;</span> },</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    { 501, <span class="stringliteral">&quot;Not Implemented&quot;</span> },</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    { 503, <span class="stringliteral">&quot;Service Unavailable&quot;</span> }</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>};</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="comment">// char* getTypeCode(int code) {</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment">//  for (int i = 0; i &lt; TYPE_CODES; i++) {</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">//      if (typeCodes[i].code == code) {</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">//          return typeCodes[i].name;</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="comment">//      }</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="comment">//  }</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="comment">//  return &quot;NULL&quot;;</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="comment">// }</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="comment">// char* getStatusCode(int code) {</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">//  for (int i = 0; i &lt; STATUS_CODES; i++) {</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="comment">//      if (statusCodes[i].code == code) {</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="comment">//          return statusCodes[i].name;</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="comment">//      }</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="comment">//  }</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="comment">//  return &quot;NULL&quot;;</span></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="comment">// }</span></div>
-<div class="ttc" id="acodes_8c_html_a3ebe9760c9482954a8a72d4e378cd5dd"><div class="ttname"><a href="../../dc/d0c/codes_8c.html#a3ebe9760c9482954a8a72d4e378cd5dd">statusCodes</a></div><div class="ttdeci">const map_entry_t statusCodes[STATUS_CODES]</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/codes_8c_source.html#l00021">codes.c:21</a></div></div>
-<div class="ttc" id="acodes_8c_html_a916839207e09adac16ed9b4c82e1c0d7"><div class="ttname"><a href="../../dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7">typeCodes</a></div><div class="ttdeci">const map_entry_t typeCodes[TYPE_CODES]</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/codes_8c_source.html#l00003">codes.c:3</a></div></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/* A constant array of type map_entry_t. */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno"><a class="line" href="../../dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7">    4</a></span><span class="keyword">const</span> <a class="code hl_struct" href="../../d6/da2/structmap__entry__t.html">map_entry_t</a> <a class="code hl_variable" href="../../dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7">typeCodes</a>[<a class="code hl_define" href="../../d2/d11/codes_8h.html#ae4e5ec6def4a49f08bd981dbbf48bacd">TYPE_CODES</a>] = {</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>    { 0, <span class="stringliteral">&quot;Connection&quot;</span> },</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    { 1, <span class="stringliteral">&quot;Response&quot;</span> },</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    { 10, <span class="stringliteral">&quot;Login&quot;</span> },</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    { 11, <span class="stringliteral">&quot;Register&quot;</span> },</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    { 12, <span class="stringliteral">&quot;Logout&quot;</span> },</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    { 13, <span class="stringliteral">&quot;Get list of users&quot;</span> },</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    { 14, <span class="stringliteral">&quot;Get list of messages&quot;</span> },</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    { 15, <span class="stringliteral">&quot;Get list of groups&quot;</span> },</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    { 24, <span class="stringliteral">&quot;Send a message to User&quot;</span> },</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    { 23, <span class="stringliteral">&quot;Send a request to add a user to the contact list&quot;</span> },</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    { 25, <span class="stringliteral">&quot;Send a request to add a user to a group&quot;</span> },</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    { 26, <span class="stringliteral">&quot;Send a request to create a group&quot;</span> },</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    { 27, <span class="stringliteral">&quot;Send a message to Group&quot;</span> },</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    { 34, <span class="stringliteral">&quot;Receive a message from user&quot;</span> },</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    { 37, <span class="stringliteral">&quot;Receive a message from group&quot;</span> },</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>};</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="../../dc/d0c/codes_8c.html#a3ebe9760c9482954a8a72d4e378cd5dd">   22</a></span><span class="keyword">const</span> <a class="code hl_struct" href="../../d6/da2/structmap__entry__t.html">map_entry_t</a> <a class="code hl_variable" href="../../dc/d0c/codes_8c.html#a3ebe9760c9482954a8a72d4e378cd5dd">statusCodes</a>[<a class="code hl_define" href="../../d2/d11/codes_8h.html#a142f1e4bf79d287e1b7da0c27071067f">STATUS_CODES</a>] = {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    { 100, <span class="stringliteral">&quot;Continue&quot;</span> },</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    { 101, <span class="stringliteral">&quot;Switching Protocols&quot;</span> },</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    { 200, <span class="stringliteral">&quot;OK&quot;</span> },</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    { 201, <span class="stringliteral">&quot;Created&quot;</span> },</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    { 202, <span class="stringliteral">&quot;Accepted&quot;</span> },</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    { 203, <span class="stringliteral">&quot;Non-Authoritative Information&quot;</span> },</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    { 204, <span class="stringliteral">&quot;No Content&quot;</span> },</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    { 205, <span class="stringliteral">&quot;Reset Content&quot;</span> },</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    { 206, <span class="stringliteral">&quot;Partial Content&quot;</span> },</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    { 400, <span class="stringliteral">&quot;Bad Request&quot;</span> },</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    { 401, <span class="stringliteral">&quot;Unauthorized&quot;</span> },</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    { 403, <span class="stringliteral">&quot;Forbidden&quot;</span> },</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    { 404, <span class="stringliteral">&quot;Not Found&quot;</span> },</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    { 408, <span class="stringliteral">&quot;Request Timeout&quot;</span> },</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    { 409, <span class="stringliteral">&quot;Conflict&quot;</span> },</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    { 410, <span class="stringliteral">&quot;Gone&quot;</span> },</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    { 411, <span class="stringliteral">&quot;Length Required&quot;</span> },</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    { 413, <span class="stringliteral">&quot;Request Entity Too Large&quot;</span> },</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    { 418, <span class="stringliteral">&quot;I&#39;m a teapot&quot;</span> },</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    { 429, <span class="stringliteral">&quot;Too Many Requests&quot;</span> },</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    { 440, <span class="stringliteral">&quot;Login timeout&quot;</span> },</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    { 500, <span class="stringliteral">&quot;Internal Server Error&quot;</span> },</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    { 501, <span class="stringliteral">&quot;Not Implemented&quot;</span> },</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    { 503, <span class="stringliteral">&quot;Service Unavailable&quot;</span> }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>};</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="../../dc/d0c/codes_8c.html#a92753ddd3dc3ab5be0d0afa6d33d54bf">   56</a></span><span class="keywordtype">char</span>* <a class="code hl_function" href="../../dc/d0c/codes_8c.html#a92753ddd3dc3ab5be0d0afa6d33d54bf">getTypeCode</a>(<span class="keywordtype">int</span> code) {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code hl_define" href="../../d2/d11/codes_8h.html#ae4e5ec6def4a49f08bd981dbbf48bacd">TYPE_CODES</a>; i++) {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="../../dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7">typeCodes</a>[i].code == code) {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="../../dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7">typeCodes</a>[i].<a class="code hl_variable" href="../../d6/da2/structmap__entry__t.html#a23e7df24fbac8f42ff7d32c9b92321dc">name</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;NULL&quot;</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>}</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="../../dc/d0c/codes_8c.html#a30d9dcec0e830cc24bb7e00a95aea7c0">   72</a></span><span class="keywordtype">char</span>* <a class="code hl_function" href="../../dc/d0c/codes_8c.html#a30d9dcec0e830cc24bb7e00a95aea7c0">getStatusCode</a>(<span class="keywordtype">int</span> code) {</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code hl_define" href="../../d2/d11/codes_8h.html#a142f1e4bf79d287e1b7da0c27071067f">STATUS_CODES</a>; i++) {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="../../dc/d0c/codes_8c.html#a3ebe9760c9482954a8a72d4e378cd5dd">statusCodes</a>[i].code == code) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="../../dc/d0c/codes_8c.html#a3ebe9760c9482954a8a72d4e378cd5dd">statusCodes</a>[i].<a class="code hl_variable" href="../../d6/da2/structmap__entry__t.html#a23e7df24fbac8f42ff7d32c9b92321dc">name</a>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    }</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;NULL&quot;</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>}</div>
+<div class="ttc" id="acodes_8c_html_a30d9dcec0e830cc24bb7e00a95aea7c0"><div class="ttname"><a href="../../dc/d0c/codes_8c.html#a30d9dcec0e830cc24bb7e00a95aea7c0">getStatusCode</a></div><div class="ttdeci">char * getStatusCode(int code)</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/codes_8c_source.html#l00072">codes.c:72</a></div></div>
+<div class="ttc" id="acodes_8c_html_a3ebe9760c9482954a8a72d4e378cd5dd"><div class="ttname"><a href="../../dc/d0c/codes_8c.html#a3ebe9760c9482954a8a72d4e378cd5dd">statusCodes</a></div><div class="ttdeci">const map_entry_t statusCodes[STATUS_CODES]</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/codes_8c_source.html#l00022">codes.c:22</a></div></div>
+<div class="ttc" id="acodes_8c_html_a916839207e09adac16ed9b4c82e1c0d7"><div class="ttname"><a href="../../dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7">typeCodes</a></div><div class="ttdeci">const map_entry_t typeCodes[TYPE_CODES]</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/codes_8c_source.html#l00004">codes.c:4</a></div></div>
+<div class="ttc" id="acodes_8c_html_a92753ddd3dc3ab5be0d0afa6d33d54bf"><div class="ttname"><a href="../../dc/d0c/codes_8c.html#a92753ddd3dc3ab5be0d0afa6d33d54bf">getTypeCode</a></div><div class="ttdeci">char * getTypeCode(int code)</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/codes_8c_source.html#l00056">codes.c:56</a></div></div>
 <div class="ttc" id="acodes_8h_html"><div class="ttname"><a href="../../d2/d11/codes_8h.html">codes.h</a></div></div>
 <div class="ttc" id="acodes_8h_html_a142f1e4bf79d287e1b7da0c27071067f"><div class="ttname"><a href="../../d2/d11/codes_8h.html#a142f1e4bf79d287e1b7da0c27071067f">STATUS_CODES</a></div><div class="ttdeci">#define STATUS_CODES</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d11/codes_8h_source.html#l00017">codes.h:17</a></div></div>
 <div class="ttc" id="acodes_8h_html_ae4e5ec6def4a49f08bd981dbbf48bacd"><div class="ttname"><a href="../../d2/d11/codes_8h.html#ae4e5ec6def4a49f08bd981dbbf48bacd">TYPE_CODES</a></div><div class="ttdeci">#define TYPE_CODES</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d11/codes_8h_source.html#l00011">codes.h:11</a></div></div>
 <div class="ttc" id="astructmap__entry__t_html"><div class="ttname"><a href="../../d6/da2/structmap__entry__t.html">map_entry_t</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d11/codes_8h_source.html#l00003">codes.h:3</a></div></div>
+<div class="ttc" id="astructmap__entry__t_html_a23e7df24fbac8f42ff7d32c9b92321dc"><div class="ttname"><a href="../../d6/da2/structmap__entry__t.html#a23e7df24fbac8f42ff7d32c9b92321dc">map_entry_t::name</a></div><div class="ttdeci">char * name</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d11/codes_8h_source.html#l00005">codes.h:5</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
