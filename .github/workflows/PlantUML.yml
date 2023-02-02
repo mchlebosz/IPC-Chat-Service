@@ -25,8 +25,8 @@ jobs:
       #   run: rm plantuml.jar
 
 
-      - name: check if gpg1 exists
-        run: gpg1 --version
+      - name: check if gpg exists
+        run: gpg --version
 
       - name: check if gpg2 exists
         run: gpg2 --version
@@ -55,8 +55,8 @@ jobs:
 
  
       -
-        name: List keys gpg1
-        run: gpg1 --list-secret-keys --keyid-format LONG
+        name: List keys gpg
+        run: gpg --list-secret-keys --keyid-format LONG
 
       - name: List keys gpg2
         run: gpg2 --list-secret-keys --keyid-format LONG
