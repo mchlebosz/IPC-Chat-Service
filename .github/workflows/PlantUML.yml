@@ -1,0 +1,17 @@
+name: generate plantuml
+on: push
+jobs:
+  generate_plantuml:
+    runs-on: ubuntu-latest
+    name: plantuml
+    steps:
+      - name: Install Dependencies
+        run: |
+          sudo apt-get install graphviz
+          curl -o plantuml.jar https://iweb.dl.sourceforge.net/project/plantuml/plantuml.jar
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Process Diagrams
+        run: java -jar plantuml.jar -v -tsvg -r -o "${{ github.workspace }}/out" "diagrams/**.puml"
+      - name: Display Diagrams
+        run: pwd && ls output
