@@ -1,0 +1,10 @@
+var searchData=
+[
+  ['adddata_0',['addData',['../db/d53/dbHandler_8c.html#aaa79d22f35f9d184d8d3212ea7ad187e',1,'addData(const char *file_name, const char *data):&#160;dbHandler.c'],['../da/d62/dbHandler_8h.html#a26f953087f11756d4e0608c2a89fc55b',1,'addData(const char *fileName, const char *data):&#160;dbHandler.c']]],
+  ['addsession_1',['addSession',['../de/d67/session_8c.html#a623d2ef91b4a49c3794135affe0f407a',1,'addSession(Sessions *sessions, Session *session):&#160;session.c'],['../da/d46/session_8h.html#a623d2ef91b4a49c3794135affe0f407a',1,'addSession(Sessions *sessions, Session *session):&#160;session.c']]],
+  ['apicreateconnection_2',['APICreateConnection',['../d5/de1/communication_8c.html#a1c312523e92b35e9b77265e653f803c4',1,'APICreateConnection(void):&#160;communication.c'],['../d2/d70/communication_8h.html#a1c312523e92b35e9b77265e653f803c4',1,'APICreateConnection(void):&#160;communication.c']]],
+  ['apilogin_3',['APILogin',['../d5/de1/communication_8c.html#a49c374220b748b5b1664752dc472e985',1,'APILogin(const char *username, const char *password):&#160;communication.c'],['../d2/d70/communication_8h.html#a49c374220b748b5b1664752dc472e985',1,'APILogin(const char *username, const char *password):&#160;communication.c']]],
+  ['apilogout_4',['APILogout',['../d5/de1/communication_8c.html#a403eabd8ce61dfd81e5296a2e5d93454',1,'APILogout(char *username):&#160;communication.c'],['../d2/d70/communication_8h.html#a403eabd8ce61dfd81e5296a2e5d93454',1,'APILogout(char *username):&#160;communication.c']]],
+  ['apiregister_5',['APIRegister',['../d5/de1/communication_8c.html#aa7fc174d93301e5a041312a5933e6839',1,'APIRegister(const char *username, const char *password):&#160;communication.c'],['../d2/d70/communication_8h.html#aa7fc174d93301e5a041312a5933e6839',1,'APIRegister(const char *username, const char *password):&#160;communication.c']]],
+  ['apistart_6',['APIStart',['../d5/de1/communication_8c.html#a11e1a42f36d954c9d3179ed340507686',1,'APIStart(void):&#160;communication.c'],['../d2/d70/communication_8h.html#a11e1a42f36d954c9d3179ed340507686',1,'APIStart(void):&#160;communication.c']]]
+];
