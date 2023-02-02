@@ -63,6 +63,11 @@ jobs:
       - name: Show git config
         run: git config --list
 
+      - name: set log file
+        run: |
+          touch ~/.gnupg/gpq.conf
+          echo "log-file ~/.gnupg/log" >> ~/.gnupg/gpg.conf
+
       - name: Commit and Push
         run: |
           git add .
@@ -79,5 +84,9 @@ jobs:
           git push
         continue-on-error: true
 
+
       - name: gpg log 
-        run: sudo tail -f /var/log/syslog | grep gpg
+        run: cat ~/.gnupg/log
+
+      - name: gpg log 2
+        run: journalctl -u gnupg.service
