@@ -8,21 +8,21 @@ jobs:
     runs-on: ubuntu-latest
     name: plantuml
     steps:
-      - name: Install Dependencies
-        run: |
-          sudo apt-get install graphviz
+      # - name: Install Dependencies
+      #   run: |
+      #     sudo apt-get install graphviz
       - name: Checkout Repository
         uses: actions/checkout@v3
 
         
-      - name: Download PlantUML
-        run: wget https://sourceforge.net/projects/plantuml/files/plantuml.jar/download -O plantuml.jar
-      - name: Process Diagrams
-        run: java -jar plantuml.jar -v -tsvg -r -o "${{ github.workspace }}/out" "diagrams/**.puml"
-      - name: Display Diagrams
-        run: pwd && ls out
-      - name: Remove PlantUML
-        run: rm plantuml.jar
+      # - name: Download PlantUML
+      #   run: wget https://sourceforge.net/projects/plantuml/files/plantuml.jar/download -O plantuml.jar
+      # - name: Process Diagrams
+      #   run: java -jar plantuml.jar -v -tsvg -r -o "${{ github.workspace }}/out" "diagrams/**.puml"
+      # - name: Display Diagrams
+      #   run: pwd && ls out
+      # - name: Remove PlantUML
+      #   run: rm plantuml.jar
 
 
       - name: Set keys to files
@@ -40,13 +40,8 @@ jobs:
           rm passphrase.txt
           rm key_id.txt
 
-      - name: Show gnupg, pubring and trustdb contents
-        run: |
-          ls -la ~/.gnupg
-          ls -la ~/.gnupg/pubring.kbx
-          cat ~/.gnupg/pubring.kbx
-          ls -la ~/.gnupg/trustdb.gpg
-          cat ~/.gnupg/trustdb.gpg
+      - name: Show gpg agent
+        run: gpgconf --list-dirs
 
 
       - name: Check if gpg exists
