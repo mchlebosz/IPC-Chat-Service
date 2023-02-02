@@ -93,16 +93,18 @@ Classes</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a623d2ef91b4a49c3794135affe0f407a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d46/session_8h.html#a623d2ef91b4a49c3794135affe0f407a">addSession</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> *sessions, <a class="el" href="../../d0/d66/structSession.html">Session</a> *<a class="el" href="../../da/d46/session_8h.html#a50c5e1aaa58c9a110b10bac7f0399fe6">session</a>)</td></tr>
 <tr class="separator:a623d2ef91b4a49c3794135affe0f407a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21ab7f7be892bc6011996fb8d93a3197"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d46/session_8h.html#a21ab7f7be892bc6011996fb8d93a3197">removeSession</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> *sessions, char *sessionID)</td></tr>
-<tr class="separator:a21ab7f7be892bc6011996fb8d93a3197"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5da7802ec6c0ef0f46d33c5ebd23ac16"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d46/session_8h.html#a5da7802ec6c0ef0f46d33c5ebd23ac16">getSessionQueue</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> *sessions, const char *sessionID)</td></tr>
-<tr class="separator:a5da7802ec6c0ef0f46d33c5ebd23ac16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26613d94963e4020b8fbda6ccc7b86ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d46/session_8h.html#a26613d94963e4020b8fbda6ccc7b86ea">removeSession</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> *sessions, char *clientID)</td></tr>
+<tr class="separator:a26613d94963e4020b8fbda6ccc7b86ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9397456c00fedc8285f34f81d43c373"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d46/session_8h.html#af9397456c00fedc8285f34f81d43c373">getSessionQueue</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> *sessions, const char *clientID)</td></tr>
+<tr class="separator:af9397456c00fedc8285f34f81d43c373"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50c5e1aaa58c9a110b10bac7f0399fe6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d46/session_8h.html#a50c5e1aaa58c9a110b10bac7f0399fe6">session</a> (int *<a class="el" href="../../d3/d0d/server_2main_8c.html#adab48fd845b19d6ca0b8a07b95bdbc62">keep_running</a>, key_t sessionKey)</td></tr>
 <tr class="separator:a50c5e1aaa58c9a110b10bac7f0399fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a632966a324649af4c28d9991ab09a876"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d46/session_8h.html#a632966a324649af4c28d9991ab09a876">openSession</a> (int *sessionRunning, int *<a class="el" href="../../d5/de1/communication_8c.html#a46a38cf35cb5929f18ff5d885130210a">sessionQueue</a>, char *clientID, int clientSeed, key_t *sessionKey, int *sessionPID)</td></tr>
 <tr class="separator:a632966a324649af4c28d9991ab09a876"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae966a08667b2ebd83b97aaa1cc4368a5"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d46/session_8h.html#ae966a08667b2ebd83b97aaa1cc4368a5">generateKey</a> ()</td></tr>
 <tr class="separator:ae966a08667b2ebd83b97aaa1cc4368a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65dbca478f9035f797a98c5c3ac4e9a3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d46/session_8h.html#a65dbca478f9035f797a98c5c3ac4e9a3">isSessionRunning</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> *sessions, const char *clientID)</td></tr>
+<tr class="separator:a65dbca478f9035f797a98c5c3ac4e9a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a623d2ef91b4a49c3794135affe0f407a" name="a623d2ef91b4a49c3794135affe0f407a"></a>
@@ -160,12 +162,12 @@ Functions</h2></td></tr>
 <p >It generates a random key of length 16</p>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to a char array. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00285">285</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00386">386</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
 
 </div>
 </div>
-<a id="a5da7802ec6c0ef0f46d33c5ebd23ac16" name="a5da7802ec6c0ef0f46d33c5ebd23ac16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5da7802ec6c0ef0f46d33c5ebd23ac16">&#9670;&nbsp;</a></span>getSessionQueue()</h2>
+<a id="af9397456c00fedc8285f34f81d43c373" name="af9397456c00fedc8285f34f81d43c373"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9397456c00fedc8285f34f81d43c373">&#9670;&nbsp;</a></span>getSessionQueue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -180,7 +182,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>sessionID</em>&#160;</td>
+          <td class="paramname"><em>clientID</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -189,17 +191,47 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >It takes a pointer to a <code><a class="el" href="../../dd/d1d/structSessions.html">Sessions</a></code> struct and a <code>sessionID</code> string, and returns the queue number of the session with the given <code>sessionID</code></p>
+<p >It takes a pointer to a <code><a class="el" href="../../dd/d1d/structSessions.html">Sessions</a></code> struct and a <code>clientID</code> string, and returns the queue number of the session with the given <code>clientID</code></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">sessions</td><td>a pointer to the <a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> struct </td></tr>
-    <tr><td class="paramname">sessionID</td><td>the session ID of the session you want to get the queue of</td></tr>
+    <tr><td class="paramname">clientID</td><td>the client ID of the session</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The session queue of the session with the given sessionID. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The session queue of the session with the given clientID. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00154">154</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
+
+</div>
+</div>
+<a id="a65dbca478f9035f797a98c5c3ac4e9a3" name="a65dbca478f9035f797a98c5c3ac4e9a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65dbca478f9035f797a98c5c3ac4e9a3">&#9670;&nbsp;</a></span>isSessionRunning()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int isSessionRunning </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> *&#160;</td>
+          <td class="paramname"><em>sessions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>clientID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00166">166</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
 
 </div>
 </div>
@@ -270,8 +302,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a21ab7f7be892bc6011996fb8d93a3197" name="a21ab7f7be892bc6011996fb8d93a3197"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21ab7f7be892bc6011996fb8d93a3197">&#9670;&nbsp;</a></span>removeSession()</h2>
+<a id="a26613d94963e4020b8fbda6ccc7b86ea" name="a26613d94963e4020b8fbda6ccc7b86ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26613d94963e4020b8fbda6ccc7b86ea">&#9670;&nbsp;</a></span>removeSession()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -286,7 +318,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>sessionID</em>&#160;</td>
+          <td class="paramname"><em>clientID</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -299,7 +331,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">sessions</td><td>a pointer to the <a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> struct </td></tr>
-    <tr><td class="paramname">sessionID</td><td>The session ID of the session to be removed. </td></tr>
+    <tr><td class="paramname">clientID</td><td>The client ID of the session to be removed. </td></tr>
   </table>
   </dd>
 </dl>
