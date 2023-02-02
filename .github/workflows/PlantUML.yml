@@ -28,12 +28,6 @@ jobs:
       - name: check if gpg exists
         run: gpg --version
 
-      - name: Set permissions on GPG files
-        run: |
-            chmod 700 ~/.gnupg
-            chmod 600 ~/.gnupg/pubring.kbx
-            chmod 600 ~/.gnupg/trustdb.gpg
-
       -
         name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v5
