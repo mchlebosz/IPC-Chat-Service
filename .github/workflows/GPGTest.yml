@@ -57,9 +57,11 @@ jobs:
             chmod 600 ~/.gnupg/trustdb.gpg
             
       - name: Sign file
+        env:
+          GPG_TTY: $(tty)
         run: |
             touch a.txt
-            gpg --sign a.txt
+            gpg --batch --yes --passphrase "${{ secrets.GPG_PASSPHRASE }}" --output a.txt --sign a.txt
             
       - name: Show git config
         run: git config --list
