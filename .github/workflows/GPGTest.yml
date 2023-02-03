@@ -56,13 +56,15 @@ jobs:
             chmod 600 ~/.gnupg/pubring.kbx
             chmod 600 ~/.gnupg/trustdb.gpg
             
-      - name: Sign file
-        env:
-          GPG_TTY: $(tty)
+      - name: Create File
         run: |
             touch a.txt
             echo "Hello Worlds" > a.txt
-            gpg --batch --yes --passphrase "${{ secrets.GPG_PASSPHRASE }}" --sign a.txt
+      
+      - name: Sign file
+        env:
+          GPG_TTY: $(tty)
+        run: gpg --batch --yes --passphrase "${{ secrets.GPG_PASSPHRASE }}" --sign a.txt
             
       - name: Show git config
         run: git config --list
