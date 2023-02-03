@@ -60,6 +60,22 @@ jobs:
         run: |
             touch a.txt
             echo "Hello Worlds" > a.txt
+          
+      - name: Debugging step
+        run: |
+            echo "Current directory:"
+            ls -al
+            echo "File to sign:"
+            ls -al a.txt
+            
+      - name: Debugging step2
+        env:
+          GPG_TTY: $(tty)
+        run: |
+            echo "Current directory:"
+            ls -al
+            echo "File to sign:"
+            ls -al a.txt
       
       - name: Sign file
         env:
