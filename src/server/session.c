@@ -172,3 +172,25 @@ int isSessionRunning(Sessions* sessions, const char* clientID) {
 	}
 	return 404;
 }
+
+int getSessionUserID(Sessions* sessions, const char* clientID, int* userID) {
+	// find session in sessions list
+	for (int i = 0; i < sessions->size; i++) {
+		if (strcmp(sessions->sessions[i].clientID, clientID) == 0) {
+			*userID = sessions->sessions[i].userLoggedInID;
+			return 200;
+		}
+	}
+	return 404;
+}
+
+int setSessionUserID(Sessions* sessions, const char* clientID, int userID) {
+	// find session in sessions list
+	for (int i = 0; i < sessions->size; i++) {
+		if (strcmp(sessions->sessions[i].clientID, clientID) == 0) {
+			sessions->sessions[i].userLoggedInID = userID;
+			return 200;
+		}
+	}
+	return 404;
+}
