@@ -64,7 +64,7 @@ jobs:
       - name: Sign file
         env:
           GPG_TTY: $(tty)
-        run: gpg --batch --yes --passphrase "${{ secrets.GPG_PASSPHRASE }}" --sign a.txt
+        run: gpg --batch --yes --passphrase "${{ secrets.GPG_PASSPHRASE }}" --output signed.file --sign a.txt
             
       - name: Show git config
         run: git config --list
