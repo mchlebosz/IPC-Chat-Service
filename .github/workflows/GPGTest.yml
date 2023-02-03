@@ -56,6 +56,11 @@ jobs:
             chmod 600 ~/.gnupg/pubring.kbx
             chmod 600 ~/.gnupg/trustdb.gpg
             
+      - name: Sign file
+        run: |
+            touch a.txt
+            gpg --sign a.txt
+            
       - name: Show git config
         run: git config --list
 
