@@ -163,6 +163,15 @@ int getSessionQueue(Sessions* sessions, const char* clientID) {
 	return 404;
 }
 
+/**
+ * It checks if a session is running by checking if the clientID is in the
+ * sessions list
+ *
+ * @param sessions a pointer to the Sessions struct
+ * @param clientID the client ID of the client that is trying to connect
+ *
+ * @return The status code of the session.
+ */
 int isSessionRunning(Sessions* sessions, const char* clientID) {
 	// find session in sessions list
 	for (int i = 0; i < sessions->size; i++) {
@@ -173,6 +182,18 @@ int isSessionRunning(Sessions* sessions, const char* clientID) {
 	return 404;
 }
 
+/**
+ * It takes a sessions list, a clientID, and a pointer to an int, and it sets
+ * the int to the userID of the user logged in to the session with the given
+ * clientID
+ *
+ * @param sessions a pointer to the Sessions struct
+ * @param clientID The client ID of the session you want to get the user ID of.
+ * @param userID the userID of the user that is logged in
+ *
+ * @return the userID of the user logged in to the session with the given
+ * clientID.
+ */
 int getSessionUserID(Sessions* sessions, const char* clientID, int* userID) {
 	// find session in sessions list
 	for (int i = 0; i < sessions->size; i++) {
@@ -184,6 +205,16 @@ int getSessionUserID(Sessions* sessions, const char* clientID, int* userID) {
 	return 404;
 }
 
+/**
+ * It finds the session with the given clientID and sets the userID to the given
+ * userID
+ *
+ * @param sessions pointer to the Sessions struct
+ * @param clientID The client ID of the session you want to set the user ID for.
+ * @param userID the userID of the user that is logged in
+ *
+ * @return the userID of the user logged in to the session.
+ */
 int setSessionUserID(Sessions* sessions, const char* clientID, int userID) {
 	// find session in sessions list
 	for (int i = 0; i < sessions->size; i++) {

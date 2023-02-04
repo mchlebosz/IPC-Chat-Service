@@ -333,7 +333,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 			// if client is logged in
 			if (status == 200) {
 				// get list of active users
-				char* activeUsers = getOnlineUsers(sessions);
+				char* activeUsers = getOnlineUsersID(sessions);
 
 				// if active users is empty
 				if (activeUsers == NULL) {
@@ -371,6 +371,129 @@ void serve(int* keep_running, int* msgid, char* db) {
 				// send response message
 				msgInit(&msg, 12, 13, "server", sender, 500,
 						"Internal Server Error (Get Active Users)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+			}
+		}
+		// Add user to group
+		else if (msg.mtext.header.type == 25) {
+			// message format: groupname;username
+			char* messageBody = msg.mtext.body;
+			char* sender      = msg.mtext.header.sender;
+
+			char* groupName = strtok(messageBody, ";");
+			char* username  = strtok(NULL, ";");
+
+			// check if user exists
+			User* user = malloc(sizeof(User));
+			int status = getUserByName(db, user, username);
+
+			// check if group exists
+			Group* group    = malloc(sizeof(Group));
+			int isGroupCode = getGroupByName(db, group, groupName);
+
+			// if client is logged in and group exists
+			if (status == 200 && isGroupCode == 200) {
+				// add user to group
+				group->usersCount++;
+				group->users[group->usersCount - 1] = user->id;
+
+				// update group in database
+				setGroup(db, group);
+
+				char* usersString = malloc(10000);
+				for (int i = 0; i < group->usersCount; i++) {
+					// group->users[i] is userID from int to string
+					char userID[10] = { 0 };
+					sprintf(userID, "%d", group->users[i]);
+					strcat(usersString, userID);
+					strcat(usersString, ";");
+				}
+
+				// send response message
+				msgInit(&msg, 12, 25, "server", sender, 200, usersString);
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else if (status == 404) {
+				// send response message
+				msgInit(&msg, 12, 25, "server", sender, 404,
+						"Not Found (User does not exist)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else if (isGroupCode == 404) {
+				// send response message
+				msgInit(&msg, 12, 25, "server", sender, 404,
+						"Not Found (Group does not exist)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else {
+				// internal server error
+				// send response message
+				msgInit(&msg, 12, 25, "server", sender, 500,
+						"Internal Server Error (Add to Group)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+			}
+		}
+		// Show available groups 15
+		else if (msg.mtext.header.type == 15) {
+			// message format:
+			char* sender = msg.mtext.header.sender;
+
+			// get list of all groups
+			Group* groups    = malloc(10000 * sizeof(Group));
+			int* groupsCount = malloc(sizeof(int));
+			int status       = getAllGroups(db, &groups, groupsCount);
+
+			// if group exists
+			if (status == 200) {
+				char* groupsString = malloc(*groupsCount * 100);
+				for (int i = 0; i < *groupsCount; i++) {
+					strcat(groupsString, groups[i].name);
+					strcat(groupsString, ";");
+				}
+
+				// send response message
+				msgInit(&msg, 12, 15, "server", sender, 200, groupsString);
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else if (status == 404) {
+				// send response message
+				msgInit(&msg, 12, 15, "server", sender, 404,
+						"Not Found (Groups does not exist)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else {
+				// internal server error
+				// send response message
+				msgInit(&msg, 12, 15, "server", sender, 500,
+						"Internal Server Error (Show Groups)");
 
 				// connect to session queue
 				int sessionQueue = getSessionQueue(&sessions, sender);
@@ -494,7 +617,9 @@ char* getOnlineUsersID(Sessions sessions) {
 	// get string of inline clientIDs seperated by ;
 	char* onlineUsers = malloc(1000 * sizeof(char));
 	for (int i = 0; i < sessions.size; i++) {
-		strcat(onlineUsers, sessions.sessions[i].userLoggedInID);
+		char* userID;
+		sprintf(userID, "%d", sessions.sessions[i].userLoggedInID);
+		strcat(onlineUsers, userID);
 		strcat(onlineUsers, ";");
 	}
 	return onlineUsers;
@@ -504,7 +629,9 @@ char* getOnlineClientID(Sessions sessions) {
 	// get string of inline clientIDs seperated by ;
 	char* onlineUsers = malloc(1000 * sizeof(char));
 	for (int i = 0; i < sessions.size; i++) {
-		strcat(onlineUsers, sessions.sessions[i].clientID);
+		char* clientID;
+		sprintf(clientID, "%s", sessions.sessions[i].clientID);
+		strcat(onlineUsers, clientID);
 		strcat(onlineUsers, ";");
 	}
 	return onlineUsers;

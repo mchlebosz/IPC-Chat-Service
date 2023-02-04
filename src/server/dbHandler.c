@@ -714,6 +714,15 @@ int addUser(const char* file_name, User* user) {
 	return 200;
 }
 
+/**
+ * It reads the file, parses the json, gets the groups array, creates a new
+ * group, adds the group to the array, and writes the file
+ *
+ * @param file_name the name of the file to read from
+ * @param group a pointer to a Group struct
+ *
+ * @return The status code of the operation.
+ */
 int addGroup(const char* file_name, Group* group) {
 	// read file
 	const char* json_str = readFile(file_name);
@@ -751,4 +760,65 @@ int addGroup(const char* file_name, Group* group) {
 	writeFile(file_name, cJSON_Print(json));
 
 	return 200;
+}
+
+/**
+ *
+ *
+ * @param file_name The name of the file to read from.
+ * @param group The group to set the file's group to.
+ */
+int setGroup(const char* file_name, Group* group) {
+	// overrite existing group
+	//  read file
+	const char* json_str = readFile(file_name);
+	cJSON *json, *item;
+
+	json = cJSON_Parse(json_str);
+	if (!json) {
+		printf("Error parsing json\n");
+		return 500;
+	}
+
+	// go to groups array
+	item = cJSON_GetObjectItemCaseSensitive(json, "Groups");
+	if (!cJSON_IsArray(item)) {
+		printf("Error getting groups array");
+		return 500;
+	}
+
+	int id = group->id;
+
+	// find group
+	for (int i = 0; i < cJSON_GetArraySize(item); i++) {
+		cJSON* group_json = cJSON_GetArrayItem(item, i);
+		if (cJSON_IsObject(group_json)) {
+			// get name
+			item = cJSON_GetObjectItemCaseSensitive(group_json, "id");
+			if (cJSON_IsNumber(item) && (item->valueint == id)) {
+				if (item->valueint == id) {
+					// overrite group
+					cJSON_ReplaceItemInObject(group_json, "name",
+											  cJSON_CreateString(group->name));
+					cJSON_ReplaceItemInObject(
+						group_json, "description",
+						cJSON_CreateString(group->description));
+					cJSON_ReplaceItemInObject(
+						group_json, "publicKey",
+						cJSON_CreateString(group->publicKey));
+					cJSON_ReplaceItemInObject(
+						group_json, "privateKey",
+						cJSON_CreateString(group->privateKey));
+					cJSON_ReplaceItemInObject(
+						group_json, "users",
+						cJSON_CreateIntArray(group->users, group->usersCount));
+					// write to file
+					writeFile(file_name, cJSON_Print(json));
+
+					return 200;
+				}
+			}
+		}
+	}
+	return 404;
 }

@@ -53,3 +53,5 @@ int getAllGroups(const char* file_name, Group** groups, int* count);
 int addUser(const char* file_name, User* user);
 
 int addGroup(const char* file_name, Group* group);
+
+int setGroup(const char* file_name, Group* group);
