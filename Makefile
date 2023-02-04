@@ -59,5 +59,8 @@ ifeq ($(OS),Windows_NT)
 	del /F /Q $(BIN)\*
 	del /F /s *.o *.d *.elf *.map *.log
 else
-	rm -f $(BIN)/* $(foreach prog, $(PROG), $($(prog)_OBJS), $($(prog)_DEPS))
+	rm -f $(foreach prog, $(PROG), $($(prog)_OBJS), $($(prog)_DEPS))
+	rm -f -r $(BIN) 
+	rm -f **/**.o **/**.d **/**.elf **/**.map **/**.log
+
 endif
