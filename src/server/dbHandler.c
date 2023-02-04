@@ -27,6 +27,8 @@ FILE* openDB(const char* filename, const char* mode) {
 		free(json);
 		cJSON_Delete(root);
 
+		printf("Created new database\n");
+
 		fclose(file);
 		file = fopen(filename, mode);
 	}
