@@ -17,10 +17,6 @@
         "type": "char[20]"
         },
         {
-        "name": "status",
-        "type": "char[20]"
-        },
-        {
         "name": "groups",
         "type": "int[]",
         "fk": "Groups.id"

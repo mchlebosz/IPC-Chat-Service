@@ -37,7 +37,8 @@ int main(int argc, char *argv[]) {
 	srand(time(NULL));
 	printf("Server started\n");
 	// open DB - create if it doesn't exist
-	FILE *db = openFile("serverdb.txt", "a+");
+	char *dbPath = "serverdb.json";
+	FILE *db     = openDB(dbPath, "a+");
 	fclose(db);
 
 	// register signal handler
@@ -55,7 +56,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	serve(&keep_running, &msgid, "serverdb.txt");
+	serve(&keep_running, &msgid, dbPath);
 
 	// remove the message queue
 	msgctl(msgid, IPC_RMID, NULL);

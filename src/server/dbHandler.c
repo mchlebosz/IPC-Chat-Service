@@ -1,7 +1,7 @@
 #include "dbHandler.h"
 
+// include FILE
 #include <stdio.h>
-#include <string.h>
 
 /**
  * If the file doesn't exist, create it, then open it in the specified mode.
@@ -12,134 +12,813 @@
  *
  * @return A pointer to a file.
  */
-FILE* openFile(const char* filename, const char* mode) {
+FILE* openDB(const char* filename, const char* mode) {
 	FILE* file = fopen(filename, mode);
 	if (file == NULL) {
 		// create file if it doesn't exist
-		file = fopen(filename, "w");
+		file          = fopen(filename, "w");
+		cJSON* root   = cJSON_CreateObject();
+		cJSON* users  = cJSON_CreateArray();
+		cJSON* groups = cJSON_CreateArray();
+		cJSON_AddItemToObject(root, "Users", users);
+		cJSON_AddItemToObject(root, "Groups", groups);
+		char* json = cJSON_Print(root);
+		fprintf(file, "%s", json);
+		free(json);
+		cJSON_Delete(root);
+
 		fclose(file);
 		file = fopen(filename, mode);
 	}
 	return file;
 }
 
-// Function to add data to a file
+// Function to read data from a file
+
 /**
- * It opens a file in append mode, writes data to it, and closes the file
+ * It reads the contents of a file into a string
  *
- * @param file_name The name of the file to open.
- * @param data The data to be added to the file.
+ * @param filename The name of the file to read.
  *
- * @return the number of characters in the string.
+ * @return A pointer to the first element of the array.
  */
-void addData(const char* file_name, const char* data) {
-	FILE* file = fopen(file_name, "a");    // open file in append mode
-	if (file == NULL) {
-		printf("Error opening file: %s\n", file_name);
-		return;
+char* readFile(const char* filename) {
+	FILE* fp = fopen(filename, "r");
+	if (!fp) {
+		printf("Error opening file\n");
+		return NULL;
 	}
 
-	fprintf(file, "%s\n", data);    // write data to file
-	fclose(file);                   // close file
-	printf("Data added to file: %s\n", data);
+	fseek(fp, 0, SEEK_END);
+	long size = ftell(fp);
+	rewind(fp);
+
+	char* buffer = (char*)malloc((size + 1) * sizeof(char));
+	if (!buffer) {
+		printf("Error allocating memory\n");
+		fclose(fp);
+		return NULL;
+	}
+
+	size_t result = fread(buffer, 1, size, fp);
+	if (result != size) {
+		printf("Error reading file\n");
+		free(buffer);
+		fclose(fp);
+		return NULL;
+	}
+
+	buffer[size] = '\0';
+	fclose(fp);
+	return buffer;
 }
 
-// Function to remove data from a file
 /**
- * It opens the file in read mode, creates a temporary file, reads the contents
- * of the original file into a buffer, checks if the data to be removed is in
- * the buffer, and if it is, it writes the buffer to the temporary file. If the
- * data is not in the buffer, it does not write the buffer to the temporary
- * file. After the file has been read, the original file is closed, the
- * temporary file is closed, the original file is removed, and the temporary
- * file is renamed to the original file
+ * It opens a file, writes data to it, and closes it
  *
- * @param file_name The name of the file to remove data from.
- * @param data The data to be removed from the file.
+ * @param filename the name of the file to write to
+ * @param data the data to write to the file
  *
- * @return the number of times the data was found in the file.
+ * @return The status code of the file write operation.
  */
-void removeData(const char* file_name, const char* data) {
-	char buffer[1024];                     // buffer to store contents of file
-	FILE* file = fopen(file_name, "r");    // open file in read mode
-	if (file == NULL) {
-		printf("Error opening file: %s\n", file_name);
-		return;
-	}
-
-	FILE* temp = fopen("temp.txt", "w");    // create temporary file
-	if (temp == NULL) {
-		printf("Error creating temporary file\n");
-		return;
-	}
-
-	while (fgets(buffer, 1024, file) != NULL) {
-		if (strstr(buffer, data) == NULL) {    // check if data is in buffer
-			fputs(buffer, temp);               // write buffer to temporary file
-		}
-	}
-
-	fclose(file);                     // close original file
-	fclose(temp);                     // close temporary file
-	remove(file_name);                // remove original file
-	rename("temp.txt", file_name);    // rename temporary file to original file
-	printf("Data removed from file: %s\n", data);
-}
-
-// Function to search for data in a file
-/**
- * It opens a file, reads it line by line, and checks if the data is in the
- * line. If it is, it prints the line number and the line itself
- *
- * @param file_name The name of the file to search in.
- * @param data The data to search for in the file.
- *
- * @return the status code of the search.
- */
-int searchData(const char* file_name, const char* data) {
-	char buffer[1024];
-	FILE* file = fopen(file_name, "r");
-	if (file == NULL) {
-		printf("Error opening file: %s\n", file_name);
+int writeFile(const char* filename, const char* data) {
+	// overwrite file
+	FILE* fp = fopen(filename, "w");
+	if (!fp) {
+		printf("Error opening file\n");
 		return 404;
 	}
 
-	int line_num = 1;
-	while (fgets(buffer, 1024, file) != NULL) {
-		if (strstr(buffer, data) != NULL) {    // check if data is in buffer
-			printf("Data found in line %d: %s\n", line_num, buffer);
-			return 200;
-		}
-		line_num++;
-	}
-	fclose(file);
-	return 204;
+	fprintf(fp, "%s", data);
+	fclose(fp);
+	return 200;
 }
 
-// Function to get data from a file
 /**
- * It opens a file, reads it line by line, and checks if the line contains the
- * data we're looking for. If it does, it returns 200, otherwise it returns 204
+ * It reads the file, parses the JSON, and then copies the data from the JSON
+ * into a User struct
  *
- * @param file_name the name of the file to be opened
- * @param data the data to be searched for
- * @param buffer a pointer to a pointer to a char. This is because we want to be
- * able to change the value of the pointer, not just what it points to.
+ * @param file_name the name of the file to read from
+ * @param user a pointer to a User struct
+ * @param name The name of the user to get
  *
- * @return The status code of the request.
+ * @return the status code of the operation.
  */
-int getData(const char* file_name, const char* data, char** buffer) {
-	FILE* file = fopen(file_name, "r");
-	if (file == NULL) {
-		printf("Error opening file: %s\n", file_name);
-		return 404;
+int getUserByName(const char* file_name, User* user, char* name) {
+	const char* json_str = readFile(file_name);
+	cJSON *json, *item, *new_item;
+
+	json = cJSON_Parse(json_str);
+	if (!json) {
+		printf("Error parsing json\n");
+		return 500;
 	}
-	while (fgets(*buffer, 1024, file) != NULL) {
-		if (strstr(*buffer, data) != NULL) {    // check if data is in buffer
-			fclose(file);
-			return 200;
+	// go to users array
+	item = cJSON_GetObjectItemCaseSensitive(json, "Users");
+	if (!cJSON_IsArray(item)) {
+		printf("Error getting users array\n");
+		return 500;
+	}
+	// find user
+	for (int i = 0; i < cJSON_GetArraySize(item); i++) {
+		cJSON* user_json = cJSON_GetArrayItem(item, i);
+		if (cJSON_IsObject(user_json)) {
+			new_item = cJSON_GetObjectItemCaseSensitive(user_json, "name");
+			if (cJSON_IsString(new_item) && (new_item->valuestring != NULL)) {
+				if (strcmp(new_item->valuestring, name) == 0) {
+					// parse all data from user to struct
+					// get id
+					new_item =
+						cJSON_GetObjectItemCaseSensitive(user_json, "id");
+					if (cJSON_IsNumber(new_item)) {
+						user->id = new_item->valueint;
+					}
+
+					// get name
+					new_item =
+						cJSON_GetObjectItemCaseSensitive(user_json, "name");
+					if (cJSON_IsString(new_item) &&
+						(new_item->valuestring != NULL)) {
+						strcpy(user->name, new_item->valuestring);
+					}
+
+					// get password
+					new_item =
+						cJSON_GetObjectItemCaseSensitive(user_json, "password");
+					if (cJSON_IsString(new_item) &&
+						(new_item->valuestring != NULL)) {
+						strcpy(user->password, new_item->valuestring);
+					}
+
+					// get groups
+					new_item =
+						cJSON_GetObjectItemCaseSensitive(user_json, "groups");
+					if (cJSON_IsArray(new_item)) {
+						for (int j = 0; j < cJSON_GetArraySize(new_item); j++) {
+							cJSON* group_json = cJSON_GetArrayItem(new_item, j);
+							if (cJSON_IsObject(group_json)) {
+								new_item = cJSON_GetObjectItemCaseSensitive(
+									group_json, "id");
+								if (cJSON_IsNumber(new_item)) {
+									user->groups[j] = new_item->valueint;
+								}
+							}
+						}
+						// group count
+						user->groupsCount = cJSON_GetArraySize(new_item);
+					}
+
+					// friends
+					new_item =
+						cJSON_GetObjectItemCaseSensitive(user_json, "friends");
+					if (cJSON_IsArray(new_item)) {
+						for (int j = 0; j < cJSON_GetArraySize(new_item); j++) {
+							cJSON* friend_json =
+								cJSON_GetArrayItem(new_item, j);
+							if (cJSON_IsObject(friend_json)) {
+								new_item = cJSON_GetObjectItemCaseSensitive(
+									friend_json, "id");
+								if (cJSON_IsNumber(new_item)) {
+									user->friends[j] = new_item->valueint;
+								}
+							}
+						}
+						// friend count
+						user->friendsCount = cJSON_GetArraySize(new_item);
+					}
+
+					// public key
+					new_item = cJSON_GetObjectItemCaseSensitive(user_json,
+																"publicKey");
+					if (cJSON_IsString(new_item) &&
+						(new_item->valuestring != NULL)) {
+						strcpy(user->publicKey, new_item->valuestring);
+					}
+					return 200;
+				}
+			}
 		}
 	}
-	fclose(file);
-	return 204;
+	return 404;
+}
+
+/**
+ * It reads the file, parses the JSON, finds the user with the given id, and
+ * then copies all the data from the JSON to the user struct
+ *
+ * @param file_name the name of the file to read from
+ * @param user a pointer to a User struct
+ * @param id The id of the user to get.
+ *
+ * @return the status code of the operation.
+ */
+int getUserById(const char* file_name, User* user, int id) {
+	const char* json_str = readFile(file_name);
+	cJSON *json, *item;
+
+	user = malloc(sizeof(User));
+
+	json = cJSON_Parse(json_str);
+	if (!json) {
+		printf("Error parsing json\n");
+		return 500;
+	}
+	// go to users array
+	item = cJSON_GetObjectItemCaseSensitive(json, "Users");
+	if (!cJSON_IsArray(item)) {
+		printf("Error getting users array\n");
+		return 500;
+	}
+	// find user
+	for (int i = 0; i < cJSON_GetArraySize(item); i++) {
+		cJSON* user_json = cJSON_GetArrayItem(item, i);
+		if (cJSON_IsObject(user_json)) {
+			item = cJSON_GetObjectItemCaseSensitive(user_json, "id");
+			if (cJSON_IsNumber(item)) {
+				if (item->valueint == id) {
+					// parse all data from user to struct
+					// get id
+					item = cJSON_GetObjectItemCaseSensitive(user_json, "id");
+					if (cJSON_IsNumber(item)) {
+						user->id = item->valueint;
+					}
+
+					// get name
+					item = cJSON_GetObjectItemCaseSensitive(user_json, "name");
+					if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+						strcpy(user->name, item->valuestring);
+					}
+
+					// get password
+					item =
+						cJSON_GetObjectItemCaseSensitive(user_json, "password");
+					if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+						strcpy(user->password, item->valuestring);
+					}
+
+					// get groups
+					item =
+						cJSON_GetObjectItemCaseSensitive(user_json, "groups");
+					if (cJSON_IsArray(item)) {
+						for (int j = 0; j < cJSON_GetArraySize(item); j++) {
+							cJSON* group_json = cJSON_GetArrayItem(item, j);
+							if (cJSON_IsObject(group_json)) {
+								item = cJSON_GetObjectItemCaseSensitive(
+									group_json, "id");
+								if (cJSON_IsNumber(item)) {
+									user->groups[j] = item->valueint;
+								}
+							}
+						}
+						// group count
+						user->groupsCount = cJSON_GetArraySize(item);
+					}
+
+					// friends
+					item =
+						cJSON_GetObjectItemCaseSensitive(user_json, "friends");
+					if (cJSON_IsArray(item)) {
+						for (int j = 0; j < cJSON_GetArraySize(item); j++) {
+							cJSON* friend_json = cJSON_GetArrayItem(item, j);
+							if (cJSON_IsObject(friend_json)) {
+								item = cJSON_GetObjectItemCaseSensitive(
+									friend_json, "id");
+								if (cJSON_IsNumber(item)) {
+									user->friends[j] = item->valueint;
+								}
+							}
+						}
+						// friend count
+						user->friendsCount = cJSON_GetArraySize(item);
+					}
+
+					// public key
+					item = cJSON_GetObjectItemCaseSensitive(user_json,
+															"publicKey");
+					if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+						strcpy(user->publicKey, item->valuestring);
+					}
+
+					return 200;
+				}
+			}
+		}
+	}
+	return 404;
+}
+
+/**
+ * It reads a JSON file, parses it, and then stores the data in a struct
+ *
+ * @param file_name The name of the file to read from.
+ * @param users a pointer to an array of User structs
+ * @param count the number of users in the array
+ *
+ * @return the status code of the operation.
+ */
+int getAllUsers(const char* file_name, User** users, int* count) {
+	// get all users
+	// max 100 users
+
+	const char* json_str = readFile(file_name);
+	cJSON *json, *item;
+
+	json = cJSON_Parse(json_str);
+	if (!json) {
+		printf("Error parsing json\n");
+		return 500;
+	}
+
+	// go to users array
+	item = cJSON_GetObjectItemCaseSensitive(json, "Users");
+	if (!cJSON_IsArray(item)) {
+		printf("Error getting users array");
+		return 500;
+	}
+
+	// get count
+	*count = cJSON_GetArraySize(item);
+
+	*users = malloc(sizeof(User) * (*count));
+
+	// add all users to array
+	for (int i = 0; i < cJSON_GetArraySize(item); i++) {
+		cJSON* user_json = cJSON_GetArrayItem(item, i);
+		if (cJSON_IsObject(user_json)) {
+			// parse all data from user to struct
+			// get id
+			item = cJSON_GetObjectItemCaseSensitive(user_json, "id");
+			if (cJSON_IsNumber(item)) {
+				(*users)[i].id = item->valueint;
+			}
+
+			// get name
+			item = cJSON_GetObjectItemCaseSensitive(user_json, "name");
+			if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+				strcpy((*users)[i].name, item->valuestring);
+			}
+
+			// get password
+			item = cJSON_GetObjectItemCaseSensitive(user_json, "password");
+			if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+				strcpy((*users)[i].password, item->valuestring);
+			}
+
+			// get groups
+			item = cJSON_GetObjectItemCaseSensitive(user_json, "groups");
+			if (cJSON_IsArray(item)) {
+				for (int j = 0; j < cJSON_GetArraySize(item); j++) {
+					cJSON* group_json = cJSON_GetArrayItem(item, j);
+					if (cJSON_IsObject(group_json)) {
+						item =
+							cJSON_GetObjectItemCaseSensitive(group_json, "id");
+						if (cJSON_IsNumber(item)) {
+							(*users)[i].groups[j] = item->valueint;
+						}
+					}
+				}
+				// group count
+				(*users)[i].groupsCount = cJSON_GetArraySize(item);
+			}
+
+			// friends
+			item = cJSON_GetObjectItemCaseSensitive(user_json, "friends");
+			if (cJSON_IsArray(item)) {
+				for (int j = 0; j < cJSON_GetArraySize(item); j++) {
+					cJSON* friend_json = cJSON_GetArrayItem(item, j);
+					if (cJSON_IsObject(friend_json)) {
+						item =
+							cJSON_GetObjectItemCaseSensitive(friend_json, "id");
+						if (cJSON_IsNumber(item)) {
+							(*users)[i].friends[j] = item->valueint;
+						}
+					}
+				}
+				// friend count
+				(*users)[i].friendsCount = cJSON_GetArraySize(item);
+			}
+
+			// public key
+			item = cJSON_GetObjectItemCaseSensitive(user_json, "publicKey");
+			if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+				strcpy((*users)[i].publicKey, item->valuestring);
+			}
+		}
+	}
+	return 200;
+}
+
+/**
+ * It reads the file, parses the JSON, finds the group with the given name, and
+ * then copies all the data from the JSON into the group struct
+ *
+ * @param file_name the name of the file to read from
+ * @param group a pointer to a Group struct
+ * @param name the name of the group
+ *
+ * @return the status code of the operation.
+ */
+int getGroupByName(const char* file_name, Group* group, char* name) {
+	const char* json_str = readFile(file_name);
+	cJSON *json, *item;
+
+	json = cJSON_Parse(json_str);
+	if (!json) {
+		printf("Error parsing json\n");
+		return 500;
+	}
+
+	// go to groups array
+	item = cJSON_GetObjectItemCaseSensitive(json, "Groups");
+	if (!cJSON_IsArray(item)) {
+		printf("Error getting groups array");
+		return 500;
+	}
+
+	// find group
+	for (int i = 0; i < cJSON_GetArraySize(item); i++) {
+		cJSON* group_json = cJSON_GetArrayItem(item, i);
+		if (cJSON_IsObject(group_json)) {
+			// get name
+			item = cJSON_GetObjectItemCaseSensitive(group_json, "name");
+			if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+				if (strcmp(item->valuestring, name) == 0) {
+					// parse all data from group to struct
+					// get id
+					item = cJSON_GetObjectItemCaseSensitive(group_json, "id");
+					if (cJSON_IsNumber(item)) {
+						group->id = item->valueint;
+					}
+
+					// get name
+					item = cJSON_GetObjectItemCaseSensitive(group_json, "name");
+					if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+						strcpy(group->name, item->valuestring);
+					}
+
+					// get users
+					item =
+						cJSON_GetObjectItemCaseSensitive(group_json, "users");
+					if (cJSON_IsArray(item)) {
+						for (int j = 0; j < cJSON_GetArraySize(item); j++) {
+							cJSON* user_json = cJSON_GetArrayItem(item, j);
+							if (cJSON_IsObject(user_json)) {
+								item = cJSON_GetObjectItemCaseSensitive(
+									user_json, "id");
+								if (cJSON_IsNumber(item)) {
+									group->users[j] = item->valueint;
+								}
+							}
+						}
+						// user count
+						group->usersCount = cJSON_GetArraySize(item);
+					}
+
+					// public key
+					item = cJSON_GetObjectItemCaseSensitive(group_json,
+															"publicKey");
+					if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+						strcpy(group->publicKey, item->valuestring);
+					}
+
+					// private key
+					item = cJSON_GetObjectItemCaseSensitive(group_json,
+															"privateKey");
+					if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+						strcpy(group->privateKey, item->valuestring);
+					}
+
+					return 200;
+				}
+			}
+		}
+	}
+	return 404;
+}
+
+/**
+ * It reads the file, parses the JSON, finds the group with the given id, and
+ * then copies all the data from the JSON into the group struct
+ *
+ * @param file_name the name of the file to read from
+ * @param group a pointer to a Group struct
+ * @param id the id of the group to get
+ *
+ * @return the status code of the operation.
+ */
+int getGroupById(const char* file_name, Group* group, int id) {
+	const char* json_str = readFile(file_name);
+	cJSON *json, *item;
+
+	json = cJSON_Parse(json_str);
+	if (!json) {
+		printf("Error parsing json\n");
+		return 500;
+	}
+
+	// go to groups array
+	item = cJSON_GetObjectItemCaseSensitive(json, "Groups");
+	if (!cJSON_IsArray(item)) {
+		printf("Error getting groups array");
+		return 500;
+	}
+
+	// find group
+	for (int i = 0; i < cJSON_GetArraySize(item); i++) {
+		cJSON* group_json = cJSON_GetArrayItem(item, i);
+		if (cJSON_IsObject(group_json)) {
+			// get id
+			item = cJSON_GetObjectItemCaseSensitive(group_json, "id");
+			if (cJSON_IsNumber(item)) {
+				if (item->valueint == id) {
+					// parse all data from group to struct
+					// get id
+					item = cJSON_GetObjectItemCaseSensitive(group_json, "id");
+					if (cJSON_IsNumber(item)) {
+						group->id = item->valueint;
+					}
+
+					// get name
+					item = cJSON_GetObjectItemCaseSensitive(group_json, "name");
+					if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+						strcpy(group->name, item->valuestring);
+					}
+
+					// get users
+					item =
+						cJSON_GetObjectItemCaseSensitive(group_json, "users");
+					if (cJSON_IsArray(item)) {
+						for (int j = 0; j < cJSON_GetArraySize(item); j++) {
+							cJSON* user_json = cJSON_GetArrayItem(item, j);
+							if (cJSON_IsObject(user_json)) {
+								item = cJSON_GetObjectItemCaseSensitive(
+									user_json, "id");
+								if (cJSON_IsNumber(item)) {
+									group->users[j] = item->valueint;
+								}
+							}
+						}
+						// user count
+						group->usersCount = cJSON_GetArraySize(item);
+					}
+
+					// public key
+					item = cJSON_GetObjectItemCaseSensitive(group_json,
+															"publicKey");
+					if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+						strcpy(group->publicKey, item->valuestring);
+					}
+
+					// private key
+					item = cJSON_GetObjectItemCaseSensitive(group_json,
+															"privateKey");
+					if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+						strcpy(group->privateKey, item->valuestring);
+					}
+
+					return 200;
+				}
+			}
+		}
+	}
+	return 404;
+}
+
+/**
+ * It reads a JSON file, parses it, and stores the data in a Group struct
+ *
+ * @param file_name the name of the file to read from
+ * @param groups a pointer to an array of groups
+ * @param count the number of groups in the array
+ *
+ * @return a pointer to an array of groups.
+ */
+int getAllGroups(const char* file_name, Group** groups, int* count) {
+	const char* json_str = readFile(file_name);
+	cJSON *json, *item;
+
+	json = cJSON_Parse(json_str);
+	if (!json) {
+		printf("Error parsing json\n");
+		return 500;
+	}
+
+	// go to groups array
+	item = cJSON_GetObjectItemCaseSensitive(json, "Groups");
+	if (!cJSON_IsArray(item)) {
+		printf("Error getting groups array");
+		return 500;
+	}
+
+	// get count
+	*count = cJSON_GetArraySize(item);
+	// allocate memory for groups
+	*groups = (Group*)malloc(*count * sizeof(Group));
+
+	// add all groups to array
+	for (int i = 0; i < *count; i++) {
+		cJSON* group_json = cJSON_GetArrayItem(item, i);
+		if (cJSON_IsObject(group_json)) {
+			// get id
+			item = cJSON_GetObjectItemCaseSensitive(group_json, "id");
+			if (cJSON_IsNumber(item)) {
+				(*groups)[i].id = item->valueint;
+			}
+
+			// get name
+			item = cJSON_GetObjectItemCaseSensitive(group_json, "name");
+			if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+				strcpy((*groups)[i].name, item->valuestring);
+			}
+
+			// get users
+			item = cJSON_GetObjectItemCaseSensitive(group_json, "users");
+			if (cJSON_IsArray(item)) {
+				for (int j = 0; j < cJSON_GetArraySize(item); j++) {
+					cJSON* user_json = cJSON_GetArrayItem(item, j);
+					if (cJSON_IsObject(user_json)) {
+						item =
+							cJSON_GetObjectItemCaseSensitive(user_json, "id");
+						if (cJSON_IsNumber(item)) {
+							(*groups)[i].users[j] = item->valueint;
+						}
+					}
+				}
+				// user count
+				(*groups)[i].usersCount = cJSON_GetArraySize(item);
+			}
+
+			// public key
+			item = cJSON_GetObjectItemCaseSensitive(group_json, "publicKey");
+			if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+				strcpy((*groups)[i].publicKey, item->valuestring);
+			}
+
+			// private key
+			item = cJSON_GetObjectItemCaseSensitive(group_json, "privateKey");
+			if (cJSON_IsString(item) && (item->valuestring != NULL)) {
+				strcpy((*groups)[i].privateKey, item->valuestring);
+			}
+		}
+	}
+	return 200;
+}
+
+/**
+ * It reads the json file, parses it, adds a new user to the json file, and
+ * writes the json file
+ *
+ * @param file_name the name of the file to read from
+ * @param user the user to be added
+ *
+ * @return The return value is the status code of the operation.
+ */
+int addUser(const char* file_name, User* user) {
+	// read file
+	const char* json_str = readFile(file_name);
+	cJSON *json, *item;
+
+	json = cJSON_Parse(json_str);
+	if (!json) {
+		printf("Error parsing json\n");
+		return 500;
+	}
+
+	// go to users array
+	item = cJSON_GetObjectItemCaseSensitive(json, "Users");
+	if (!cJSON_IsArray(item)) {
+		printf("Error getting users array");
+		return 500;
+	}
+
+	// create new user
+	cJSON* new_user = cJSON_CreateObject();
+	cJSON_AddNumberToObject(new_user, "id", user->id);
+	cJSON_AddStringToObject(new_user, "name", user->name);
+	cJSON_AddStringToObject(new_user, "password", user->password);
+	cJSON_AddStringToObject(new_user, "publicKey", user->publicKey);
+	// group array
+	cJSON* groups = cJSON_CreateIntArray(user->groups, user->groupsCount);
+	cJSON_AddItemToObject(new_user, "groups", groups);
+
+	// friends
+	cJSON* friends = cJSON_CreateIntArray(user->friends, user->friendsCount);
+	cJSON_AddItemToObject(new_user, "friends", friends);
+
+	// add user to array
+	cJSON_AddItemToArray(item, new_user);
+
+	// write to file
+	writeFile(file_name, cJSON_Print(json));
+
+	return 200;
+}
+
+/**
+ * It reads the file, parses the json, gets the groups array, creates a new
+ * group, adds the group to the array, and writes the file
+ *
+ * @param file_name the name of the file to read from
+ * @param group a pointer to a Group struct
+ *
+ * @return The status code of the operation.
+ */
+int addGroup(const char* file_name, Group* group) {
+	// read file
+	const char* json_str = readFile(file_name);
+	cJSON *json, *item;
+
+	json = cJSON_Parse(json_str);
+	if (!json) {
+		printf("Error parsing json\n");
+		return 500;
+	}
+
+	// go to groups array
+	item = cJSON_GetObjectItemCaseSensitive(json, "Groups");
+	if (!cJSON_IsArray(item)) {
+		printf("Error getting groups array");
+		return 500;
+	}
+
+	// create new group
+	cJSON* new_group = cJSON_CreateObject();
+	cJSON_AddNumberToObject(new_group, "id", group->id);
+	cJSON_AddStringToObject(new_group, "name", group->name);
+	cJSON_AddStringToObject(new_group, "description", group->description);
+	cJSON_AddStringToObject(new_group, "publicKey", group->publicKey);
+	cJSON_AddStringToObject(new_group, "privateKey", group->privateKey);
+
+	// users array
+	cJSON* users = cJSON_CreateIntArray(group->users, group->usersCount);
+	cJSON_AddItemToObject(new_group, "users", users);
+
+	// add group to array
+	cJSON_AddItemToArray(item, new_group);
+
+	// write to file
+	writeFile(file_name, cJSON_Print(json));
+
+	return 200;
+}
+
+/**
+ *
+ *
+ * @param file_name The name of the file to read from.
+ * @param group The group to set the file's group to.
+ */
+int setGroup(const char* file_name, Group* group) {
+	// overrite existing group
+	//  read file
+	const char* json_str = readFile(file_name);
+	cJSON *json, *item;
+
+	json = cJSON_Parse(json_str);
+	if (!json) {
+		printf("Error parsing json\n");
+		return 500;
+	}
+
+	// go to groups array
+	item = cJSON_GetObjectItemCaseSensitive(json, "Groups");
+	if (!cJSON_IsArray(item)) {
+		printf("Error getting groups array");
+		return 500;
+	}
+
+	int id = group->id;
+
+	// find group
+	for (int i = 0; i < cJSON_GetArraySize(item); i++) {
+		cJSON* group_json = cJSON_GetArrayItem(item, i);
+		if (cJSON_IsObject(group_json)) {
+			// get name
+			item = cJSON_GetObjectItemCaseSensitive(group_json, "id");
+			if (cJSON_IsNumber(item) && (item->valueint == id)) {
+				if (item->valueint == id) {
+					// overrite group
+					cJSON_ReplaceItemInObject(group_json, "name",
+											  cJSON_CreateString(group->name));
+					cJSON_ReplaceItemInObject(
+						group_json, "description",
+						cJSON_CreateString(group->description));
+					cJSON_ReplaceItemInObject(
+						group_json, "publicKey",
+						cJSON_CreateString(group->publicKey));
+					cJSON_ReplaceItemInObject(
+						group_json, "privateKey",
+						cJSON_CreateString(group->privateKey));
+					cJSON_ReplaceItemInObject(
+						group_json, "users",
+						cJSON_CreateIntArray(group->users, group->usersCount));
+					// write to file
+					writeFile(file_name, cJSON_Print(json));
+
+					return 200;
+				}
+			}
+		}
+	}
+	return 404;
 }

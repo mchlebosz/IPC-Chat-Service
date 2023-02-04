@@ -31,7 +31,7 @@ Assumptions for this project are:
 
 Account:
 - [x] Login
-- [ ] Logout
+- [x] Logout
 - [x] Register
 - [x] Send a message to a user
 - [ ] Send a message to a group
@@ -104,14 +104,12 @@ const map_entry_t statusCodes[STATUS_CODES] = {
 ## Files
 - `src/codes.c` - file with codes
 - `src/message.c` - file with message structure and functions
+- `src/cJSON.c` - cJSON library file (for parsing json) - [cJSON](https://github.com/DaveGamble/cJSON)
 - `src/client/main.c` - client main file
 - `src/server/main.c` - server main file
 - `src/server/serverQueue.c` - server functions and main loop
 - `src/server/dbHandler.c` - file handling
 - `src/server/session.c` - file with session structure and functions
-
-
-
 
 ## Authors
 - [Mateusz Chlebosz](https://github.com/mchlebosz)

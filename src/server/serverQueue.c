@@ -1,5 +1,7 @@
 #include "serverQueue.h"
 
+#include "dbHandler.h"
+
 /**
  * Main server loop. It waits for messages, and then processes them.
  *
@@ -53,8 +55,8 @@ void serve(int* keep_running, int* msgid, char* db) {
 					sessionRunning);
 
 				srand(time(NULL));
-				Session session = { "", sessionRunning, sessionKey,
-									sessionQueue, sessionPID };
+				Session session = { "",           sessionRunning, sessionKey,
+									sessionQueue, sessionPID,     -1 };
 				strcpy(session.clientID, clientID);
 				addSession(&sessions, &session);
 
@@ -108,6 +110,22 @@ void serve(int* keep_running, int* msgid, char* db) {
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else if (status == 200) {
+				User* user  = malloc(sizeof(User));
+				int status1 = getUserByName(db, user, username);
+				// Asociate clientID with session and UserID
+				int status2 = setSessionUserID(&sessions, receiver, user->id);
+
+				if (status1 != 200 || status2 != 200) {
+					// internal server error
+					// send response message
+					msgInit(&msg, 12, 1, "server", receiver, 500,
+							"Internal Server Error (Register)");
+
+					// send response message
+					msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+					continue;
+				}
+
 				// send response message
 				// message format: login;password;decryptKey;
 				char body[128];
@@ -117,6 +135,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+
 				continue;
 			} else {
 				// internal server error
@@ -136,7 +155,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 			char* username    = strtok(messageBody, ";");
 			char* password    = strtok(NULL, ";");
 
-			char* decryptKey;
+			char* decryptKey = malloc(sizeof(char) * 100);
 
 			char receiver[32];
 			strcpy(receiver, msg.mtext.header.sender);
@@ -157,6 +176,22 @@ void serve(int* keep_running, int* msgid, char* db) {
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else if (status == 200) {
+				User* user  = malloc(sizeof(User));
+				int status1 = getUserByName(db, user, username);
+				// Asociate clientID with session and UserID
+				int status2 = setSessionUserID(&sessions, receiver, user->id);
+
+				if (status1 != 200 || status2 != 200) {
+					// internal server error
+					// send response message
+					msgInit(&msg, 12, 1, "server", receiver, 500,
+							"Internal Server Error (Register)");
+
+					// send response message
+					msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+					continue;
+				}
+
 				// send response message
 				// message format: login;password;decryptKey;
 				char body[100];
@@ -166,6 +201,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 				msgInit(&msg, 12, 1, "server", sender, 200, body);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+
 				continue;
 			} else if (status == 404) {
 				// send response message
@@ -196,13 +232,15 @@ void serve(int* keep_running, int* msgid, char* db) {
 			char sender[32];
 			strcpy(sender, msg.mtext.header.sender);
 			// connect to session queue
-			int sessionQueue = getSessionQueue(&sessions, receiver);
+			int sessionQueue = getSessionQueue(&sessions, sender);
+
+			int userID;
+			int status = getSessionUserID(&sessions, clientID, &userID);
 
 			// status check
-			int status = isSessionRunning(&sessions, clientID) == 200 &&
-								 searchData(db, clientID) == 200 ?
-							 200 :
-							 404;
+			status = status == 200 && getUserById(db, NULL, userID) == 200 ?
+						 200 :
+						 404;
 
 			if (status == 200) {
 				// send response message
@@ -239,8 +277,17 @@ void serve(int* keep_running, int* msgid, char* db) {
 			char* sender      = msg.mtext.header.sender;
 			char* receiver    = msg.mtext.header.receiver;
 
-			// check if receiver exists
-			int status = searchData(db, receiver);
+			// find sender and receiver sessions
+
+			// check if receiver exists and is online
+
+			int status = isSessionRunning(&sessions, receiver);
+			int userID;
+			if (getSessionUserID(&sessions, receiver, &userID) != 200)
+				status = 404;
+			else if (getUserById(db, NULL, userID) != 200)
+				status = 404;
+
 			if (status == 200) {
 				// send message to receiver
 				// connect to session queue
@@ -252,20 +299,20 @@ void serve(int* keep_running, int* msgid, char* db) {
 
 				continue;
 			} else if (status == 404) {
-				// internal server error - error opening database
-				//  send response message to sender
-				msgInit(&msg, 12, 1, "server", sender, 500,
-						"Internal Server Error (Send Message)");
+				// user not found
+				// send response message to sender
+				msgInit(&msg, 12, 1, "server", sender, 404,
+						"Not Found (User does not exist)");
 
 				// connect to session queue
 				int sessionQueue = getSessionQueue(&sessions, sender);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
-			} else if (status == 204) {
-				// user not found
-				// send response message to sender
-				msgInit(&msg, 12, 1, "server", sender, 404,
-						"Not Found (User does not exist)");
+			} else {
+				// internal server error - error opening database
+				//  send response message to sender
+				msgInit(&msg, 12, 1, "server", sender, 500,
+						"Internal Server Error (Send Message)");
 
 				// connect to session queue
 				int sessionQueue = getSessionQueue(&sessions, sender);
@@ -277,57 +324,179 @@ void serve(int* keep_running, int* msgid, char* db) {
 		}
 		// Get list of active users
 		else if (msg.mtext.header.type == 13) {
-			// message format: ClientID;
-			char* messageBody = msg.mtext.body;
-			char* clientID    = strtok(messageBody, ";");
+			// message format:
+			char* sender = msg.mtext.header.sender;
 
 			// check if client is logged in
-			int status = isSessionRunning(&sessions, clientID);
+			int status = isSessionRunning(&sessions, sender);
 
 			// if client is logged in
 			if (status == 200) {
 				// get list of active users
-				char* activeUsers = getOnlineUsers(sessions);
+				char* activeUsers = getOnlineUsersID(sessions);
 
 				// if active users is empty
 				if (activeUsers == NULL) {
 					// send response message
-					msgInit(&msg, 12, 13, "server", clientID, 204,
+					msgInit(&msg, 12, 13, "server", sender, 204,
 							"No Active Users");
 
 					// connect to session queue
-					int sessionQueue = getSessionQueue(&sessions, clientID);
+					int sessionQueue = getSessionQueue(&sessions, sender);
 					// send response message
 					msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 					continue;
 				}
 
 				// send response message
-				msgInit(&msg, 12, 13, "server", clientID, 200, activeUsers);
+				msgInit(&msg, 12, 13, "server", sender, 200, activeUsers);
 
 				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, clientID);
+				int sessionQueue = getSessionQueue(&sessions, sender);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else if (status == 404) {
 				// send response message
-				msgInit(&msg, 12, 13, "server", clientID, 404,
+				msgInit(&msg, 12, 13, "server", sender, 404,
 						"Not Found (User does not exist)");
 
 				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, clientID);
+				int sessionQueue = getSessionQueue(&sessions, sender);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else {
 				// internal server error
 				// send response message
-				msgInit(&msg, 12, 13, "server", clientID, 500,
+				msgInit(&msg, 12, 13, "server", sender, 500,
 						"Internal Server Error (Get Active Users)");
 
 				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, clientID);
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+			}
+		}
+		// Add user to group
+		else if (msg.mtext.header.type == 25) {
+			// message format: groupname;username
+			char* messageBody = msg.mtext.body;
+			char* sender      = msg.mtext.header.sender;
+
+			char* groupName = strtok(messageBody, ";");
+			char* username  = strtok(NULL, ";");
+
+			// check if user exists
+			User* user = malloc(sizeof(User));
+			int status = getUserByName(db, user, username);
+
+			// check if group exists
+			Group* group    = malloc(sizeof(Group));
+			int isGroupCode = getGroupByName(db, group, groupName);
+
+			// if client is logged in and group exists
+			if (status == 200 && isGroupCode == 200) {
+				// add user to group
+				group->usersCount++;
+				group->users[group->usersCount - 1] = user->id;
+
+				// update group in database
+				setGroup(db, group);
+
+				char* usersString = malloc(10000);
+				for (int i = 0; i < group->usersCount; i++) {
+					// group->users[i] is userID from int to string
+					char userID[10] = { 0 };
+					sprintf(userID, "%d", group->users[i]);
+					strcat(usersString, userID);
+					strcat(usersString, ";");
+				}
+
+				// send response message
+				msgInit(&msg, 12, 25, "server", sender, 200, usersString);
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else if (status == 404) {
+				// send response message
+				msgInit(&msg, 12, 25, "server", sender, 404,
+						"Not Found (User does not exist)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else if (isGroupCode == 404) {
+				// send response message
+				msgInit(&msg, 12, 25, "server", sender, 404,
+						"Not Found (Group does not exist)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else {
+				// internal server error
+				// send response message
+				msgInit(&msg, 12, 25, "server", sender, 500,
+						"Internal Server Error (Add to Group)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+			}
+		}
+		// Show available groups 15
+		else if (msg.mtext.header.type == 15) {
+			// message format:
+			char* sender = msg.mtext.header.sender;
+
+			// get list of all groups
+			Group* groups    = malloc(10000 * sizeof(Group));
+			int* groupsCount = malloc(sizeof(int));
+			int status       = getAllGroups(db, &groups, groupsCount);
+
+			// if group exists
+			if (status == 200) {
+				char* groupsString = malloc(*groupsCount * 100);
+				for (int i = 0; i < *groupsCount; i++) {
+					strcat(groupsString, groups[i].name);
+					strcat(groupsString, ";");
+				}
+
+				// send response message
+				msgInit(&msg, 12, 15, "server", sender, 200, groupsString);
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else if (status == 404) {
+				// send response message
+				msgInit(&msg, 12, 15, "server", sender, 404,
+						"Not Found (Groups does not exist)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
+				// send response message
+				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+				continue;
+			} else {
+				// internal server error
+				// send response message
+				msgInit(&msg, 12, 15, "server", sender, 500,
+						"Internal Server Error (Show Groups)");
+
+				// connect to session queue
+				int sessionQueue = getSessionQueue(&sessions, sender);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 			}
@@ -361,21 +530,40 @@ void serve(int* keep_running, int* msgid, char* db) {
  */
 int registerUser(char* username, char* password, char** key, char* db) {
 	// check if username is already taken
-	if (searchData(db, username) == 200) {
+	int status = getUserByName(db, NULL, username);
+	if (status == 200) {
 		return 409;
-	} else {
+	} else if (status == 404) {
 		// generate decryption key
 		*key = generateKey();
 		// encrypt password
 		// char* encryptedPassword = encrypt(password, key);
 		// add user to database
 		// format: username;password;key;
-		char data[128];
-		sprintf(data, "%s;%s;%s;", username, password, *key);
 
-		addData(db, data);
-		return 200;
+		// generate id randomly with seed based on username
+		int userID = 0;
+		for (int i = 0; i < strlen(username); i++) {
+			userID += username[i];
+		}
+		srand(userID);
+		userID = rand() % 1000000;
+
+		User* newUser = malloc(sizeof(User));
+		newUser->id   = userID;
+		strcpy(newUser->name, username);
+		strcpy(newUser->password, password);
+		strcpy(newUser->publicKey, *key);
+		newUser->friendsCount = 0;
+		newUser->groupsCount  = 0;
+
+		if (addUser(db, newUser) == 200) {
+			return 200;
+		} else {
+			return 500;
+		}
 	}
+	return 500;
 }
 
 /**
@@ -405,37 +593,45 @@ char* generateKey() {
  * @return The status code of the login attempt.
  */
 int loginUser(char* username, char* password, char** key, char* db) {
-	// check if username exists
-	if (searchData(db, username) == 200) {
-		// get user data
-		char* data = malloc(100 * sizeof(char));
-		int status = getData(db, username, &data);
+	// get user data
+	User* loggedUser = malloc(sizeof(User));
+	int status       = getUserByName(db, loggedUser, username);
+	printf("status:%s %d\n", username, status);
 
-		if (status != 200) {
-			return status;
-		}
+	if (status != 200) {
+		return status;
+	}
 
-		// get user password
-		char* userPassword = strtok(data, ";");
-		userPassword       = strtok(NULL, ";");
-		// get user key
-		*key = strtok(NULL, ";");
-		// compare passwords
-		if (strcmp(password, userPassword) == 0) {
-			return 200;
-		} else {
-			return 401;
-		}
+	// get user key
+	strcpy(*key, loggedUser->publicKey);
+	// compare passwords
+	status = strcmp(password, loggedUser->password);
+	if (status == 0) {
+		return 200;
 	} else {
-		return 404;
+		return 401;
 	}
 }
 
-char* getOnlineUsers(Sessions sessions) {
+char* getOnlineUsersID(Sessions sessions) {
 	// get string of inline clientIDs seperated by ;
 	char* onlineUsers = malloc(1000 * sizeof(char));
 	for (int i = 0; i < sessions.size; i++) {
-		strcat(onlineUsers, sessions.sessions[i].clientID);
+		char* userID;
+		sprintf(userID, "%d", sessions.sessions[i].userLoggedInID);
+		strcat(onlineUsers, userID);
+		strcat(onlineUsers, ";");
+	}
+	return onlineUsers;
+}
+
+char* getOnlineClientID(Sessions sessions) {
+	// get string of inline clientIDs seperated by ;
+	char* onlineUsers = malloc(1000 * sizeof(char));
+	for (int i = 0; i < sessions.size; i++) {
+		char* clientID;
+		sprintf(clientID, "%s", sessions.sessions[i].clientID);
+		strcat(onlineUsers, clientID);
 		strcat(onlineUsers, ";");
 	}
 	return onlineUsers;
