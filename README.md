@@ -7,9 +7,9 @@ When commiting to main (and other branches too) please follow given structure:
 [Commit Guidelines](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines)
 
 ## Stack
-using C11
-for JSON parsing we are using cJSON library - [cJSON](https://github.com/DaveGamble/cJSON)
-For building project use Makefile
+- using C11
+- for JSON parsing we are using cJSON library - [cJSON](https://github.com/DaveGamble/cJSON)
+- For building project use Makefile
 
 ## How to run
 1. Clone repository
