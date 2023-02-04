@@ -1,5 +1,6 @@
 # IPC-Chat-Service
 Parallel and System programing project
+[Full Docs](https://mchlebosz.github.io/IPC-Chat-Service/)
 
 ## IMPORTANT!
 When commiting to main (and other branches too) please follow given structure:
@@ -7,20 +8,21 @@ When commiting to main (and other branches too) please follow given structure:
 
 ## Stack
 using C11
+for JSON parsing we are using cJSON library - [cJSON](https://github.com/DaveGamble/cJSON)
 For building project use Makefile
 
 ## How to run
 1. Clone repository
 2. Go to `.` directory
 3. Run `make` command
-4. Run `./bin/server` command
-5. Run `./bin/client` command
+4. Go to `bin` directory by `cd bin`
+4. Run `./server` command
+5. Run `./client` command
 6. Enjoy!
 
 ## About
 This is a project for Parallel and System programing course at PUT. The goal is to create a chat service using IPC (Inter Process Communication) methods. We are using C11 standard for programming. We are using Makefile for building project. \
 [Original project description](https://www.cs.put.poznan.pl/akobusinska/downloads/projekt2022.pdf) \
-
 [Full Docs](https://mchlebosz.github.io/IPC-Chat-Service/)
 
 Assumptions for this project are:
