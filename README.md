@@ -55,7 +55,7 @@ Our own weir ideas:
 
 
 ## Codes
-File with codes is in `src/codes.c`. It contains all codes used in project. \
+File with codes is in `src/codes.c`. It contains all codes used in project. 
 ```c
 const map_entry_t typeCodes[TYPE_CODES] = {
 	{ 0, "Connection" },
