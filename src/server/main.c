@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 	printf("Server started\n");
 	// open DB - create if it doesn't exist
 	char *dbPath = "serverdb.json";
-	FILE *db     = openDB(dbPath, "a+");
+	FILE *db     = openDB(dbPath, "r");
 	fclose(db);
 
 	// register signal handler
