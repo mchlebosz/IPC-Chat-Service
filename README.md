@@ -35,16 +35,16 @@ Account:
 - [x] Register
 - [x] Send a message to a user
 - [ ] Send a message to a group
-- [ ] See who is online
-- [ ] See who is in a group
+- [x] See who is online
+- [x] See who is in a group
 
 
 Group:
-- [ ] Create a group
-- [ ] Add a user to a group
+- [x] Create a group
+- [x] Add a user to a group
 - [ ] See who is in a group
 - [ ] Remove a user from a group
-- [ ] See all groups
+- [x] See all groups
 
 Our own weir ideas:
 - [ ] Message encryption
