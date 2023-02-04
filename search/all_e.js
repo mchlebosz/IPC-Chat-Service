@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['readme_2emd_0',['README.md',['../da/ddd/README_8md.html',1,'']]],
-  ['receivemessage_1',['receiveMessage',['../d0/d6d/message_8c.html#a5067b487e55edfcef11cd265e3eb11b8',1,'receiveMessage(int *msgid, Message *msg, long permittedType):&#160;message.c'],['../d2/d0d/message_8h.html#a5067b487e55edfcef11cd265e3eb11b8',1,'receiveMessage(int *msgid, Message *msg, long permittedType):&#160;message.c']]],
-  ['receivemessagenowait_2',['receiveMessageNoWait',['../d0/d6d/message_8c.html#a122d32a9828b5601913adf25cc70b243',1,'receiveMessageNoWait(int *msgid, Message *msg, long permittedType):&#160;message.c'],['../d2/d0d/message_8h.html#a122d32a9828b5601913adf25cc70b243',1,'receiveMessageNoWait(int *msgid, Message *msg, long permittedType):&#160;message.c']]],
-  ['receiver_3',['receiver',['../d1/df9/structMessage_1_1mtext_1_1header.html#a271ffa34ee1bdeffe308ca6684e2d15e',1,'Message::mtext::header']]],
-  ['registeruser_4',['registerUser',['../d5/d2e/serverQueue_8c.html#aaf36dae22f8a56eb80f0674650a8abb5',1,'registerUser(char *username, char *password, char **key, char *db):&#160;serverQueue.c'],['../d7/dbd/serverQueue_8h.html#aaf36dae22f8a56eb80f0674650a8abb5',1,'registerUser(char *username, char *password, char **key, char *db):&#160;serverQueue.c']]],
-  ['removedata_5',['removeData',['../db/d53/dbHandler_8c.html#ad18d063e40c0a84c9d9afcf2ab083188',1,'removeData(const char *file_name, const char *data):&#160;dbHandler.c'],['../da/d62/dbHandler_8h.html#ae7e0ec31a8aff3b9cb0510e1e10144b2',1,'removeData(const char *fileName, const char *data):&#160;dbHandler.c']]],
-  ['removesession_6',['removeSession',['../de/d67/session_8c.html#a26613d94963e4020b8fbda6ccc7b86ea',1,'removeSession(Sessions *sessions, char *clientID):&#160;session.c'],['../da/d46/session_8h.html#a26613d94963e4020b8fbda6ccc7b86ea',1,'removeSession(Sessions *sessions, char *clientID):&#160;session.c']]]
+  ['name_0',['name',['../d6/da2/structmap__entry__t.html#a23e7df24fbac8f42ff7d32c9b92321dc',1,'map_entry_t::name()'],['../d4/d05/structUser.html#a0b77cc28b182c9b7231924f7a04d38ae',1,'User::name()'],['../d4/d91/structGroup.html#a93f74ea4eb71f9d4918a089f97b58092',1,'Group::name()'],['../d1/d82/cJSON_8h.html#a25d22ecc7e656d2c59332072684e8766',1,'name():&#160;cJSON.h']]],
+  ['nan_1',['NAN',['../dd/d21/cJSON_8c.html#a8abfcc76130f3f991d124dd22d7e69bc',1,'cJSON.c']]],
+  ['newitem_2',['newitem',['../d1/d82/cJSON_8h.html#abd13e53985a93dee588f840f06aac973',1,'cJSON.h']]],
+  ['next_3',['next',['../db/d68/structcJSON.html#ade862b880379b5e2a591f7326401fa8d',1,'cJSON']]],
+  ['noalloc_4',['noalloc',['../d1/dc7/structprintbuffer.html#aa2a7966b71dc3535e4e3789c33ec5368',1,'printbuffer']]],
+  ['number_5',['number',['../d1/d82/cJSON_8h.html#a01b4671c6b7cc8f831c951c000a37735',1,'cJSON.h']]]
 ];

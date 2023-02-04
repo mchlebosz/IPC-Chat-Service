@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['header_0',['header',['../db/d67/structMessage_1_1mtext.html#a842d3ef87c93d729d843320f2a48a4c1',1,'Message::mtext']]]
+  ['depth_0',['depth',['../db/d68/structparse__buffer.html#af613c4ed7d73f76c60c50d1bcf4c67a0',1,'parse_buffer::depth()'],['../d1/dc7/structprintbuffer.html#aa7311b5da38ff8d1737824c611b48732',1,'printbuffer::depth()']]],
+  ['description_1',['description',['../d4/d91/structGroup.html#a11f3579cfc903e634756aaf4d01e7392',1,'Group']]]
 ];

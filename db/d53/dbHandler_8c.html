@@ -74,32 +74,45 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="../../da/d62/dbHandler_8h_source.html">dbHandler.h</a>&quot;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
-<code>#include &lt;string.h&gt;</code><br />
 </div>
 <p><a href="../../db/d53/dbHandler_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab218eed52cb30e94e39a72f2cd89c903"><td class="memItemLeft" align="right" valign="top">FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#ab218eed52cb30e94e39a72f2cd89c903">openFile</a> (const char *filename, const char *mode)</td></tr>
-<tr class="separator:ab218eed52cb30e94e39a72f2cd89c903"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa79d22f35f9d184d8d3212ea7ad187e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#aaa79d22f35f9d184d8d3212ea7ad187e">addData</a> (const char *file_name, const char *data)</td></tr>
-<tr class="separator:aaa79d22f35f9d184d8d3212ea7ad187e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad18d063e40c0a84c9d9afcf2ab083188"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#ad18d063e40c0a84c9d9afcf2ab083188">removeData</a> (const char *file_name, const char *data)</td></tr>
-<tr class="separator:ad18d063e40c0a84c9d9afcf2ab083188"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9b8adf5b4c14384de7e1ab6b848ba72"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#ad9b8adf5b4c14384de7e1ab6b848ba72">searchData</a> (const char *file_name, const char *data)</td></tr>
-<tr class="separator:ad9b8adf5b4c14384de7e1ab6b848ba72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1fca2f0ec9d6af1574dce2e6d240259c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a1fca2f0ec9d6af1574dce2e6d240259c">getData</a> (const char *file_name, const char *data, char **buffer)</td></tr>
-<tr class="separator:a1fca2f0ec9d6af1574dce2e6d240259c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ba3e923b8db64bb51f2abbd3188363a"><td class="memItemLeft" align="right" valign="top">FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a5ba3e923b8db64bb51f2abbd3188363a">openDB</a> (const char *filename, const char *mode)</td></tr>
+<tr class="separator:a5ba3e923b8db64bb51f2abbd3188363a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2f44352231b61dea86e19029ac7f29c"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#af2f44352231b61dea86e19029ac7f29c">readFile</a> (const char *filename)</td></tr>
+<tr class="separator:af2f44352231b61dea86e19029ac7f29c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5697d7b71e20fd2ad251d00b667202b0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a5697d7b71e20fd2ad251d00b667202b0">writeFile</a> (const char *filename, const char *data)</td></tr>
+<tr class="separator:a5697d7b71e20fd2ad251d00b667202b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39f8a132bbbaf1811912320e5b2e6007"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a39f8a132bbbaf1811912320e5b2e6007">getUserByName</a> (const char *file_name, <a class="el" href="../../d4/d05/structUser.html">User</a> *user, char *<a class="el" href="../../d1/d82/cJSON_8h.html#a25d22ecc7e656d2c59332072684e8766">name</a>)</td></tr>
+<tr class="separator:a39f8a132bbbaf1811912320e5b2e6007"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03a92e4ba06bfacef0c1ca5786e94807"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a03a92e4ba06bfacef0c1ca5786e94807">getUserById</a> (const char *file_name, <a class="el" href="../../d4/d05/structUser.html">User</a> *user, int <a class="el" href="../../d5/de1/communication_8c.html#a0b1ca4dcd178907e4151c7132e3b55f5">id</a>)</td></tr>
+<tr class="separator:a03a92e4ba06bfacef0c1ca5786e94807"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c816161abb8cbac6a578455e6f13dce"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a8c816161abb8cbac6a578455e6f13dce">getAllUsers</a> (const char *file_name, <a class="el" href="../../d4/d05/structUser.html">User</a> **users, int *<a class="el" href="../../d1/d82/cJSON_8h.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>)</td></tr>
+<tr class="separator:a8c816161abb8cbac6a578455e6f13dce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b0e84eaa2e007f6a364fc57f83a47a4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a8b0e84eaa2e007f6a364fc57f83a47a4">getGroupByName</a> (const char *file_name, <a class="el" href="../../d4/d91/structGroup.html">Group</a> *group, char *<a class="el" href="../../d1/d82/cJSON_8h.html#a25d22ecc7e656d2c59332072684e8766">name</a>)</td></tr>
+<tr class="separator:a8b0e84eaa2e007f6a364fc57f83a47a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ba6775bc085f4690a6ea57901ff75a5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a0ba6775bc085f4690a6ea57901ff75a5">getGroupById</a> (const char *file_name, <a class="el" href="../../d4/d91/structGroup.html">Group</a> *group, int <a class="el" href="../../d5/de1/communication_8c.html#a0b1ca4dcd178907e4151c7132e3b55f5">id</a>)</td></tr>
+<tr class="separator:a0ba6775bc085f4690a6ea57901ff75a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ad3790cce12e156d34c2caf43ca8930"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a5ad3790cce12e156d34c2caf43ca8930">getAllGroups</a> (const char *file_name, <a class="el" href="../../d4/d91/structGroup.html">Group</a> **groups, int *<a class="el" href="../../d1/d82/cJSON_8h.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>)</td></tr>
+<tr class="separator:a5ad3790cce12e156d34c2caf43ca8930"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06c17218b9aacf2097f403688c378e4a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a06c17218b9aacf2097f403688c378e4a">addUser</a> (const char *file_name, <a class="el" href="../../d4/d05/structUser.html">User</a> *user)</td></tr>
+<tr class="separator:a06c17218b9aacf2097f403688c378e4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2151fac8e8eb425dffa3109e4350c5d6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a2151fac8e8eb425dffa3109e4350c5d6">addGroup</a> (const char *file_name, <a class="el" href="../../d4/d91/structGroup.html">Group</a> *group)</td></tr>
+<tr class="separator:a2151fac8e8eb425dffa3109e4350c5d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6cd79a97a714a52a7c24a84d4c5893d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#ad6cd79a97a714a52a7c24a84d4c5893d">setGroup</a> (const char *file_name, <a class="el" href="../../d4/d91/structGroup.html">Group</a> *group)</td></tr>
+<tr class="separator:ad6cd79a97a714a52a7c24a84d4c5893d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aaa79d22f35f9d184d8d3212ea7ad187e" name="aaa79d22f35f9d184d8d3212ea7ad187e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa79d22f35f9d184d8d3212ea7ad187e">&#9670;&nbsp;</a></span>addData()</h2>
+<a id="a2151fac8e8eb425dffa3109e4350c5d6" name="a2151fac8e8eb425dffa3109e4350c5d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2151fac8e8eb425dffa3109e4350c5d6">&#9670;&nbsp;</a></span>addGroup()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void addData </td>
+          <td class="memname">int addGroup </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>file_name</em>, </td>
@@ -107,8 +120,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d4/d91/structGroup.html">Group</a> *&#160;</td>
+          <td class="paramname"><em>group</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -117,28 +130,28 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >It opens a file in append mode, writes data to it, and closes the file</p>
+<p >It reads the file, parses the json, gets the groups array, creates a new group, adds the group to the array, and writes the file</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file_name</td><td>The name of the file to open. </td></tr>
-    <tr><td class="paramname">data</td><td>The data to be added to the file.</td></tr>
+    <tr><td class="paramname">file_name</td><td>the name of the file to read from </td></tr>
+    <tr><td class="paramname">group</td><td>a pointer to a <a class="el" href="../../d4/d91/structGroup.html">Group</a> struct</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the number of characters in the string. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The status code of the operation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00035">35</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00728">728</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
 
 </div>
 </div>
-<a id="a1fca2f0ec9d6af1574dce2e6d240259c" name="a1fca2f0ec9d6af1574dce2e6d240259c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1fca2f0ec9d6af1574dce2e6d240259c">&#9670;&nbsp;</a></span>getData()</h2>
+<a id="a06c17218b9aacf2097f403688c378e4a" name="a06c17218b9aacf2097f403688c378e4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06c17218b9aacf2097f403688c378e4a">&#9670;&nbsp;</a></span>addUser()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int getData </td>
+          <td class="memname">int addUser </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>file_name</em>, </td>
@@ -146,14 +159,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>buffer</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d4/d05/structUser.html">User</a> *&#160;</td>
+          <td class="paramname"><em>user</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -162,29 +169,304 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >It opens a file, reads it line by line, and checks if the line contains the data we're looking for. If it does, it returns 200, otherwise it returns 204</p>
+<p >It reads the json file, parses it, adds a new user to the json file, and writes the json file</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file_name</td><td>the name of the file to be opened </td></tr>
-    <tr><td class="paramname">data</td><td>the data to be searched for </td></tr>
-    <tr><td class="paramname">buffer</td><td>a pointer to a pointer to a char. This is because we want to be able to change the value of the pointer, not just what it points to.</td></tr>
+    <tr><td class="paramname">file_name</td><td>the name of the file to read from </td></tr>
+    <tr><td class="paramname">user</td><td>the user to be added</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The status code of the request. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The return value is the status code of the operation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00131">131</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00678">678</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
 
 </div>
 </div>
-<a id="ab218eed52cb30e94e39a72f2cd89c903" name="ab218eed52cb30e94e39a72f2cd89c903"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab218eed52cb30e94e39a72f2cd89c903">&#9670;&nbsp;</a></span>openFile()</h2>
+<a id="a5ad3790cce12e156d34c2caf43ca8930" name="a5ad3790cce12e156d34c2caf43ca8930"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ad3790cce12e156d34c2caf43ca8930">&#9670;&nbsp;</a></span>getAllGroups()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">FILE * openFile </td>
+          <td class="memname">int getAllGroups </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>file_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d4/d91/structGroup.html">Group</a> **&#160;</td>
+          <td class="paramname"><em>groups</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >It reads a JSON file, parses it, and stores the data in a <a class="el" href="../../d4/d91/structGroup.html">Group</a> struct</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file_name</td><td>the name of the file to read from </td></tr>
+    <tr><td class="paramname">groups</td><td>a pointer to an array of groups </td></tr>
+    <tr><td class="paramname">count</td><td>the number of groups in the array</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a pointer to an array of groups. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00598">598</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+
+</div>
+</div>
+<a id="a8c816161abb8cbac6a578455e6f13dce" name="a8c816161abb8cbac6a578455e6f13dce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c816161abb8cbac6a578455e6f13dce">&#9670;&nbsp;</a></span>getAllUsers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getAllUsers </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>file_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d4/d05/structUser.html">User</a> **&#160;</td>
+          <td class="paramname"><em>users</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >It reads a JSON file, parses it, and then stores the data in a struct</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file_name</td><td>The name of the file to read from. </td></tr>
+    <tr><td class="paramname">users</td><td>a pointer to an array of <a class="el" href="../../d4/d05/structUser.html">User</a> structs </td></tr>
+    <tr><td class="paramname">count</td><td>the number of users in the array</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the status code of the operation. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00321">321</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+
+</div>
+</div>
+<a id="a0ba6775bc085f4690a6ea57901ff75a5" name="a0ba6775bc085f4690a6ea57901ff75a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ba6775bc085f4690a6ea57901ff75a5">&#9670;&nbsp;</a></span>getGroupById()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getGroupById </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>file_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d4/d91/structGroup.html">Group</a> *&#160;</td>
+          <td class="paramname"><em>group</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >It reads the file, parses the JSON, finds the group with the given id, and then copies all the data from the JSON into the group struct</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file_name</td><td>the name of the file to read from </td></tr>
+    <tr><td class="paramname">group</td><td>a pointer to a <a class="el" href="../../d4/d91/structGroup.html">Group</a> struct </td></tr>
+    <tr><td class="paramname">id</td><td>the id of the group to get</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the status code of the operation. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00511">511</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+
+</div>
+</div>
+<a id="a8b0e84eaa2e007f6a364fc57f83a47a4" name="a8b0e84eaa2e007f6a364fc57f83a47a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b0e84eaa2e007f6a364fc57f83a47a4">&#9670;&nbsp;</a></span>getGroupByName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getGroupByName </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>file_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d4/d91/structGroup.html">Group</a> *&#160;</td>
+          <td class="paramname"><em>group</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >It reads the file, parses the JSON, finds the group with the given name, and then copies all the data from the JSON into the group struct</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file_name</td><td>the name of the file to read from </td></tr>
+    <tr><td class="paramname">group</td><td>a pointer to a <a class="el" href="../../d4/d91/structGroup.html">Group</a> struct </td></tr>
+    <tr><td class="paramname">name</td><td>the name of the group</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the status code of the operation. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00423">423</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+
+</div>
+</div>
+<a id="a03a92e4ba06bfacef0c1ca5786e94807" name="a03a92e4ba06bfacef0c1ca5786e94807"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03a92e4ba06bfacef0c1ca5786e94807">&#9670;&nbsp;</a></span>getUserById()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getUserById </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>file_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d4/d05/structUser.html">User</a> *&#160;</td>
+          <td class="paramname"><em>user</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >It reads the file, parses the JSON, finds the user with the given id, and then copies all the data from the JSON to the user struct</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file_name</td><td>the name of the file to read from </td></tr>
+    <tr><td class="paramname">user</td><td>a pointer to a <a class="el" href="../../d4/d05/structUser.html">User</a> struct </td></tr>
+    <tr><td class="paramname">id</td><td>The id of the user to get.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the status code of the operation. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00217">217</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+
+</div>
+</div>
+<a id="a39f8a132bbbaf1811912320e5b2e6007" name="a39f8a132bbbaf1811912320e5b2e6007"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39f8a132bbbaf1811912320e5b2e6007">&#9670;&nbsp;</a></span>getUserByName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getUserByName </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>file_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d4/d05/structUser.html">User</a> *&#160;</td>
+          <td class="paramname"><em>user</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >It reads the file, parses the JSON, and then copies the data from the JSON into a <a class="el" href="../../d4/d05/structUser.html">User</a> struct</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file_name</td><td>the name of the file to read from </td></tr>
+    <tr><td class="paramname">user</td><td>a pointer to a <a class="el" href="../../d4/d05/structUser.html">User</a> struct </td></tr>
+    <tr><td class="paramname">name</td><td>The name of the user to get</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the status code of the operation. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00109">109</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+
+</div>
+</div>
+<a id="a5ba3e923b8db64bb51f2abbd3188363a" name="a5ba3e923b8db64bb51f2abbd3188363a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ba3e923b8db64bb51f2abbd3188363a">&#9670;&nbsp;</a></span>openDB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FILE * openDB </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>filename</em>, </td>
@@ -216,17 +498,82 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad18d063e40c0a84c9d9afcf2ab083188" name="ad18d063e40c0a84c9d9afcf2ab083188"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad18d063e40c0a84c9d9afcf2ab083188">&#9670;&nbsp;</a></span>removeData()</h2>
+<a id="af2f44352231b61dea86e19029ac7f29c" name="af2f44352231b61dea86e19029ac7f29c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2f44352231b61dea86e19029ac7f29c">&#9670;&nbsp;</a></span>readFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void removeData </td>
+          <td class="memname">char * readFile </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >It reads the contents of a file into a string</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>The name of the file to read.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the first element of the array. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00047">47</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+
+</div>
+</div>
+<a id="ad6cd79a97a714a52a7c24a84d4c5893d" name="ad6cd79a97a714a52a7c24a84d4c5893d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6cd79a97a714a52a7c24a84d4c5893d">&#9670;&nbsp;</a></span>setGroup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int setGroup </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>file_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d4/d91/structGroup.html">Group</a> *&#160;</td>
+          <td class="paramname"><em>group</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file_name</td><td>The name of the file to read from. </td></tr>
+    <tr><td class="paramname">group</td><td>The group to set the file's group to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00773">773</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+
+</div>
+</div>
+<a id="a5697d7b71e20fd2ad251d00b667202b0" name="a5697d7b71e20fd2ad251d00b667202b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5697d7b71e20fd2ad251d00b667202b0">&#9670;&nbsp;</a></span>writeFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int writeFile </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -241,56 +588,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >It opens the file in read mode, creates a temporary file, reads the contents of the original file into a buffer, checks if the data to be removed is in the buffer, and if it is, it writes the buffer to the temporary file. If the data is not in the buffer, it does not write the buffer to the temporary file. After the file has been read, the original file is closed, the temporary file is closed, the original file is removed, and the temporary file is renamed to the original file</p>
+<p >It opens a file, writes data to it, and closes it</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file_name</td><td>The name of the file to remove data from. </td></tr>
-    <tr><td class="paramname">data</td><td>The data to be removed from the file.</td></tr>
+    <tr><td class="paramname">filename</td><td>the name of the file to write to </td></tr>
+    <tr><td class="paramname">data</td><td>the data to write to the file</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the number of times the data was found in the file. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The status code of the file write operation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00062">62</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
-
-</div>
-</div>
-<a id="ad9b8adf5b4c14384de7e1ab6b848ba72" name="ad9b8adf5b4c14384de7e1ab6b848ba72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9b8adf5b4c14384de7e1ab6b848ba72">&#9670;&nbsp;</a></span>searchData()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int searchData </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>file_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >It opens a file, reads it line by line, and checks if the data is in the line. If it is, it prints the line number and the line itself</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">file_name</td><td>The name of the file to search in. </td></tr>
-    <tr><td class="paramname">data</td><td>The data to search for in the file.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the status code of the search. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00099">99</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00086">86</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
 
 </div>
 </div>

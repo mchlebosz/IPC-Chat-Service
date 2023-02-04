@@ -95,18 +95,20 @@ Functions</h2></td></tr>
 <tr class="separator:aaf36dae22f8a56eb80f0674650a8abb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68ff2252addb660558e6d8f2edbb1336"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dbd/serverQueue_8h.html#a68ff2252addb660558e6d8f2edbb1336">loginUser</a> (char *username, char *password, char **<a class="el" href="../../d5/de1/communication_8c.html#a35af0be900467fedbb610bd6ea65ed78">key</a>, char *db)</td></tr>
 <tr class="separator:a68ff2252addb660558e6d8f2edbb1336"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42be0d23b0a153fb96ee831c7151cc3f"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dbd/serverQueue_8h.html#a42be0d23b0a153fb96ee831c7151cc3f">getOnlineUsers</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> sessions)</td></tr>
-<tr class="separator:a42be0d23b0a153fb96ee831c7151cc3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adec592bc8242ef0fc30f41a77c0b0d87"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dbd/serverQueue_8h.html#adec592bc8242ef0fc30f41a77c0b0d87">getOnlineUsersID</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> sessions)</td></tr>
+<tr class="separator:adec592bc8242ef0fc30f41a77c0b0d87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab26221983eca5b0a6a1a6a88eb82613e"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dbd/serverQueue_8h.html#ab26221983eca5b0a6a1a6a88eb82613e">getOnlineClientsID</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> sessions)</td></tr>
+<tr class="separator:ab26221983eca5b0a6a1a6a88eb82613e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a42be0d23b0a153fb96ee831c7151cc3f" name="a42be0d23b0a153fb96ee831c7151cc3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42be0d23b0a153fb96ee831c7151cc3f">&#9670;&nbsp;</a></span>getOnlineUsers()</h2>
+<a id="ab26221983eca5b0a6a1a6a88eb82613e" name="ab26221983eca5b0a6a1a6a88eb82613e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab26221983eca5b0a6a1a6a88eb82613e">&#9670;&nbsp;</a></span>getOnlineClientsID()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char * getOnlineUsers </td>
+          <td class="memname">char * getOnlineClientsID </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../dd/d1d/structSessions.html">Sessions</a>&#160;</td>
           <td class="paramname"><em>sessions</em></td><td>)</td>
@@ -115,7 +117,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00434">434</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
+</div>
+</div>
+<a id="adec592bc8242ef0fc30f41a77c0b0d87" name="adec592bc8242ef0fc30f41a77c0b0d87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adec592bc8242ef0fc30f41a77c0b0d87">&#9670;&nbsp;</a></span>getOnlineUsersID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * getOnlineUsersID </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d1d/structSessions.html">Sessions</a>&#160;</td>
+          <td class="paramname"><em>sessions</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00616">616</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
 
 </div>
 </div>
@@ -168,7 +188,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The status code of the login attempt. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00407">407</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00595">595</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
 
 </div>
 </div>
@@ -221,7 +241,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The return value is the HTTP status code. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00362">362</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00531">531</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
 
 </div>
 </div>
@@ -266,7 +286,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00011">11</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00013">13</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
 
 </div>
 </div>

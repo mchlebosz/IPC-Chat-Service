@@ -105,6 +105,10 @@ Functions</h2></td></tr>
 <tr class="separator:ae966a08667b2ebd83b97aaa1cc4368a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65dbca478f9035f797a98c5c3ac4e9a3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d46/session_8h.html#a65dbca478f9035f797a98c5c3ac4e9a3">isSessionRunning</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> *sessions, const char *clientID)</td></tr>
 <tr class="separator:a65dbca478f9035f797a98c5c3ac4e9a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a062b4d8537a66060adc70ec99875798e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d46/session_8h.html#a062b4d8537a66060adc70ec99875798e">getSessionUserID</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> *sessions, const char *clientID, int *userID)</td></tr>
+<tr class="separator:a062b4d8537a66060adc70ec99875798e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fdff5460f668220746e065f0cf66366"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d46/session_8h.html#a5fdff5460f668220746e065f0cf66366">setSessionUserID</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> *sessions, const char *clientID, int userID)</td></tr>
+<tr class="separator:a5fdff5460f668220746e065f0cf66366"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a623d2ef91b4a49c3794135affe0f407a" name="a623d2ef91b4a49c3794135affe0f407a"></a>
@@ -162,7 +166,7 @@ Functions</h2></td></tr>
 <p >It generates a random key of length 16</p>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to a char array. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00386">386</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00574">574</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
 
 </div>
 </div>
@@ -205,6 +209,52 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a062b4d8537a66060adc70ec99875798e" name="a062b4d8537a66060adc70ec99875798e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a062b4d8537a66060adc70ec99875798e">&#9670;&nbsp;</a></span>getSessionUserID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getSessionUserID </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> *&#160;</td>
+          <td class="paramname"><em>sessions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>clientID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>userID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >It takes a sessions list, a clientID, and a pointer to an int, and it sets the int to the userID of the user logged in to the session with the given clientID</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sessions</td><td>a pointer to the <a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> struct </td></tr>
+    <tr><td class="paramname">clientID</td><td>The client ID of the session you want to get the user ID of. </td></tr>
+    <tr><td class="paramname">userID</td><td>the userID of the user that is logged in</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the userID of the user logged in to the session with the given clientID. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00197">197</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
+
+</div>
+</div>
 <a id="a65dbca478f9035f797a98c5c3ac4e9a3" name="a65dbca478f9035f797a98c5c3ac4e9a3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a65dbca478f9035f797a98c5c3ac4e9a3">&#9670;&nbsp;</a></span>isSessionRunning()</h2>
 
@@ -230,8 +280,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >It checks if a session is running by checking if the clientID is in the sessions list</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sessions</td><td>a pointer to the <a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> struct </td></tr>
+    <tr><td class="paramname">clientID</td><td>the client ID of the client that is trying to connect</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status code of the session. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00166">166</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00175">175</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
 
 </div>
 </div>
@@ -375,6 +434,52 @@ Functions</h2></td></tr>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00020">20</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
+
+</div>
+</div>
+<a id="a5fdff5460f668220746e065f0cf66366" name="a5fdff5460f668220746e065f0cf66366"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fdff5460f668220746e065f0cf66366">&#9670;&nbsp;</a></span>setSessionUserID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int setSessionUserID </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> *&#160;</td>
+          <td class="paramname"><em>sessions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>clientID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>userID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >It finds the session with the given clientID and sets the userID to the given userID</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sessions</td><td>pointer to the <a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> struct </td></tr>
+    <tr><td class="paramname">clientID</td><td>The client ID of the session you want to set the user ID for. </td></tr>
+    <tr><td class="paramname">userID</td><td>the userID of the user that is logged in</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the userID of the user logged in to the session. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d67/session_8c_source.html#l00218">218</a> of file <a class="el" href="../../de/d67/session_8c_source.html">session.c</a>.</p>
 
 </div>
 </div>

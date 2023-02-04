@@ -73,6 +73,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="../../d7/dbd/serverQueue_8h_source.html">serverQueue.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../da/d62/dbHandler_8h_source.html">dbHandler.h</a>&quot;</code><br />
 </div>
 <p><a href="../../d5/d2e/serverQueue_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -86,8 +87,10 @@ Functions</h2></td></tr>
 <tr class="separator:ae966a08667b2ebd83b97aaa1cc4368a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68ff2252addb660558e6d8f2edbb1336"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d2e/serverQueue_8c.html#a68ff2252addb660558e6d8f2edbb1336">loginUser</a> (char *username, char *password, char **<a class="el" href="../../d5/de1/communication_8c.html#a35af0be900467fedbb610bd6ea65ed78">key</a>, char *db)</td></tr>
 <tr class="separator:a68ff2252addb660558e6d8f2edbb1336"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42be0d23b0a153fb96ee831c7151cc3f"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d2e/serverQueue_8c.html#a42be0d23b0a153fb96ee831c7151cc3f">getOnlineUsers</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> sessions)</td></tr>
-<tr class="separator:a42be0d23b0a153fb96ee831c7151cc3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adec592bc8242ef0fc30f41a77c0b0d87"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d2e/serverQueue_8c.html#adec592bc8242ef0fc30f41a77c0b0d87">getOnlineUsersID</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> sessions)</td></tr>
+<tr class="separator:adec592bc8242ef0fc30f41a77c0b0d87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67e0691a0bc0be3caa9f6794da925b0d"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d2e/serverQueue_8c.html#a67e0691a0bc0be3caa9f6794da925b0d">getOnlineClientID</a> (<a class="el" href="../../dd/d1d/structSessions.html">Sessions</a> sessions)</td></tr>
+<tr class="separator:a67e0691a0bc0be3caa9f6794da925b0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ae966a08667b2ebd83b97aaa1cc4368a5" name="ae966a08667b2ebd83b97aaa1cc4368a5"></a>
@@ -107,18 +110,18 @@ Functions</h2></td></tr>
 <p >It generates a random key of length 16</p>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to a char array. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00386">386</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00574">574</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
 
 </div>
 </div>
-<a id="a42be0d23b0a153fb96ee831c7151cc3f" name="a42be0d23b0a153fb96ee831c7151cc3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42be0d23b0a153fb96ee831c7151cc3f">&#9670;&nbsp;</a></span>getOnlineUsers()</h2>
+<a id="a67e0691a0bc0be3caa9f6794da925b0d" name="a67e0691a0bc0be3caa9f6794da925b0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67e0691a0bc0be3caa9f6794da925b0d">&#9670;&nbsp;</a></span>getOnlineClientID()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char * getOnlineUsers </td>
+          <td class="memname">char * getOnlineClientID </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../dd/d1d/structSessions.html">Sessions</a>&#160;</td>
           <td class="paramname"><em>sessions</em></td><td>)</td>
@@ -127,7 +130,27 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00434">434</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00628">628</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
+
+</div>
+</div>
+<a id="adec592bc8242ef0fc30f41a77c0b0d87" name="adec592bc8242ef0fc30f41a77c0b0d87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adec592bc8242ef0fc30f41a77c0b0d87">&#9670;&nbsp;</a></span>getOnlineUsersID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * getOnlineUsersID </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d1d/structSessions.html">Sessions</a>&#160;</td>
+          <td class="paramname"><em>sessions</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00616">616</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
 
 </div>
 </div>
@@ -180,7 +203,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The status code of the login attempt. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00407">407</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00595">595</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
 
 </div>
 </div>
@@ -233,7 +256,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The return value is the HTTP status code. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00362">362</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00531">531</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
 
 </div>
 </div>
@@ -278,7 +301,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00011">11</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d2e/serverQueue_8c_source.html#l00013">13</a> of file <a class="el" href="../../d5/d2e/serverQueue_8c_source.html">serverQueue.c</a>.</p>
 
 </div>
 </div>

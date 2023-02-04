@@ -1,9 +1,21 @@
 var searchData=
 [
-  ['id_0',['id',['../d5/de1/communication_8c.html#a0b1ca4dcd178907e4151c7132e3b55f5',1,'communication.c']]],
-  ['interface_2ec_1',['interface.c',['../dd/dda/interface_8c.html',1,'']]],
-  ['interface_2eh_2',['interface.h',['../d4/da9/interface_8h.html',1,'']]],
-  ['ipc_2dchat_2dservice_3',['IPC-Chat-Service',['../index.html',1,'']]],
-  ['isnumber_4',['isNumber',['../dd/dda/interface_8c.html#afb9bdf30579a68e720934314ea43de89',1,'interface.c']]],
-  ['issessionrunning_5',['isSessionRunning',['../de/d67/session_8c.html#a65dbca478f9035f797a98c5c3ac4e9a3',1,'isSessionRunning(Sessions *sessions, const char *clientID):&#160;session.c'],['../da/d46/session_8h.html#a65dbca478f9035f797a98c5c3ac4e9a3',1,'isSessionRunning(Sessions *sessions, const char *clientID):&#160;session.c']]]
+  ['generatekey_0',['generateKey',['../d5/d2e/serverQueue_8c.html#ae966a08667b2ebd83b97aaa1cc4368a5',1,'generateKey():&#160;serverQueue.c'],['../da/d46/session_8h.html#ae966a08667b2ebd83b97aaa1cc4368a5',1,'generateKey():&#160;serverQueue.c']]],
+  ['getallgroups_1',['getAllGroups',['../db/d53/dbHandler_8c.html#a5ad3790cce12e156d34c2caf43ca8930',1,'getAllGroups(const char *file_name, Group **groups, int *count):&#160;dbHandler.c'],['../da/d62/dbHandler_8h.html#a5ad3790cce12e156d34c2caf43ca8930',1,'getAllGroups(const char *file_name, Group **groups, int *count):&#160;dbHandler.c']]],
+  ['getallusers_2',['getAllUsers',['../db/d53/dbHandler_8c.html#a8c816161abb8cbac6a578455e6f13dce',1,'getAllUsers(const char *file_name, User **users, int *count):&#160;dbHandler.c'],['../da/d62/dbHandler_8h.html#a8c816161abb8cbac6a578455e6f13dce',1,'getAllUsers(const char *file_name, User **users, int *count):&#160;dbHandler.c']]],
+  ['getgroupbyid_3',['getGroupById',['../db/d53/dbHandler_8c.html#a0ba6775bc085f4690a6ea57901ff75a5',1,'getGroupById(const char *file_name, Group *group, int id):&#160;dbHandler.c'],['../da/d62/dbHandler_8h.html#a0ba6775bc085f4690a6ea57901ff75a5',1,'getGroupById(const char *file_name, Group *group, int id):&#160;dbHandler.c']]],
+  ['getgroupbyname_4',['getGroupByName',['../db/d53/dbHandler_8c.html#a8b0e84eaa2e007f6a364fc57f83a47a4',1,'getGroupByName(const char *file_name, Group *group, char *name):&#160;dbHandler.c'],['../da/d62/dbHandler_8h.html#a8b0e84eaa2e007f6a364fc57f83a47a4',1,'getGroupByName(const char *file_name, Group *group, char *name):&#160;dbHandler.c']]],
+  ['getonlineclientid_5',['getOnlineClientID',['../d5/d2e/serverQueue_8c.html#a67e0691a0bc0be3caa9f6794da925b0d',1,'serverQueue.c']]],
+  ['getonlineclientsid_6',['getOnlineClientsID',['../d7/dbd/serverQueue_8h.html#ab26221983eca5b0a6a1a6a88eb82613e',1,'serverQueue.h']]],
+  ['getonlineusersid_7',['getOnlineUsersID',['../d7/dbd/serverQueue_8h.html#adec592bc8242ef0fc30f41a77c0b0d87',1,'getOnlineUsersID(Sessions sessions):&#160;serverQueue.c'],['../d5/d2e/serverQueue_8c.html#adec592bc8242ef0fc30f41a77c0b0d87',1,'getOnlineUsersID(Sessions sessions):&#160;serverQueue.c']]],
+  ['getpasswd_8',['getpasswd',['../dd/dda/interface_8c.html#ad6123a818c252a27d574ed76f095f3af',1,'interface.c']]],
+  ['getsessionqueue_9',['getSessionQueue',['../de/d67/session_8c.html#af9397456c00fedc8285f34f81d43c373',1,'getSessionQueue(Sessions *sessions, const char *clientID):&#160;session.c'],['../da/d46/session_8h.html#af9397456c00fedc8285f34f81d43c373',1,'getSessionQueue(Sessions *sessions, const char *clientID):&#160;session.c']]],
+  ['getsessionuserid_10',['getSessionUserID',['../de/d67/session_8c.html#a062b4d8537a66060adc70ec99875798e',1,'getSessionUserID(Sessions *sessions, const char *clientID, int *userID):&#160;session.c'],['../da/d46/session_8h.html#a062b4d8537a66060adc70ec99875798e',1,'getSessionUserID(Sessions *sessions, const char *clientID, int *userID):&#160;session.c']]],
+  ['getstatuscode_11',['getStatusCode',['../dc/d0c/codes_8c.html#a30d9dcec0e830cc24bb7e00a95aea7c0',1,'codes.c']]],
+  ['gettypecode_12',['getTypeCode',['../dc/d0c/codes_8c.html#a92753ddd3dc3ab5be0d0afa6d33d54bf',1,'codes.c']]],
+  ['getuserbyid_13',['getUserById',['../db/d53/dbHandler_8c.html#a03a92e4ba06bfacef0c1ca5786e94807',1,'getUserById(const char *file_name, User *user, int id):&#160;dbHandler.c'],['../da/d62/dbHandler_8h.html#a03a92e4ba06bfacef0c1ca5786e94807',1,'getUserById(const char *file_name, User *user, int id):&#160;dbHandler.c']]],
+  ['getuserbyname_14',['getUserByName',['../db/d53/dbHandler_8c.html#a39f8a132bbbaf1811912320e5b2e6007',1,'getUserByName(const char *file_name, User *user, char *name):&#160;dbHandler.c'],['../da/d62/dbHandler_8h.html#a39f8a132bbbaf1811912320e5b2e6007',1,'getUserByName(const char *file_name, User *user, char *name):&#160;dbHandler.c']]],
+  ['group_15',['Group',['../d4/d91/structGroup.html',1,'Group'],['../da/d62/dbHandler_8h.html#a767ad4b36d0f63a8c54259903f116e65',1,'Group():&#160;dbHandler.h']]],
+  ['groups_16',['groups',['../d4/d05/structUser.html#a64f9cd30a39a0a86d8f8db0cebc27c34',1,'User']]],
+  ['groupscount_17',['groupsCount',['../d4/d05/structUser.html#a57a0308f3fbb2945ad72b8a80801e75e',1,'User']]]
 ];

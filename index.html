@@ -66,27 +66,29 @@ $(function() {
   <div class="headertitle"><div class="title">IPC-Chat-Service </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p ><a class="anchor" id="md_README"></a>Parallel and System programing project</p>
+<div class="textblock"><p ><a class="anchor" id="md_README"></a>Parallel and System programing project <a href="https://mchlebosz.github.io/IPC-Chat-Service/">Full Docs</a></p>
 <h1><a class="anchor" id="autotoc_md3"></a>
 IMPORTANT!</h1>
 <p >When commiting to main (and other branches too) please follow given structure: <a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines">Commit Guidelines</a></p>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md5"></a>
 Stack</h1>
-<p >using C11 For building project use Makefile</p>
+<p >using C11 for JSON parsing we are using <a class="el" href="db/d68/structcJSON.html">cJSON</a> library - <a href="https://github.com/DaveGamble/cJSON">cJSON</a> For building project use Makefile</p>
 <h1><a class="anchor" id="autotoc_md9"></a>
 How to run</h1>
 <ol type="1">
 <li>Clone repository</li>
 <li>Go to <code>.</code> directory</li>
 <li>Run <code>make</code> command</li>
-<li>Run <code>./bin/server</code> command</li>
-<li>Run <code>./bin/client</code> command</li>
+<li>Go to <code>bin</code> directory by <code>cd bin</code></li>
+</ol>
+<ol type="1">
+<li>Run <code>./server</code> command</li>
+<li>Run <code>./client</code> command</li>
 <li>Enjoy!</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 About</h1>
-<p >This is a project for Parallel and System programing course at PUT. The goal is to create a chat service using IPC (Inter Process Communication) methods. We are using C11 standard for programming. We are using Makefile for building project. \ <a href="https://www.cs.put.poznan.pl/akobusinska/downloads/projekt2022.pdf">Original project description</a> \</p>
-<p ><a href="https://mchlebosz.github.io/IPC-Chat-Service/">Full Docs</a></p>
+<p >This is a project for Parallel and System programing course at PUT. The goal is to create a chat service using IPC (Inter Process Communication) methods. We are using C11 standard for programming. We are using Makefile for building project. \ <a href="https://www.cs.put.poznan.pl/akobusinska/downloads/projekt2022.pdf">Original project description</a> \ <a href="https://mchlebosz.github.io/IPC-Chat-Service/">Full Docs</a></p>
 <p >Assumptions for this project are:</p><ul>
 <li>Creating a chat service using IPC Queue</li>
 <li>2 programs: client and server</li>
@@ -95,19 +97,19 @@ About</h1>
 </ul>
 <p >Account:</p><ul>
 <li>[x] Login</li>
-<li>[ ] Logout</li>
+<li>[x] Logout</li>
 <li>[x] Register</li>
 <li>[x] Send a message to a user</li>
 <li>[ ] Send a message to a group</li>
-<li>[ ] See who is online</li>
-<li>[ ] See who is in a group</li>
+<li>[x] See who is online</li>
+<li>[x] See who is in a group</li>
 </ul>
-<p >Group:</p><ul>
-<li>[ ] Create a group</li>
-<li>[ ] Add a user to a group</li>
+<p ><a class="el" href="d4/d91/structGroup.html">Group</a>:</p><ul>
+<li>[x] Create a group</li>
+<li>[x] Add a user to a group</li>
 <li>[ ] See who is in a group</li>
 <li>[ ] Remove a user from a group</li>
-<li>[ ] See all groups</li>
+<li>[x] See all groups</li>
 </ul>
 <p >Our own weir ideas:</p><ul>
 <li>[ ] <a class="el" href="d8/dd0/structMessage.html">Message</a> encryption</li>
@@ -171,6 +173,7 @@ Files</h1>
 <ul>
 <li><code><a class="el" href="dc/d0c/codes_8c.html">src/codes.c</a></code> - file with codes</li>
 <li><code><a class="el" href="d0/d6d/message_8c.html">src/message.c</a></code> - file with message structure and functions</li>
+<li><code><a class="el" href="dd/d21/cJSON_8c.html">src/cJSON.c</a></code> - <a class="el" href="db/d68/structcJSON.html">cJSON</a> library file (for parsing json) - <a href="https://github.com/DaveGamble/cJSON">cJSON</a></li>
 <li><code><a class="el" href="de/d5f/client_2main_8c.html">src/client/main.c</a></code> - client main file</li>
 <li><code><a class="el" href="d3/d0d/server_2main_8c.html">src/server/main.c</a></code> - server main file</li>
 <li><code><a class="el" href="d5/d2e/serverQueue_8c.html">src/server/serverQueue.c</a></code> - server functions and main loop</li>

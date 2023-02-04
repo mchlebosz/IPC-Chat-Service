@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['time_0',['time',['../d1/df9/structMessage_1_1mtext_1_1header.html#a01f1980444145550703f0c6930ae04d4',1,'Message::mtext::header']]],
-  ['type_1',['type',['../d1/df9/structMessage_1_1mtext_1_1header.html#a4b86049e37989d1dce0fed01125d769f',1,'Message::mtext::header']]],
-  ['typecodes_2',['typeCodes',['../dc/d0c/codes_8c.html#a916839207e09adac16ed9b4c82e1c0d7',1,'typeCodes():&#160;codes.c'],['../d2/d11/codes_8h.html#a916839207e09adac16ed9b4c82e1c0d7',1,'typeCodes():&#160;codes.c']]]
+  ['max_5fcharacters_0',['MAX_CHARACTERS',['../dd/dda/interface_8c.html#adaf66ee0cea0548a06a5d091a507febb',1,'interface.c']]],
+  ['min_5fcharacters_1',['MIN_CHARACTERS',['../dd/dda/interface_8c.html#a3e8fe60acb7f1bbc66f613f0ee2f7965',1,'interface.c']]],
+  ['mtext_2',['mtext',['../d8/dd0/structMessage.html#a77f3c32f0bdbbc497f49394ec9e86b29',1,'Message']]],
+  ['mtype_3',['mtype',['../d8/dd0/structMessage.html#a6739d223141d7f998c6416abc2be0840',1,'Message']]]
 ];
