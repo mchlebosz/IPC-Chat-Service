@@ -1,6 +1,13 @@
+./*.txt
+
+# Doxygen
+docs/
+
+
 #Editors
 .idea/
 .vscode/
+*.html
 
 #Temps
 ./bin

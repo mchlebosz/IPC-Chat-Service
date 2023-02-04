@@ -1,0 +1,121 @@
+@startuml registerProtocol
+!theme vibrant from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
+
+actor Bob as User order 1
+database ServerDB as ServerDB order 30
+
+autonumber
+
+== Server Initialization ==
+' Server initialization
+create Server order 25
+ServerDB <->o Server : load_db()
+activate Server
+create queue ServerQueue order 24
+Server ->o ServerQueue : msgget('server', IPC_CREAT)
+activate ServerQueue
+
+== Client Initialization ==
+' Client initialization
+create Client order 3
+User -> Client : register(login,password,repassword)
+User -> User : check_register(login,password,repassword)
+activate Client
+create queue ClientQueue order 4
+Client -> ClientQueue : msgget(client_key, IPC_CREAT)
+activate ClientQueue
+Client -> ServerQueue : msgget('server')
+alt Failure connection to server
+    loop 10 times
+        Client -> ServerQueue : msgget('server')
+    end
+    alt Failure
+        Client -> User : "Server is not responding"
+        'exit app
+    else Sucessfull connection to server
+        Client --> ServerQueue : msgsnd(client_id;client_seed;)
+    end
+else Sucessfull connection to server
+    Client --> ServerQueue : msgsnd(client_id;client_seed;)
+end
+
+
+== Session ==
+' Server receives client key and creates session
+group Create session
+    ServerQueue --> Server : msgrcv(client_id;client_seed;)
+    create queue SessionQueue order 20
+    Server -> SessionQueue : msgget(client_id;session_seed, IPC_CREAT)
+    activate SessionQueue
+    create Session order 21
+    Server -> Session : fork()
+    activate Session
+    Session -> SessionQueue : msgget(client_id;session_seed)
+    Session -> ClientQueue : msgget(client_id;client_seed;)
+    Session --> ClientQueue : msgsnd(client_id;session_seed)
+end
+' Client receives session key and starts session and removes client queue
+ClientQueue --> Client : msgrcv(client_id;session_seed)
+Client -> SessionQueue : msgget(client_id;session_seed)
+alt Failure connection to session
+    loop 10 times
+        Client -> SessionQueue : msgget(client_id;session_seed)
+    end
+    alt Failure
+        Client -> User : "Server is not responding"
+        'exit app
+    end
+else Sucessfull connection to session
+    Client -> ClientQueue : msgctl(client_key, IPC_RMID)
+    destroy ClientQueue
+
+
+    Client --> SessionQueue : msgsnd({login,password})
+    SessionQueue --> Session : msgrcv({login,password})
+
+    ' if everything is ok then change access rights and send to server
+    Session --> ServerQueue : msgsnd({login,password})
+    ServerQueue --> Server : msgrcv({login,password})
+    Server <- ServerDB : check_credentials(login)
+    alt User exists
+        Server -> SessionQueue : msgsnd(fail, message)
+        SessionQueue --> Session : msgrcv(fail, message)
+        Session -> Session : change msg access rights()
+        Session -> SessionQueue : msgsnd(fail, message)
+        SessionQueue --> Client : msgrcv(fail, message)
+        Client -> User : show_message(message)
+    else User does not exist then create user
+        Server -> Server : generate_key()
+        Server -> ServerDB : register({login,password}, decrypt_key)
+        Server -> Server : connect(login,session_key)
+        Server -> Server : set_status(login,'online')
+        Server -> Server : propagate_status(login,'online')
+        Server --> SessionQueue : msgsnd({login,password}, decrypt_key)
+        SessionQueue --> Session : msgrcv({login,password}, decrypt_key)
+        Session -> Session : change msg access rights()
+        Session --> SessionQueue : msgsnd({login,password}, decrypt_key)
+        SessionQueue --> Client : msgrcv({login,password}, decrypt_key)
+        Client -> Client : check_credentials({login,password}, decrypt_key)
+        alt Failure credentials
+            Client -> User : show_message(internal_error)
+            'retry login
+        else Sucessfull credentials
+            Client -> Client : change_access_rights()
+            create database ClientDB order 2
+            Client -> ClientDB : create_db(login,decrypt_key)
+            Client <- ClientDB : load_data(login,decrypt_key)
+            Client -> Client : start_chat()
+            Client -> User : show_chat()
+        end
+    end
+end
+
+
+
+
+
+
+
+
+
+@enduml
