@@ -1,5 +1,6 @@
 # IPC-Chat-Service
 Parallel and System programing project
+[Full Docs](https://mchlebosz.github.io/IPC-Chat-Service/)
 
 ## IMPORTANT!
 When commiting to main (and other branches too) please follow given structure:
@@ -7,20 +8,21 @@ When commiting to main (and other branches too) please follow given structure:
 
 ## Stack
 using C11
+for JSON parsing we are using cJSON library - [cJSON](https://github.com/DaveGamble/cJSON)
 For building project use Makefile
 
 ## How to run
 1. Clone repository
 2. Go to `.` directory
 3. Run `make` command
-4. Run `./bin/server` command
-5. Run `./bin/client` command
+4. Go to `bin` directory by `cd bin`
+4. Run `./server` command
+5. Run `./client` command
 6. Enjoy!
 
 ## About
 This is a project for Parallel and System programing course at PUT. The goal is to create a chat service using IPC (Inter Process Communication) methods. We are using C11 standard for programming. We are using Makefile for building project. \
 [Original project description](https://www.cs.put.poznan.pl/akobusinska/downloads/projekt2022.pdf) \
-
 [Full Docs](https://mchlebosz.github.io/IPC-Chat-Service/)
 
 Assumptions for this project are:
@@ -31,20 +33,20 @@ Assumptions for this project are:
 
 Account:
 - [x] Login
-- [ ] Logout
+- [x] Logout
 - [x] Register
 - [x] Send a message to a user
 - [ ] Send a message to a group
-- [ ] See who is online
-- [ ] See who is in a group
+- [x] See who is online
+- [x] See who is in a group
 
 
 Group:
-- [ ] Create a group
-- [ ] Add a user to a group
+- [x] Create a group
+- [x] Add a user to a group
 - [ ] See who is in a group
 - [ ] Remove a user from a group
-- [ ] See all groups
+- [x] See all groups
 
 Our own weir ideas:
 - [ ] Message encryption
@@ -104,14 +106,12 @@ const map_entry_t statusCodes[STATUS_CODES] = {
 ## Files
 - `src/codes.c` - file with codes
 - `src/message.c` - file with message structure and functions
+- `src/cJSON.c` - cJSON library file (for parsing json) - [cJSON](https://github.com/DaveGamble/cJSON)
 - `src/client/main.c` - client main file
 - `src/server/main.c` - server main file
 - `src/server/serverQueue.c` - server functions and main loop
 - `src/server/dbHandler.c` - file handling
 - `src/server/session.c` - file with session structure and functions
-
-
-
 
 ## Authors
 - [Mateusz Chlebosz](https://github.com/mchlebosz)

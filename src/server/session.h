@@ -13,6 +13,7 @@ typedef struct {
 	key_t sessionKey;
 	int sessionQueue;
 	int sessionPID;
+	int userLoggedInID;
 } Session;
 
 // sessions list
@@ -37,3 +38,7 @@ int openSession(int* sessionRunning, int* sessionQueue, char* clientID,
 char* generateKey();
 
 int isSessionRunning(Sessions* sessions, const char* clientID);
+
+int getSessionUserID(Sessions* sessions, const char* clientID, int* userID);
+
+int setSessionUserID(Sessions* sessions, const char* clientID, int userID);
