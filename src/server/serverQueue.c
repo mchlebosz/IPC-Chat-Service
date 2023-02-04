@@ -490,7 +490,17 @@ int loginUser(char* username, char* password, char** key, char* db) {
 	}
 }
 
-char* getOnlineUsers(Sessions sessions) {
+char* getOnlineUsersID(Sessions sessions) {
+	// get string of inline clientIDs seperated by ;
+	char* onlineUsers = malloc(1000 * sizeof(char));
+	for (int i = 0; i < sessions.size; i++) {
+		strcat(onlineUsers, sessions.sessions[i].userLoggedInID);
+		strcat(onlineUsers, ";");
+	}
+	return onlineUsers;
+}
+
+char* getOnlineClientID(Sessions sessions) {
 	// get string of inline clientIDs seperated by ;
 	char* onlineUsers = malloc(1000 * sizeof(char));
 	for (int i = 0; i < sessions.size; i++) {
