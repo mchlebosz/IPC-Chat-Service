@@ -107,6 +107,10 @@ int writeFile(const char* filename, const char* data) {
  * @return the status code of the operation.
  */
 int getUserByName(const char* file_name, User* user, char* name) {
+	if (user == NULL) {
+		// create mock user
+		user = (User*)malloc(sizeof(User));
+	}
 	const char* json_str = readFile(file_name);
 	cJSON *json, *item, *new_item;
 

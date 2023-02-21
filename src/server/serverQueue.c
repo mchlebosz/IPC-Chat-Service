@@ -617,7 +617,7 @@ char* getOnlineUsersID(Sessions sessions) {
 	// get string of inline clientIDs seperated by ;
 	char* onlineUsers = malloc(1000 * sizeof(char));
 	for (int i = 0; i < sessions.size; i++) {
-		char* userID;
+		char* userID = malloc(1000 * sizeof(char));
 		sprintf(userID, "%d", sessions.sessions[i].userLoggedInID);
 		strcat(onlineUsers, userID);
 		strcat(onlineUsers, ";");
