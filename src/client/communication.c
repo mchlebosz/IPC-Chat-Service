@@ -8,6 +8,7 @@ void APIStart(void) {
 	sessionQueue = -1;
 	memset(id, -1, 16);
 	key = -1;
+	//APICreateConnection();
 }
 
 int APICreateConnection(void) {
@@ -16,7 +17,8 @@ int APICreateConnection(void) {
 	char name[16] = {0};
 	int tmp = sessionId;
 	while (tmp > 9999999) tmp /= 2;
-	sprintf(name, "u%1d-%03d-%04dr", rand() % 10, tmp / 10000, tmp % 10000);
+	sprintf(name, "u%1d-%03d-%03dr", rand() % 10, tmp / 10000, tmp % 10000);
+	name[15] = 0;
 	strcpy(id, name);
 
 	int clientKey 	  = (key = hash(name));
@@ -36,13 +38,13 @@ int APICreateConnection(void) {
 	msgrcv(clientQueueID, &response, sizeof(Message), 23, 0);
 
 
-	msgctl(clientQueueID, IPC_RMID, NULL);
 	if (response.mtext.header.type == 1) {
 		printf("Establishing connection...\n");
 	} else {
 		printf("Connection failed\n");
 		return -1;
 	}
+	msgctl(clientQueueID, IPC_RMID, NULL);
 
 	strtok(response.mtext.body, ";"); // skip first arg
 	int sessionSeed = atoi(strtok(NULL, ";"));
@@ -50,6 +52,8 @@ int APICreateConnection(void) {
 
 	sessionQueue = msgget(sessionKey, 0666 | IPC_CREAT);
 	printf("Connected to queue: %d, with key=%d successfully\n", sessionQueue, sessionKey);
+
+	printf("q: %d\nk: %d\nid: %s\n", sessionQueue, key, id);
 
 	return sessionQueue;
 }
@@ -88,6 +92,9 @@ Message APILogin(const char* username, const char* password) {
 }
 // register
 Message APIRegister(const char* username, const char* password) {
+	char user[32], pswd[32];
+	strcpy(user, username);
+	strcpy(pswd, password);
 	if (sessionQueue == -1) APICreateConnection();
 	printf("register queue: %d\n", sessionQueue);
 	// send username and password to server
@@ -96,7 +103,7 @@ Message APIRegister(const char* username, const char* password) {
 	// else return error code
 
 	char data[128];
-	sprintf(data, "%s;%s;", username, password);
+	sprintf(data, "%s;%s;", user, pswd);
 
 	Message message;
 	msgInit(&message, 32, 11, id, "session", 200, data);

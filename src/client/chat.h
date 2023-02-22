@@ -1,2 +1,4 @@
 #pragma once
-void show_chat_interface(char* token);
+#include "../utils.h"
+
+void show_chat_interface(const char *user, const char *token);

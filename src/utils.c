@@ -26,3 +26,27 @@ unsigned long hash(const char *str) {
 int createSessonKey(int clientId, int sessionSeed) {
 	return (clientId << 7) + sessionSeed;
 }
+
+bool isNumber(const char* s) {
+	while (*s) {
+		if (!('0' <= *s && *s <= '9')) return false;
+		s++;
+	}
+	return true;
+}
+
+int scanfInt(void) {
+	char buff[64];
+	do {
+		memset(buff, 0, sizeof(buff));
+		if (scanf("%s", buff) != 1) {
+			printf("Wrong input\n> ");
+			continue;
+		}
+		if (isNumber(buff))
+			break;
+		else
+			printf("not a number!  try again\n> ");
+	} while (true);
+	return atoi(buff);
+}
