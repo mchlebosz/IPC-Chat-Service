@@ -277,23 +277,36 @@ void serve(int* keep_running, int* msgid, char* db) {
 			strcpy(receiver, msg.mtext.header.sender);
 			strcpy(sender, msg.mtext.header.sender);
 
-			// find sender and receiver sessions
+			int status = 200;
 
-			// check if receiver exists and is online
+			// find sender username
+			char* senderUsername = getUsernamebyClientID(sessions, sender, db);
 
-			int status = isSessionRunning(&sessions, receiver);
+			if (senderUsername == NULL) status = 500;
+
+			// get receiver session clientID
+			char* receiverClientID =
+				getClientIDbyUsername(sessions, receiver, db);
+
+			if (receiverClientID == NULL && status == 200) status = 404;
+			// check if receiver is online
+			if (isSessionRunning(&sessions, receiverClientID) != 200 &&
+				status == 200)
+				status = 404;
+			// check if receiver exists
 			int userID;
-			if (getSessionUserID(&sessions, receiver, &userID) != 200)
-				status = 404;	
+			if (getSessionUserID(&sessions, receiverClientID, &userID) != 200)
+				status = 404;
 			else if (getUserById(db, NULL, userID) != 200)
 				status = 404;
 
 			if (status == 200) {
 				// send message to receiver
 				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, receiver);
+				int sessionQueue = getSessionQueue(&sessions, receiverClientID);
 				// send response message
-				msgInit(&msg, 12, 34, sender, receiver, 200, messageBody);
+				msgInit(&msg, 12, 34, senderUsername, receiver, 200,
+						messageBody);
 
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 
@@ -313,7 +326,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 				//  send response message to sender
 				msgInit(&msg, 12, 1, "server", sender, 500,
 						"Internal Server Error (Send Message)");
- 
+
 				// connect to session queue
 				int sessionQueue = getSessionQueue(&sessions, sender);
 				// send response message
@@ -616,6 +629,15 @@ int loginUser(char* username, char* password, char** key, char* db) {
 	}
 }
 
+/**
+ * It takes a Sessions struct and a database name, and returns a string of all
+ * the online users' names, seperated by semicolons
+ *
+ * @param sessions The sessions array
+ * @param db the database file
+ *
+ * @return A string of online users seperated by ;
+ */
 char* getOnlineUsersID(Sessions sessions, const char* db) {
 	// get string of inline clientIDs seperated by ;
 	char* onlineUsers = malloc(1000 * sizeof(char));
@@ -635,6 +657,14 @@ char* getOnlineUsersID(Sessions sessions, const char* db) {
 	return onlineUsers;
 }
 
+/**
+ * It takes a Sessions struct and returns a string of all the online clientIDs
+ * seperated by a semicolon
+ *
+ * @param sessions The sessions struct that contains all the sessions.
+ *
+ * @return A string of all the online clientIDs seperated by ;
+ */
 char* getOnlineClientID(Sessions sessions) {
 	// get string of inline clientIDs seperated by ;
 	char* onlineUsers = malloc(1000 * sizeof(char));
@@ -645,4 +675,56 @@ char* getOnlineClientID(Sessions sessions) {
 		strcat(onlineUsers, clientID);
 	}
 	return onlineUsers;
+}
+
+/**
+ * It gets the username of the user logged in by the clientID
+ *
+ * @param sessions the sessions array
+ * @param clientID the client ID of the client that sent the message
+ * @param db the database file name
+ *
+ * @return A pointer to a char
+ * Question: What is the return type?
+ * Answer: char*
+ * Question: What is the name of the function?
+ * Answer: getUsernamebyClientID
+ * Question: What are the parameters?
+ * Answer: Sessions sessions, char* clientID, const char* db
+ * Question: What is the parameter type?
+ * Answer: Sessions, char*, const char
+ */
+char* getUsernamebyClientID(Sessions sessions, char* clientID, const char* db) {
+	for (int i = 0; i < sessions.size; i++) {
+		if (strcmp(sessions.sessions[i].clientID, clientID) == 0) {
+			// find username in database
+			User* user = NULL;
+			getUserById(db, &user, sessions.sessions[i].userLoggedInID);
+			return user->name;
+		}
+	}
+	return NULL;
+}
+
+/**
+ * It gets the client ID of a user by their username
+ *
+ * @param sessions the sessions array
+ * @param username the username of the user you want to get the client id of
+ * @param db the database file
+ *
+ * @return A pointer to a char.
+ */
+char* getClientIDbyUsername(Sessions sessions, char* username, const char* db) {
+	// get user id
+	User* user;
+	user = malloc(sizeof(User));
+	getUserByName(db, user, username);
+	// get client id
+	for (int i = 0; i < sessions.size; i++) {
+		if (sessions.sessions[i].userLoggedInID == user->id) {
+			return sessions.sessions[i].clientID;
+		}
+	}
+	return NULL;
 }
