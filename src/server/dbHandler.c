@@ -218,26 +218,27 @@ int getUserByName(const char* file_name, User* user, char* name) {
  *
  * @return the status code of the operation.
  */
-int getUserById(const char* file_name, User* user, int id) {
+int getUserById(const char* file_name, User** user, int id) {
 	const char* json_str = readFile(file_name);
 	cJSON *json, *item;
-
-	user = malloc(sizeof(User));
+	User* tmp_user = NULL;
+	if (user == NULL) user = &tmp_user; 
+	*user = malloc(sizeof(User));
 
 	json = cJSON_Parse(json_str);
 	if (!json) {
-		printf("Error parsing json\n");
+		printf("Error parsi* json\n");
 		return 500;
 	}
 	// go to users array
-	item = cJSON_GetObjectItemCaseSensitive(json, "Users");
-	if (!cJSON_IsArray(item)) {
+	cJSON* user_array_item = cJSON_GetObjectItemCaseSensitive(json, "Users");
+	if (!cJSON_IsArray(user_array_item)) {
 		printf("Error getting users array\n");
 		return 500;
 	}
 	// find user
-	for (int i = 0; i < cJSON_GetArraySize(item); i++) {
-		cJSON* user_json = cJSON_GetArrayItem(item, i);
+	for (int i = 0; i < cJSON_GetArraySize(user_array_item); i++) {
+		cJSON* user_json = cJSON_GetArrayItem(user_array_item, i);
 		if (cJSON_IsObject(user_json)) {
 			item = cJSON_GetObjectItemCaseSensitive(user_json, "id");
 			if (cJSON_IsNumber(item)) {
@@ -246,20 +247,20 @@ int getUserById(const char* file_name, User* user, int id) {
 					// get id
 					item = cJSON_GetObjectItemCaseSensitive(user_json, "id");
 					if (cJSON_IsNumber(item)) {
-						user->id = item->valueint;
+						(*user)->id = item->valueint;
 					}
 
 					// get name
 					item = cJSON_GetObjectItemCaseSensitive(user_json, "name");
 					if (cJSON_IsString(item) && (item->valuestring != NULL)) {
-						strcpy(user->name, item->valuestring);
+						strcpy((*user)->name, item->valuestring);
 					}
 
 					// get password
 					item =
 						cJSON_GetObjectItemCaseSensitive(user_json, "password");
 					if (cJSON_IsString(item) && (item->valuestring != NULL)) {
-						strcpy(user->password, item->valuestring);
+						strcpy((*user)->password, item->valuestring);
 					}
 
 					// get groups
@@ -272,12 +273,12 @@ int getUserById(const char* file_name, User* user, int id) {
 								item = cJSON_GetObjectItemCaseSensitive(
 									group_json, "id");
 								if (cJSON_IsNumber(item)) {
-									user->groups[j] = item->valueint;
+									(*user)->groups[j] = item->valueint;
 								}
 							}
 						}
 						// group count
-						user->groupsCount = cJSON_GetArraySize(item);
+						(*user)->groupsCount = cJSON_GetArraySize(item);
 					}
 
 					// friends
@@ -290,19 +291,19 @@ int getUserById(const char* file_name, User* user, int id) {
 								item = cJSON_GetObjectItemCaseSensitive(
 									friend_json, "id");
 								if (cJSON_IsNumber(item)) {
-									user->friends[j] = item->valueint;
+									(*user)->friends[j] = item->valueint;
 								}
 							}
 						}
 						// friend count
-						user->friendsCount = cJSON_GetArraySize(item);
+						(*user)->friendsCount = cJSON_GetArraySize(item);
 					}
 
 					// public key
 					item = cJSON_GetObjectItemCaseSensitive(user_json,
 															"publicKey");
 					if (cJSON_IsString(item) && (item->valuestring != NULL)) {
-						strcpy(user->publicKey, item->valuestring);
+						strcpy((*user)->publicKey, item->valuestring);
 					}
 
 					return 200;

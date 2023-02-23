@@ -21,9 +21,17 @@ Message APILogin(const char* username, const char* password);
 // register
 Message APIRegister(const char* username, const char* password);
 // logout
-Message APILogout(char* username);
-
+Message APILogout(void);
 // get the list of users
+Message APIGetOnlineUsers(void);
+
+Message APIBeginChat(const char* username);
+
+Message APIChatSendMessage(const char* data);
+
+Message APIChatReceiveMessage(void);
+
+Message APIEndChat(void);
 // get the list of messages
 // get the list of groups
 

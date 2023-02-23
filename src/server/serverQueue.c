@@ -223,14 +223,12 @@ void serve(int* keep_running, int* msgid, char* db) {
 		}
 		// Log out user
 		else if (msg.mtext.header.type == 12) {
-			// message format: ClientID;
-			char* messageBody = msg.mtext.body;
-			char* clientID    = strtok(messageBody, ";");
-
+			// client id (to log out): sender
 			char receiver[32];
-			strcpy(receiver, msg.mtext.header.sender);
 			char sender[32];
+			strcpy(receiver, msg.mtext.header.sender);
 			strcpy(sender, msg.mtext.header.sender);
+			char* clientID = sender;
 			// connect to session queue
 			int sessionQueue = getSessionQueue(&sessions, sender);
 
@@ -267,15 +265,17 @@ void serve(int* keep_running, int* msgid, char* db) {
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 			}
-
 		}
 		// Send Message to User
 		else if (msg.mtext.header.type == 24) {
 			// extract message body
 			// message format: message;
-			char* messageBody = msg.mtext.body;
-			char* sender      = msg.mtext.header.sender;
-			char* receiver    = msg.mtext.header.receiver;
+			char messageBody[1000];
+			char receiver[32];
+			char sender[32];
+			strcpy(messageBody, msg.mtext.body);
+			strcpy(receiver, msg.mtext.header.sender);
+			strcpy(sender, msg.mtext.header.sender);
 
 			// find sender and receiver sessions
 
@@ -284,7 +284,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 			int status = isSessionRunning(&sessions, receiver);
 			int userID;
 			if (getSessionUserID(&sessions, receiver, &userID) != 200)
-				status = 404;
+				status = 404;	
 			else if (getUserById(db, NULL, userID) != 200)
 				status = 404;
 
@@ -313,7 +313,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 				//  send response message to sender
 				msgInit(&msg, 12, 1, "server", sender, 500,
 						"Internal Server Error (Send Message)");
-
+ 
 				// connect to session queue
 				int sessionQueue = getSessionQueue(&sessions, sender);
 				// send response message
@@ -325,7 +325,8 @@ void serve(int* keep_running, int* msgid, char* db) {
 		// Get list of active users
 		else if (msg.mtext.header.type == 13) {
 			// message format:
-			char* sender = msg.mtext.header.sender;
+			char sender[20];
+			strcpy(sender, msg.mtext.header.sender);
 
 			// check if client is logged in
 			int status = isSessionRunning(&sessions, sender);
@@ -333,7 +334,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 			// if client is logged in
 			if (status == 200) {
 				// get list of active users
-				char* activeUsers = getOnlineUsersID(sessions);
+				char* activeUsers = getOnlineUsersID(sessions, db);
 
 				// if active users is empty
 				if (activeUsers == NULL) {
@@ -381,8 +382,10 @@ void serve(int* keep_running, int* msgid, char* db) {
 		// Add user to group
 		else if (msg.mtext.header.type == 25) {
 			// message format: groupname;username
-			char* messageBody = msg.mtext.body;
-			char* sender      = msg.mtext.header.sender;
+			char messageBody[1000];
+			char sender[20];
+			strcpy(messageBody, msg.mtext.body);
+			strcpy(sender, msg.mtext.header.sender);
 
 			char* groupName = strtok(messageBody, ";");
 			char* username  = strtok(NULL, ";");
@@ -613,15 +616,21 @@ int loginUser(char* username, char* password, char** key, char* db) {
 	}
 }
 
-char* getOnlineUsersID(Sessions sessions) {
+char* getOnlineUsersID(Sessions sessions, const char* db) {
 	// get string of inline clientIDs seperated by ;
 	char* onlineUsers = malloc(1000 * sizeof(char));
+	memset(onlineUsers, 0, 1000);
 	for (int i = 0; i < sessions.size; i++) {
-		char userID[32];
-		memset(userID, 0, 32);
-		sprintf(userID, "%d", sessions.sessions[i].userLoggedInID);
-		strcat(onlineUsers, userID);
-		strcat(onlineUsers, ";");
+		char username[34];
+		memset(username, 0, 34);
+
+		User* user = NULL;
+		getUserById(db, &user, sessions.sessions[i].userLoggedInID);
+		sprintf(username, "%s;", user->name);
+
+		strcat(onlineUsers, username);
+
+		free(user);
 	}
 	return onlineUsers;
 }
@@ -630,11 +639,10 @@ char* getOnlineClientID(Sessions sessions) {
 	// get string of inline clientIDs seperated by ;
 	char* onlineUsers = malloc(1000 * sizeof(char));
 	for (int i = 0; i < sessions.size; i++) {
-		char clientID[32];
-		memset(clientID, 0, 32);
-		sprintf(clientID, "%s", sessions.sessions[i].clientID);
+		char clientID[33];
+		memset(clientID, 0, 33);
+		sprintf(clientID, "%s;", sessions.sessions[i].clientID);
 		strcat(onlineUsers, clientID);
-		strcat(onlineUsers, ";");
 	}
 	return onlineUsers;
 }

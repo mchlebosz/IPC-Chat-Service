@@ -4,9 +4,16 @@ int sessionQueue;
 char id[16];
 int key;
 
+void debug_message(Message* message) {
+	printf("[msg]\n  status: %d\n  sender: %s\n  receiver: %s\n  body: %s\n[/msg]\n",
+		message->mtext.header.statusCode, message->mtext.header.sender, 
+		message->mtext.header.receiver, message->mtext.body
+		);
+}
+
 void APIStart(void) {
 	sessionQueue = -1;
-	memset(id, -1, 16);
+	memset(id, 0, 16);
 	key = -1;
 	//APICreateConnection();
 }
@@ -37,7 +44,6 @@ int APICreateConnection(void) {
 	Message response;
 	msgrcv(clientQueueID, &response, sizeof(Message), 23, 0);
 
-
 	if (response.mtext.header.type == 1) {
 		printf("Establishing connection...\n");
 	} else {
@@ -65,7 +71,7 @@ Message APILogin(const char* username, const char* password) {
 	// if response is success, return username auth token
 	// else return error code
 	if (sessionQueue == -1) APICreateConnection();
-	printf("trying to log in...\n");
+
 	char data[128];
 	memset(data, 0, sizeof(data));
 	sprintf(data, "%s;%s;", username, password);
@@ -83,10 +89,7 @@ Message APILogin(const char* username, const char* password) {
 		}
 	}
 
-	printf("[msg]\n  status: %d\n  sender: %s\n  receiver: %s\n  body: %s\n[/msg]\n",
-		response.mtext.header.statusCode, response.mtext.header.sender, 
-		response.mtext.header.receiver, response.mtext.body
-		);
+	// debug_message(&response);
 
 	return response;
 }
@@ -108,7 +111,7 @@ Message APIRegister(const char* username, const char* password) {
 	Message message;
 	msgInit(&message, 32, 11, id, "session", 200, data);
 	msgsnd(sessionQueue, &message, sizeof(message), 0);
-	printf("trying to register...\n");
+
 	Message response;
 	for (int timer = 0; msgrcv(sessionQueue, &response, sizeof(Message), 23, 0) < 0; timer++) {
 		usleep(1500);
@@ -119,22 +122,80 @@ Message APIRegister(const char* username, const char* password) {
 	}
 
 	// print message data
-	printf("[msg]\n  status: %d\n  sender: %s\n  receiver: %s\n  body: %s\n[/msg]\n",
-		response.mtext.header.statusCode, response.mtext.header.sender, 
-		response.mtext.header.receiver, response.mtext.body
-		);
-
+	// debug_message(&response);
 
 	return response;
 }
 // logout
-Message APILogout(char* username) {
+Message APILogout() {
 	// send username to server
 	// receive response from server
 	// if response is success, show login interface
 	// else, show error message
+	char data[32];
+	strcpy(data, id);
+
+	Message message;
+	msgInit(&message, 32, 12, id, "session", 200, data);
+	msgsnd(sessionQueue, &message, sizeof(message), 0);
+
 	Message response;
-	response.mtext.header.type = 12;
+	for (int timer = 0; msgrcv(sessionQueue, &response, sizeof(Message), 23, 0) < 0; timer++) {
+		usleep(1500);
+		if (timer == 50) {
+			response.mtext.header.statusCode = 500;
+			break;
+		}
+	}
+
+	// debug_message(&response);
 
 	return response;
+}
+
+Message APIGetOnlineUsers(void)
+{
+    Message message;
+	msgInit(&message, 32, 13, id, "session", 200, "");
+	msgsnd(sessionQueue, &message, sizeof(message), 0);
+	printf("getting online users...\n");
+	Message response;
+	for (int timer = 0; msgrcv(sessionQueue, &response, sizeof(Message), 23, 0) < 0; timer++) {
+		usleep(1500);
+		if (timer == 50) {
+			response.mtext.header.statusCode = 500;
+			break;
+		}
+	}
+	// print message data
+	debug_message(&response);
+
+	return response;
+}
+
+Message APIBeginChat(const char *username)
+{
+    Message onlineUsers = APIGetOnlineUsers();
+	char* body = onlineUsers.mtext.body;
+	const char* next = strtok(body, ";");
+	
+	// check if username is correct
+	bool found = false;
+	while (next) {
+		if (strcmp(next, body) == 0) {
+			found = true;
+			break;
+		}
+		next = strtok(NULL, ";");
+	}
+
+	if (!found) {
+		Message errorMsg;
+		errorMsg.mtext.header.statusCode = 500;
+		return errorMsg;
+	}
+
+	Message message;
+	message.mtype = 0;
+	return message;
 }

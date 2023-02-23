@@ -40,7 +40,7 @@ int searchData(const char* fileName, const char* data);
 
 int getUserByName(const char* file_name, User* user, char* name);
 
-int getUserById(const char* file_name, User* user, int id);
+int getUserById(const char* file_name, User** user, int id);
 
 int getAllUsers(const char* file_name, User** users, int* count);
 

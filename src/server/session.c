@@ -126,7 +126,7 @@ void addSession(Sessions* sessions, Session* session) {
 void removeSession(Sessions* sessions, char* clientID) {
 	// find session in sessions list
 	for (int i = 0; i < sessions->size; i++) {
-		if (sessions->sessions[i].clientID == clientID) {
+		if (strcmp(sessions->sessions[i].clientID, clientID) == 0) {
 			// remove session from sessions list
 			for (int j = i; j < sessions->size - 1; j++) {
 				sessions->sessions[j] = sessions->sessions[j + 1];

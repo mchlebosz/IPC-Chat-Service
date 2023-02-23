@@ -20,6 +20,6 @@ int registerUser(char* username, char* password, char** key, char* db);
 
 int loginUser(char* username, char* password, char** key, char* db);
 
-char* getOnlineUsersID(Sessions sessions);
+char* getOnlineUsersID(Sessions sessions, const char* db);
 
 char* getOnlineClientsID(Sessions sessions);
