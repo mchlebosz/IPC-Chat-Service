@@ -651,6 +651,7 @@ char* getOnlineUsersID(Sessions sessions, const char* db) {
 	char* onlineUsers = malloc(1000 * sizeof(char));
 	memset(onlineUsers, 0, 1000);
 	for (int i = 0; i < sessions.size; i++) {
+
 		char username[34];
 		memset(username, 0, 34);
 

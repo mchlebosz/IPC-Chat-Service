@@ -107,6 +107,7 @@ int writeFile(const char* filename, const char* data) {
  *
  * @return the status code of the operation.
  */
+ 
 int getUserByName(const char* file_name, User** user, char* name) {
 	User* tmp_user = NULL;
 	if (user == NULL) user = &tmp_user; // create mock user
