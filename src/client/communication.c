@@ -181,6 +181,9 @@ Message APIEndChat(const char* username) {
 	if (msgrcv(sessionQueue, &response, sizeof(Message), 23, 0) < 0)
 		response.mtext.header.statusCode = 500;
 
+	msgInit(&message, 13, 101, id, id, 200, username); // inform receive loop about current chatter
+	msgsnd(sessionQueue, &message, sizeof(message), 0);
+
 	return response;
 }
 

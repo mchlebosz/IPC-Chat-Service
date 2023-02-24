@@ -40,8 +40,7 @@ int scanfInt(void) {
 	do {
 		memset(buff, 0, sizeof(buff));
 		if (scanf("%s", buff) != 1) {
-			printf("Wrong input\n> ");
-			continue;
+			exit(-1);
 		}
 		if (isNumber(buff))
 			break;

@@ -26,11 +26,16 @@ void show_description(const char *username) {
 }
 
 void show_chat_interface(const char* user, const char* token) {
-	memset(chattername, 0, 32);
+	memset(chattername, 0, sizeof(chattername));
 	show_description(user);
+
 	pid_t pid = fork();
-	if (pid) setChildPID(pid);
-	else setChildPID(getppid());
+	if (pid) {
+		setChildPID(pid);
+	} else {
+		setChildPID(getppid());
+	}
+
 	if (_DEBUGSERVER_HELPER pid) {
 		receiveMessagesLoop();
 		exit(0);
@@ -48,12 +53,12 @@ void show_chat_interface(const char* user, const char* token) {
 void chatLoop(void) {
 	char* buff = NULL;
 	size_t bytes_count = 0;
-	getline(&buff, &bytes_count, stdin);
+	(void)getline(&buff, &bytes_count, stdin);
 	while (true) {
 		//memset(buff, 0, 512 * sizeof(char));
 		printf("\n> ");
 		fflush(stdout);
-		getline(&buff, &bytes_count, stdin);
+		(void)getline(&buff, &bytes_count, stdin);
 		if (startsWith(buff, "/exit"))
 			return;
 		
@@ -75,27 +80,28 @@ void chatLoop(void) {
 void closeChat(void) {
 	puts("You've left the chat!");
 	APIEndChat(chattername);
-	memset(chattername, 0, 32);
+	memset(chattername, 0, sizeof(chattername));
 }
 
 void openChat(void) {
 	printf("enter receiver's nickname:\n> ");
 	fflush(stdout);
 	char buff[64];
-	memset(buff, 0, 64);
-	scanf("%s", buff);
+	memset(buff, 0, sizeof(buff));
+	(void)scanf("%s", buff);
 	if (buff[31] != 0) { // probably overflow
-		memset(buff + 31, 0, 32);
+		memset(buff + sizeof(buff) / 2 - 1, 0, sizeof(buff) / 2);
 	}
 
+	printf("\nwaiting for %s to join the chat...\n\n> ", chattername);
 	Message result = APIBeginChat(buff);
 	if (result.mtext.header.statusCode != 200) { // user does not exist! 
-		printf("error: %s\n", result.mtext.body);					// (or any other error...)
+		printf("\nthis user is not online!\n\n> ");					// (or any other error...)
+		fflush(stdout);
 		return; 
 	}
 
 	strcpy(chattername, buff);
-	printf("You are chatting with %s now!\n", chattername);
 
 	chatLoop();
 	closeChat();
@@ -151,9 +157,14 @@ void receiveMessagesLoop(void) {
 		Message result = APIChatReceiveMessage();
 		int status = result.mtext.header.statusCode;
 		if (status != 200) exit(0);
-		
-		if (result.mtext.header.type == 100) {
+		int type = result.mtext.header.type;
+		if (type == 100) { // waiting for receiver to join the chat
 			strcpy(currentChatter, result.mtext.body);
+			fflush(stdout);
+			continue;
+		} 
+		if (type == 101) { // receiver left the chat
+			memset(currentChatter, 0, sizeof(currentChatter));
 			continue;
 		}
 
@@ -162,13 +173,14 @@ void receiveMessagesLoop(void) {
 		const char* sender = result.mtext.header.sender;
 
 		if (isChatBeginMsg(data)) {
-			if (strcmp(currentChatter, sender) != 0) 
+			if (strcmp(currentChatter, sender) != 0) {
 				printf("\n%s is trying to reach you\n\n> ", sender);
-			else
+			} else
 				printf("\n%s joined the chat!\n\n> ", sender);
 		} else if (isChatEndMsg(data)) {
+			if (strcmp(currentChatter, sender) != 0) continue;
 			printf("\n%s left the chat!\n\n> ", sender);
-			memset(currentChatter, 0, 32);
+			memset(currentChatter, 0, sizeof(currentChatter));
 		} else {
 			if (strcmp(currentChatter, sender) == 0) {
 				printf("(%s) %s~# %s\n\n> ", time + 11, sender, data);
