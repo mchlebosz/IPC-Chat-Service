@@ -27,11 +27,15 @@ Message APIGetOnlineUsers(void);
 
 Message APIBeginChat(const char* username);
 
-Message APIChatSendMessage(const char* data);
+Message APIEndChat(const char* username);
+
+Message APIChatSendMessage(char* data, const char* receiverName);
 
 Message APIChatReceiveMessage(void);
 
-Message APIEndChat(void);
+
+int APIGetSessionQueueId(void);
+
 // get the list of messages
 // get the list of groups
 

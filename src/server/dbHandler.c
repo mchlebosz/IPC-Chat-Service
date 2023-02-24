@@ -99,18 +99,19 @@ int writeFile(const char* filename, const char* data) {
 /**
  * It reads the file, parses the JSON, and then copies the data from the JSON
  * into a User struct
- *
+ * Original user is overrided
+ * 
  * @param file_name the name of the file to read from
  * @param user a pointer to a User struct
  * @param name The name of the user to get
  *
  * @return the status code of the operation.
  */
-int getUserByName(const char* file_name, User* user, char* name) {
-	if (user == NULL) {
-		// create mock user
-		user = (User*)malloc(sizeof(User));
-	}
+int getUserByName(const char* file_name, User** user, char* name) {
+	User* tmp_user = NULL;
+	if (user == NULL) user = &tmp_user; // create mock user
+	*user = malloc(sizeof(User));
+
 	const char* json_str = readFile(file_name);
 	cJSON *json, *item, *new_item;
 
@@ -137,7 +138,7 @@ int getUserByName(const char* file_name, User* user, char* name) {
 					new_item =
 						cJSON_GetObjectItemCaseSensitive(user_json, "id");
 					if (cJSON_IsNumber(new_item)) {
-						user->id = new_item->valueint;
+						(*user)->id = new_item->valueint;
 					}
 
 					// get name
@@ -145,7 +146,7 @@ int getUserByName(const char* file_name, User* user, char* name) {
 						cJSON_GetObjectItemCaseSensitive(user_json, "name");
 					if (cJSON_IsString(new_item) &&
 						(new_item->valuestring != NULL)) {
-						strcpy(user->name, new_item->valuestring);
+						strcpy((*user)->name, new_item->valuestring);
 					}
 
 					// get password
@@ -153,7 +154,7 @@ int getUserByName(const char* file_name, User* user, char* name) {
 						cJSON_GetObjectItemCaseSensitive(user_json, "password");
 					if (cJSON_IsString(new_item) &&
 						(new_item->valuestring != NULL)) {
-						strcpy(user->password, new_item->valuestring);
+						strcpy((*user)->password, new_item->valuestring);
 					}
 
 					// get groups
@@ -166,12 +167,12 @@ int getUserByName(const char* file_name, User* user, char* name) {
 								new_item = cJSON_GetObjectItemCaseSensitive(
 									group_json, "id");
 								if (cJSON_IsNumber(new_item)) {
-									user->groups[j] = new_item->valueint;
+									(*user)->groups[j] = new_item->valueint;
 								}
 							}
 						}
 						// group count
-						user->groupsCount = cJSON_GetArraySize(new_item);
+						(*user)->groupsCount = cJSON_GetArraySize(new_item);
 					}
 
 					// friends
@@ -185,12 +186,12 @@ int getUserByName(const char* file_name, User* user, char* name) {
 								new_item = cJSON_GetObjectItemCaseSensitive(
 									friend_json, "id");
 								if (cJSON_IsNumber(new_item)) {
-									user->friends[j] = new_item->valueint;
+									(*user)->friends[j] = new_item->valueint;
 								}
 							}
 						}
 						// friend count
-						user->friendsCount = cJSON_GetArraySize(new_item);
+						(*user)->friendsCount = cJSON_GetArraySize(new_item);
 					}
 
 					// public key
@@ -198,7 +199,7 @@ int getUserByName(const char* file_name, User* user, char* name) {
 																"publicKey");
 					if (cJSON_IsString(new_item) &&
 						(new_item->valuestring != NULL)) {
-						strcpy(user->publicKey, new_item->valuestring);
+						strcpy((*user)->publicKey, new_item->valuestring);
 					}
 					return 200;
 				}

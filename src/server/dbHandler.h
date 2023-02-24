@@ -38,7 +38,7 @@ int writeFile(const char* filename, const char* data);
 
 int searchData(const char* fileName, const char* data);
 
-int getUserByName(const char* file_name, User* user, char* name);
+int getUserByName(const char* file_name, User** user, char* name);
 
 int getUserById(const char* file_name, User** user, int id);
 

@@ -15,52 +15,52 @@ void APIStart(void) {
 	sessionQueue = -1;
 	memset(id, 0, 16);
 	key = -1;
-	//APICreateConnection();
+}
+
+void createId(int sessionId) {
+	char name[20];
+	while (sessionId > 9999999) sessionId /= 2;
+	sprintf(name, "u%1u-%03u-%03ur", rand() % 10, sessionId / 10000, sessionId % 10000);
+	name[15] = 0;
+	memcpy(id, name, 16);
 }
 
 int APICreateConnection(void) {
+	if (sessionQueue != -1) APILogout();
 	int sessionId = abs(((rand() & ((1 << 28) - 1)) ^ (rand() & ((1 << 15) - 1))) >> 7);
 
-	char name[16] = {0};
-	int tmp = sessionId;
-	while (tmp > 9999999) tmp /= 2;
-	sprintf(name, "u%1d-%03d-%03dr", rand() % 10, tmp / 10000, tmp % 10000);
-	name[15] = 0;
-	strcpy(id, name);
+	createId(sessionId);
 
-	int clientKey 	  = (key = hash(name));
+	int clientKey 	  = (key = hash(id));
 	int clientQueueID = msgget(clientKey, 0666 | IPC_CREAT);
 
-	Message msg;
-	char data[128];
-	sprintf(data, "%s;%d;", name, sessionId); // write queue name to body
-	msgInit(&msg, 31, 0, id, "server", 200, data);
+	Message message;
+	char data[256];
+	sprintf(data, "%s;%d;", id, sessionId); // write queue name to body
+	msgInit(&message, 31, 0, id, "server", 200, data);
 
 	key_t serverKey = hash("server");
 
 	int serverSessionId = msgget(serverKey, 0666 | IPC_CREAT);
-	msgsnd(serverSessionId, &msg, sizeof(msg), 0);
+	msgsnd(serverSessionId, &message, sizeof(message), 0);
 
 	Message response;
 	msgrcv(clientQueueID, &response, sizeof(Message), 23, 0);
 
-	if (response.mtext.header.type == 1) {
-		printf("Establishing connection...\n");
-	} else {
+	msgctl(clientQueueID, IPC_RMID, NULL);
+
+	if (response.mtext.header.type != 1) {
 		printf("Connection failed\n");
 		return -1;
 	}
-	msgctl(clientQueueID, IPC_RMID, NULL);
 
 	strtok(response.mtext.body, ";"); // skip first arg
 	int sessionSeed = atoi(strtok(NULL, ";"));
 	int sessionKey  = createSessonKey(sessionId, sessionSeed);
 
 	sessionQueue = msgget(sessionKey, 0666 | IPC_CREAT);
-	printf("Connected to queue: %d, with key=%d successfully\n", sessionQueue, sessionKey);
-
-	printf("q: %d\nk: %d\nid: %s\n", sessionQueue, key, id);
-
+	//printf("Connected to queue: %d, with key=%d successfully\n", sessionQueue, sessionKey);
+	//printf("q: %d\nk: %d\nid: %s\n", sessionQueue, key, id);
 	return sessionQueue;
 }
 
@@ -70,11 +70,14 @@ Message APILogin(const char* username, const char* password) {
 	// receive response from server
 	// if response is success, return username auth token
 	// else return error code
+	char user[32], pswd[32];
+	strcpy(user, username);
+	strcpy(pswd, password);
 	if (sessionQueue == -1) APICreateConnection();
 
 	char data[128];
 	memset(data, 0, sizeof(data));
-	sprintf(data, "%s;%s;", username, password);
+	sprintf(data, "%s;%s;", user, pswd);
 	Message message;
 	msgInit(&message, 32, 10, id, "session", 200, data);
 
@@ -128,74 +131,75 @@ Message APIRegister(const char* username, const char* password) {
 }
 // logout
 Message APILogout() {
-	// send username to server
-	// receive response from server
-	// if response is success, show login interface
-	// else, show error message
 	char data[32];
 	strcpy(data, id);
 
-	Message message;
+	Message message, response;
 	msgInit(&message, 32, 12, id, "session", 200, data);
 	msgsnd(sessionQueue, &message, sizeof(message), 0);
 
-	Message response;
-	for (int timer = 0; msgrcv(sessionQueue, &response, sizeof(Message), 23, 0) < 0; timer++) {
-		usleep(1500);
-		if (timer == 50) {
-			response.mtext.header.statusCode = 500;
-			break;
-		}
-	}
-
-	// debug_message(&response);
+	if (msgrcv(sessionQueue, &response, sizeof(Message), 23, 0) < 0)
+		response.mtext.header.statusCode = 500;
 
 	return response;
 }
 
-Message APIGetOnlineUsers(void)
-{
-    Message message;
+Message APIGetOnlineUsers(void) {
+    Message message, response;
 	msgInit(&message, 32, 13, id, "session", 200, "");
 	msgsnd(sessionQueue, &message, sizeof(message), 0);
-	printf("getting online users...\n");
-	Message response;
-	for (int timer = 0; msgrcv(sessionQueue, &response, sizeof(Message), 23, 0) < 0; timer++) {
-		usleep(1500);
-		if (timer == 50) {
-			response.mtext.header.statusCode = 500;
-			break;
-		}
-	}
-	// print message data
-	debug_message(&response);
+
+	if (msgrcv(sessionQueue, &response, sizeof(Message), 23, 0) < 0)
+		response.mtext.header.statusCode = 500;
 
 	return response;
 }
 
-Message APIBeginChat(const char *username)
-{
-    Message onlineUsers = APIGetOnlineUsers();
-	char* body = onlineUsers.mtext.body;
-	const char* next = strtok(body, ";");
-	
-	// check if username is correct
-	bool found = false;
-	while (next) {
-		if (strcmp(next, body) == 0) {
-			found = true;
-			break;
-		}
-		next = strtok(NULL, ";");
-	}
+Message APIBeginChat(const char* username) {
+	Message message, response;
+	msgInit(&message, 32, 24, id, username, 200, "");
+	const char data[] = notifyChatBeginMsg;
+	memcpy(message.mtext.body, data, sizeof(data));
+	msgsnd(sessionQueue, &message, sizeof(message), 0);
 
-	if (!found) {
-		Message errorMsg;
-		errorMsg.mtext.header.statusCode = 500;
-		return errorMsg;
-	}
+	if (msgrcv(sessionQueue, &response, sizeof(Message), 23, 0) < 0)
+		response.mtext.header.statusCode = 500;
 
-	Message message;
-	message.mtype = 0;
-	return message;
+	msgInit(&message, 13, 100, id, id, 200, username); // inform receive loop about current chatter
+	msgsnd(sessionQueue, &message, sizeof(message), 0);
+
+	return response;
+}
+
+Message APIEndChat(const char* username) {
+	Message message, response;
+	msgInit(&message, 32, 24, id, username, 200, "");
+	const char data[] = notifyChatEndMsg;
+	memcpy(message.mtext.body, data, sizeof(data));
+	msgsnd(sessionQueue, &message, sizeof(message), 0);
+
+	if (msgrcv(sessionQueue, &response, sizeof(Message), 23, 0) < 0)
+		response.mtext.header.statusCode = 500;
+
+	return response;
+}
+
+Message APIChatSendMessage(char *data, const char* receiverName) {
+    Message message, response;
+	msgInit(&message, 32, 24, id, receiverName, 200, trim(data));
+	msgsnd(sessionQueue, &message, sizeof(Message), 0);
+	if (msgrcv(sessionQueue, &response, sizeof(Message), 23, 0) < 0)
+		response.mtext.header.statusCode = 500;
+	return response;
+}
+
+Message APIChatReceiveMessage(void) {
+    Message response;
+	if (msgrcv(sessionQueue, &response, sizeof(Message), 13, 0) < 0)
+		response.mtext.header.statusCode = 500;
+	return response;
+}
+
+int APIGetSessionQueueId() {
+    return sessionQueue;
 }

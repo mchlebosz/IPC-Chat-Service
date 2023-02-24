@@ -84,7 +84,7 @@ ssize_t getpasswd(char** pw, size_t sz, int mask, FILE* fp) {
 	return idx; /* number of chars in passwd    */
 }
 
-void clientLogin(void) {
+void clientLogin() {
 	char username[32];
 	char password[32];
 	memset(username, 0, sizeof(username));
@@ -170,7 +170,7 @@ short checkPassword(char* password, char* confirmPassword) {
 	return 0;
 }
 
-void clientRegister(void) {
+void clientRegister() {
 	char username[30];
 	char password[30];
 	char confirmPassword[30];
