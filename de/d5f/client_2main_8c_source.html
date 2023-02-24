@@ -70,36 +70,50 @@ $(function() {
   <div class="headertitle"><div class="title">main.c</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../de/d5f/client_2main_8c.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;string.h&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;time.h&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="../../d2/d70/communication_8h.html">communication.h</a>&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="../../d4/da9/interface_8h.html">interface.h</a>&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#ifdef _WIN32</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">    #include &lt;winsock2.h&gt;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">    #include &lt;windows.h&gt;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#else</span></div>
+<a href="../../de/d5f/client_2main_8c.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="../../de/d5f/client_2main_8c.html#a369266c24eacffb87046522897a570d5">    1</a></span><span class="preprocessor">#define _GNU_SOURCE</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno"><a class="line" href="../../de/d5f/client_2main_8c.html#adc4cc5c67b56f34138d786ef6331e3f4">    2</a></span><span class="preprocessor">#define __USE_GNU</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;time.h&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="../../d2/d70/communication_8h.html">communication.h</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="../../d4/da9/interface_8h.html">interface.h</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;sys/ipc.h&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;sys/msg.h&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;signal.h&gt;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">    #include &lt;arpa/inet.h&gt;</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">    #include &lt;netinet/in.h&gt;</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">    #include &lt;sys/socket.h&gt;</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">    #include &lt;unistd.h&gt;</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#endif    </span><span class="comment">//</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="../../de/d5f/client_2main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">   19</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="../../de/d5f/client_2main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[]) {</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    srand(time(NULL));</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_function" href="../../d5/de1/communication_8c.html#a11e1a42f36d954c9d3179ed340507686">APIStart</a>();</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <a class="code hl_function" href="../../dd/dda/interface_8c.html#a85e0e5d25e4dfff02a7f38631fca658b">showInterface</a>();</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>}</div>
-<div class="ttc" id="aclient_2main_8c_html_a0ddf1224851353fc92bfbff6f499fa97"><div class="ttname"><a href="../../de/d5f/client_2main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">main</a></div><div class="ttdeci">int main(int argc, char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d5f/client_2main_8c_source.html#l00019">main.c:19</a></div></div>
-<div class="ttc" id="acommunication_8c_html_a11e1a42f36d954c9d3179ed340507686"><div class="ttname"><a href="../../d5/de1/communication_8c.html#a11e1a42f36d954c9d3179ed340507686">APIStart</a></div><div class="ttdeci">void APIStart(void)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/de1/communication_8c_source.html#l00007">communication.c:7</a></div></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">    #include &lt;winsock2.h&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">    #include &lt;windows.h&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">    #include &lt;arpa/inet.h&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">    #include &lt;netinet/in.h&gt;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">    #include &lt;sys/socket.h&gt;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">    #include &lt;unistd.h&gt;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#endif    </span><span class="comment">//</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="../../de/d5f/client_2main_8c.html#ab10c0c50c02a59ae9bd74c78c49b559d">   28</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../de/d5f/client_2main_8c.html#ab10c0c50c02a59ae9bd74c78c49b559d">sigint_handler</a>(<span class="keywordtype">int</span> signum) {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <a class="code hl_function" href="../../d5/de1/communication_8c.html#afb7dfe10afa688d103efcb95ff7abf91">APILogout</a>();</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    pid_t cp = <a class="code hl_function" href="../../d3/d91/utils_8c.html#ac992098fe19aab597fc51bd71ade7075">getChildPID</a>();</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    kill(cp, SIGTERM);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="../../de/d5f/client_2main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">   34</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="../../de/d5f/client_2main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[]) {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    srand(time(NULL));</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    signal(SIGINT, <a class="code hl_function" href="../../de/d5f/client_2main_8c.html#ab10c0c50c02a59ae9bd74c78c49b559d">sigint_handler</a>);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <a class="code hl_function" href="../../d5/de1/communication_8c.html#a11e1a42f36d954c9d3179ed340507686">APIStart</a>();</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <a class="code hl_function" href="../../dd/dda/interface_8c.html#a85e0e5d25e4dfff02a7f38631fca658b">showInterface</a>();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>}</div>
+<div class="ttc" id="aclient_2main_8c_html_a0ddf1224851353fc92bfbff6f499fa97"><div class="ttname"><a href="../../de/d5f/client_2main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">main</a></div><div class="ttdeci">int main(int argc, char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d5f/client_2main_8c_source.html#l00034">main.c:34</a></div></div>
+<div class="ttc" id="aclient_2main_8c_html_ab10c0c50c02a59ae9bd74c78c49b559d"><div class="ttname"><a href="../../de/d5f/client_2main_8c.html#ab10c0c50c02a59ae9bd74c78c49b559d">sigint_handler</a></div><div class="ttdeci">void sigint_handler(int signum)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d5f/client_2main_8c_source.html#l00028">main.c:28</a></div></div>
+<div class="ttc" id="acommunication_8c_html_a11e1a42f36d954c9d3179ed340507686"><div class="ttname"><a href="../../d5/de1/communication_8c.html#a11e1a42f36d954c9d3179ed340507686">APIStart</a></div><div class="ttdeci">void APIStart(void)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/de1/communication_8c_source.html#l00014">communication.c:14</a></div></div>
+<div class="ttc" id="acommunication_8c_html_afb7dfe10afa688d103efcb95ff7abf91"><div class="ttname"><a href="../../d5/de1/communication_8c.html#afb7dfe10afa688d103efcb95ff7abf91">APILogout</a></div><div class="ttdeci">Message APILogout()</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/de1/communication_8c_source.html#l00133">communication.c:133</a></div></div>
 <div class="ttc" id="acommunication_8h_html"><div class="ttname"><a href="../../d2/d70/communication_8h.html">communication.h</a></div></div>
-<div class="ttc" id="ainterface_8c_html_a85e0e5d25e4dfff02a7f38631fca658b"><div class="ttname"><a href="../../dd/dda/interface_8c.html#a85e0e5d25e4dfff02a7f38631fca658b">showInterface</a></div><div class="ttdeci">void showInterface(void)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dda/interface_8c_source.html#l00269">interface.c:269</a></div></div>
+<div class="ttc" id="ainterface_8c_html_a85e0e5d25e4dfff02a7f38631fca658b"><div class="ttname"><a href="../../dd/dda/interface_8c.html#a85e0e5d25e4dfff02a7f38631fca658b">showInterface</a></div><div class="ttdeci">void showInterface(void)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dda/interface_8c_source.html#l00246">interface.c:246</a></div></div>
 <div class="ttc" id="ainterface_8h_html"><div class="ttname"><a href="../../d4/da9/interface_8h.html">interface.h</a></div></div>
+<div class="ttc" id="autils_8c_html_ac992098fe19aab597fc51bd71ade7075"><div class="ttname"><a href="../../d3/d91/utils_8c.html#ac992098fe19aab597fc51bd71ade7075">getChildPID</a></div><div class="ttdeci">int getChildPID()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d91/utils_8c_source.html#l00090">utils.c:90</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

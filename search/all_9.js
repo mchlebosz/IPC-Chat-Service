@@ -9,9 +9,12 @@ var searchData=
   ['internal_5fmalloc_6',['internal_malloc',['../dd/d21/cJSON_8c.html#a7fd7640617f7ffead7a9b1408c9d0ae8',1,'cJSON.c']]],
   ['internal_5frealloc_7',['internal_realloc',['../dd/d21/cJSON_8c.html#a91654176e81c707d28b99dd0bf783ed5',1,'cJSON.c']]],
   ['ipc_2dchat_2dservice_8',['IPC-Chat-Service',['../index.html',1,'']]],
-  ['isinf_9',['isinf',['../dd/d21/cJSON_8c.html#abad128f70dbd5a06aa93fe79b3acc4df',1,'cJSON.c']]],
-  ['isnan_10',['isnan',['../dd/d21/cJSON_8c.html#a11b2d271b8abcb53159ffb82dc29547a',1,'cJSON.c']]],
-  ['isnumber_11',['isNumber',['../dd/dda/interface_8c.html#afb9bdf30579a68e720934314ea43de89',1,'interface.c']]],
-  ['issessionrunning_12',['isSessionRunning',['../de/d67/session_8c.html#a65dbca478f9035f797a98c5c3ac4e9a3',1,'isSessionRunning(Sessions *sessions, const char *clientID):&#160;session.c'],['../da/d46/session_8h.html#a65dbca478f9035f797a98c5c3ac4e9a3',1,'isSessionRunning(Sessions *sessions, const char *clientID):&#160;session.c']]],
-  ['item_13',['item',['../d1/d82/cJSON_8h.html#ac76cea59d438ba893d2f82aabb367d14',1,'cJSON.h']]]
+  ['ischatbeginmsg_9',['isChatBeginMsg',['../d5/d60/utils_8h.html#afc3f33930d492a9bc03139b9b2575834',1,'isChatBeginMsg(const char *msg):&#160;utils.c'],['../d3/d91/utils_8c.html#afc3f33930d492a9bc03139b9b2575834',1,'isChatBeginMsg(const char *msg):&#160;utils.c']]],
+  ['ischatendmsg_10',['isChatEndMsg',['../d3/d91/utils_8c.html#ad0111f3d95c1bc1b1e53d796aa9d036a',1,'isChatEndMsg(const char *msg):&#160;utils.c'],['../d5/d60/utils_8h.html#ad0111f3d95c1bc1b1e53d796aa9d036a',1,'isChatEndMsg(const char *msg):&#160;utils.c']]],
+  ['iscommand_11',['isCommand',['../d3/d91/utils_8c.html#a9c2da91c068ff8a0f397a1bae2fef444',1,'isCommand(const char *s):&#160;utils.c'],['../d5/d60/utils_8h.html#a9c2da91c068ff8a0f397a1bae2fef444',1,'isCommand(const char *s):&#160;utils.c']]],
+  ['isinf_12',['isinf',['../dd/d21/cJSON_8c.html#abad128f70dbd5a06aa93fe79b3acc4df',1,'cJSON.c']]],
+  ['isnan_13',['isnan',['../dd/d21/cJSON_8c.html#a11b2d271b8abcb53159ffb82dc29547a',1,'cJSON.c']]],
+  ['isnumber_14',['isNumber',['../d3/d91/utils_8c.html#afb9bdf30579a68e720934314ea43de89',1,'utils.c']]],
+  ['issessionrunning_15',['isSessionRunning',['../de/d67/session_8c.html#a65dbca478f9035f797a98c5c3ac4e9a3',1,'isSessionRunning(Sessions *sessions, const char *clientID):&#160;session.c'],['../da/d46/session_8h.html#a65dbca478f9035f797a98c5c3ac4e9a3',1,'isSessionRunning(Sessions *sessions, const char *clientID):&#160;session.c']]],
+  ['item_16',['item',['../d1/d82/cJSON_8h.html#ac76cea59d438ba893d2f82aabb367d14',1,'cJSON.h']]]
 ];

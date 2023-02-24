@@ -68,22 +68,87 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">utils.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;string.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;stdbool.h&gt;</code><br />
+<code>#include &lt;math.h&gt;</code><br />
+<code>#include &lt;ctype.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &lt;signal.h&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
+<code>#include &lt;sys/types.h&gt;</code><br />
 </div>
 <p><a href="../../d5/d60/utils_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:aed56f18bc945903f12df134cb124d7db"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#aed56f18bc945903f12df134cb124d7db">notifyChatBeginMsg</a>&#160;&#160;&#160;&quot;&lt;\0\0\n#\0&gt;&quot;</td></tr>
+<tr class="separator:aed56f18bc945903f12df134cb124d7db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83bee7479018c7d9fb0098cbfa11dc9a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a83bee7479018c7d9fb0098cbfa11dc9a">notifyChatEndMsg</a>&#160;&#160;&#160;&quot;&lt;\0$\0\n\0&gt;&quot;</td></tr>
+<tr class="separator:a83bee7479018c7d9fb0098cbfa11dc9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a2fa53544d2918e028d920409ac006b33"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a2fa53544d2918e028d920409ac006b33">hash</a> (const char *str)</td></tr>
 <tr class="separator:a2fa53544d2918e028d920409ac006b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cc4781fa122cc1caa8c4b964a1972df"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a7cc4781fa122cc1caa8c4b964a1972df">createSessonKey</a> (int clientId, int sessionSeed)</td></tr>
 <tr class="separator:a7cc4781fa122cc1caa8c4b964a1972df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a962c2d8a71eb3973cd09d2220ed94d2f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a962c2d8a71eb3973cd09d2220ed94d2f">scanfInt</a> (void)</td></tr>
+<tr class="separator:a962c2d8a71eb3973cd09d2220ed94d2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a742cdf41e92c28827996a67f22bd7170"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a742cdf41e92c28827996a67f22bd7170">setChildPID</a> (int pid)</td></tr>
+<tr class="separator:a742cdf41e92c28827996a67f22bd7170"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa653b36f156e811cd122eabee7c000b1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#aa653b36f156e811cd122eabee7c000b1">getChildPID</a> (void)</td></tr>
+<tr class="separator:aa653b36f156e811cd122eabee7c000b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2d5c75e6f6d08905aad833d3e5df89c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#ad2d5c75e6f6d08905aad833d3e5df89c">startsWith</a> (const char *s, const char *flag)</td></tr>
+<tr class="separator:ad2d5c75e6f6d08905aad833d3e5df89c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c2da91c068ff8a0f397a1bae2fef444"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a9c2da91c068ff8a0f397a1bae2fef444">isCommand</a> (const char *s)</td></tr>
+<tr class="separator:a9c2da91c068ff8a0f397a1bae2fef444"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc3f33930d492a9bc03139b9b2575834"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#afc3f33930d492a9bc03139b9b2575834">isChatBeginMsg</a> (const char *msg)</td></tr>
+<tr class="separator:afc3f33930d492a9bc03139b9b2575834"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0111f3d95c1bc1b1e53d796aa9d036a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#ad0111f3d95c1bc1b1e53d796aa9d036a">isChatEndMsg</a> (const char *msg)</td></tr>
+<tr class="separator:ad0111f3d95c1bc1b1e53d796aa9d036a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5bb0c43f76b886197ee48679f0e8dbc"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#ae5bb0c43f76b886197ee48679f0e8dbc">trim</a> (char *s)</td></tr>
+<tr class="separator:ae5bb0c43f76b886197ee48679f0e8dbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="aed56f18bc945903f12df134cb124d7db" name="aed56f18bc945903f12df134cb124d7db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed56f18bc945903f12df134cb124d7db">&#9670;&nbsp;</a></span>notifyChatBeginMsg</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define notifyChatBeginMsg&#160;&#160;&#160;&quot;&lt;\0\0\n#\0&gt;&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d60/utils_8h_source.html#l00014">14</a> of file <a class="el" href="../../d5/d60/utils_8h_source.html">utils.h</a>.</p>
+
+</div>
+</div>
+<a id="a83bee7479018c7d9fb0098cbfa11dc9a" name="a83bee7479018c7d9fb0098cbfa11dc9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83bee7479018c7d9fb0098cbfa11dc9a">&#9670;&nbsp;</a></span>notifyChatEndMsg</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define notifyChatEndMsg&#160;&#160;&#160;&quot;&lt;\0$\0\n\0&gt;&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d60/utils_8h_source.html#l00016">16</a> of file <a class="el" href="../../d5/d60/utils_8h_source.html">utils.h</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a7cc4781fa122cc1caa8c4b964a1972df" name="a7cc4781fa122cc1caa8c4b964a1972df"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7cc4781fa122cc1caa8c4b964a1972df">&#9670;&nbsp;</a></span>createSessonKey()</h2>
@@ -124,6 +189,26 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aa653b36f156e811cd122eabee7c000b1" name="aa653b36f156e811cd122eabee7c000b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa653b36f156e811cd122eabee7c000b1">&#9670;&nbsp;</a></span>getChildPID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getChildPID </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d91/utils_8c_source.html#l00090">90</a> of file <a class="el" href="../../d3/d91/utils_8c_source.html">utils.c</a>.</p>
+
+</div>
+</div>
 <a id="a2fa53544d2918e028d920409ac006b33" name="a2fa53544d2918e028d920409ac006b33"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2fa53544d2918e028d920409ac006b33">&#9670;&nbsp;</a></span>hash()</h2>
 
@@ -148,6 +233,156 @@ Functions</h2></td></tr>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/d91/utils_8c_source.html#l00008">8</a> of file <a class="el" href="../../d3/d91/utils_8c_source.html">utils.c</a>.</p>
+
+</div>
+</div>
+<a id="afc3f33930d492a9bc03139b9b2575834" name="afc3f33930d492a9bc03139b9b2575834"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc3f33930d492a9bc03139b9b2575834">&#9670;&nbsp;</a></span>isChatBeginMsg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isChatBeginMsg </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d91/utils_8c_source.html#l00066">66</a> of file <a class="el" href="../../d3/d91/utils_8c_source.html">utils.c</a>.</p>
+
+</div>
+</div>
+<a id="ad0111f3d95c1bc1b1e53d796aa9d036a" name="ad0111f3d95c1bc1b1e53d796aa9d036a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0111f3d95c1bc1b1e53d796aa9d036a">&#9670;&nbsp;</a></span>isChatEndMsg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isChatEndMsg </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d91/utils_8c_source.html#l00071">71</a> of file <a class="el" href="../../d3/d91/utils_8c_source.html">utils.c</a>.</p>
+
+</div>
+</div>
+<a id="a9c2da91c068ff8a0f397a1bae2fef444" name="a9c2da91c068ff8a0f397a1bae2fef444"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c2da91c068ff8a0f397a1bae2fef444">&#9670;&nbsp;</a></span>isCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isCommand </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d91/utils_8c_source.html#l00062">62</a> of file <a class="el" href="../../d3/d91/utils_8c_source.html">utils.c</a>.</p>
+
+</div>
+</div>
+<a id="a962c2d8a71eb3973cd09d2220ed94d2f" name="a962c2d8a71eb3973cd09d2220ed94d2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a962c2d8a71eb3973cd09d2220ed94d2f">&#9670;&nbsp;</a></span>scanfInt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int scanfInt </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d91/utils_8c_source.html#l00038">38</a> of file <a class="el" href="../../d3/d91/utils_8c_source.html">utils.c</a>.</p>
+
+</div>
+</div>
+<a id="a742cdf41e92c28827996a67f22bd7170" name="a742cdf41e92c28827996a67f22bd7170"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a742cdf41e92c28827996a67f22bd7170">&#9670;&nbsp;</a></span>setChildPID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setChildPID </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d91/utils_8c_source.html#l00086">86</a> of file <a class="el" href="../../d3/d91/utils_8c_source.html">utils.c</a>.</p>
+
+</div>
+</div>
+<a id="ad2d5c75e6f6d08905aad833d3e5df89c" name="ad2d5c75e6f6d08905aad833d3e5df89c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2d5c75e6f6d08905aad833d3e5df89c">&#9670;&nbsp;</a></span>startsWith()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool startsWith </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>flag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d91/utils_8c_source.html#l00053">53</a> of file <a class="el" href="../../d3/d91/utils_8c_source.html">utils.c</a>.</p>
+
+</div>
+</div>
+<a id="ae5bb0c43f76b886197ee48679f0e8dbc" name="ae5bb0c43f76b886197ee48679f0e8dbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5bb0c43f76b886197ee48679f0e8dbc">&#9670;&nbsp;</a></span>trim()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * trim </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d91/utils_8c_source.html#l00076">76</a> of file <a class="el" href="../../d3/d91/utils_8c_source.html">utils.c</a>.</p>
 
 </div>
 </div>

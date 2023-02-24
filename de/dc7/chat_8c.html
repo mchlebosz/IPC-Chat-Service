@@ -68,23 +68,227 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">chat.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="../../dd/de0/chat_8h_source.html">chat.h</a>&quot;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="../../d2/d70/communication_8h_source.html">communication.h</a>&quot;</code><br />
 </div>
 <p><a href="../../de/dc7/chat_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a7710b0c71e595da0c6c1f7e11e4ef233"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#a7710b0c71e595da0c6c1f7e11e4ef233">DEBUGSERVER</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a7710b0c71e595da0c6c1f7e11e4ef233"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ecab67332be0a0805d45cf0082c37bb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#a3ecab67332be0a0805d45cf0082c37bb">_DEBUGSERVER_HELPER</a>&#160;&#160;&#160;!</td></tr>
+<tr class="separator:a3ecab67332be0a0805d45cf0082c37bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a9c5d3d88ca2d1433789dafcc21e6e888"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#a9c5d3d88ca2d1433789dafcc21e6e888">show_chat_interface</a> (char *token)</td></tr>
-<tr class="separator:a9c5d3d88ca2d1433789dafcc21e6e888"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad721c85f2b3cf93bfa868cfbf144ad2f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#ad721c85f2b3cf93bfa868cfbf144ad2f">handleCommand</a> (int)</td></tr>
+<tr class="separator:ad721c85f2b3cf93bfa868cfbf144ad2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7039a1e25ba3aeef757d0c4964fd9890"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#a7039a1e25ba3aeef757d0c4964fd9890">receiveMessagesLoop</a> (void)</td></tr>
+<tr class="separator:a7039a1e25ba3aeef757d0c4964fd9890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46b90d95e5b329527cca17cd36ba9487"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#a46b90d95e5b329527cca17cd36ba9487">show_description</a> (const char *username)</td></tr>
+<tr class="separator:a46b90d95e5b329527cca17cd36ba9487"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e7be9e1ad5349a8502d6e0b0c557d55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#a7e7be9e1ad5349a8502d6e0b0c557d55">show_chat_interface</a> (const char *user, const char *token)</td></tr>
+<tr class="separator:a7e7be9e1ad5349a8502d6e0b0c557d55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31046e484d348ff32620f2ed71e78520"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#a31046e484d348ff32620f2ed71e78520">chatLoop</a> (void)</td></tr>
+<tr class="separator:a31046e484d348ff32620f2ed71e78520"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdd657eef9fa2a083c38a0303c9c75eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#afdd657eef9fa2a083c38a0303c9c75eb">closeChat</a> (void)</td></tr>
+<tr class="separator:afdd657eef9fa2a083c38a0303c9c75eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7f8573f1ffa8a68af9849e36fe307b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#ae7f8573f1ffa8a68af9849e36fe307b9">openChat</a> (void)</td></tr>
+<tr class="separator:ae7f8573f1ffa8a68af9849e36fe307b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f3c1a34b47db63472e98d5bf6180066"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#a8f3c1a34b47db63472e98d5bf6180066">online_users</a> (void)</td></tr>
+<tr class="separator:a8f3c1a34b47db63472e98d5bf6180066"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac79c3b2234769c7fd497702cf88e21bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#ac79c3b2234769c7fd497702cf88e21bf">logout</a> (void)</td></tr>
+<tr class="separator:ac79c3b2234769c7fd497702cf88e21bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:af2fba33a89bb7f0f63981d57da8641c2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/chat_8c.html#af2fba33a89bb7f0f63981d57da8641c2">chattername</a> [32]</td></tr>
+<tr class="separator:af2fba33a89bb7f0f63981d57da8641c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a3ecab67332be0a0805d45cf0082c37bb" name="a3ecab67332be0a0805d45cf0082c37bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ecab67332be0a0805d45cf0082c37bb">&#9670;&nbsp;</a></span>_DEBUGSERVER_HELPER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define _DEBUGSERVER_HELPER&#160;&#160;&#160;!</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/dc7/chat_8c_source.html#l00010">10</a> of file <a class="el" href="../../de/dc7/chat_8c_source.html">chat.c</a>.</p>
+
+</div>
+</div>
+<a id="a7710b0c71e595da0c6c1f7e11e4ef233" name="a7710b0c71e595da0c6c1f7e11e4ef233"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7710b0c71e595da0c6c1f7e11e4ef233">&#9670;&nbsp;</a></span>DEBUGSERVER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEBUGSERVER&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/dc7/chat_8c_source.html#l00008">8</a> of file <a class="el" href="../../de/dc7/chat_8c_source.html">chat.c</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a9c5d3d88ca2d1433789dafcc21e6e888" name="a9c5d3d88ca2d1433789dafcc21e6e888"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c5d3d88ca2d1433789dafcc21e6e888">&#9670;&nbsp;</a></span>show_chat_interface()</h2>
+<a id="a31046e484d348ff32620f2ed71e78520" name="a31046e484d348ff32620f2ed71e78520"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31046e484d348ff32620f2ed71e78520">&#9670;&nbsp;</a></span>chatLoop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chatLoop </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/dc7/chat_8c_source.html#l00053">53</a> of file <a class="el" href="../../de/dc7/chat_8c_source.html">chat.c</a>.</p>
+
+</div>
+</div>
+<a id="afdd657eef9fa2a083c38a0303c9c75eb" name="afdd657eef9fa2a083c38a0303c9c75eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdd657eef9fa2a083c38a0303c9c75eb">&#9670;&nbsp;</a></span>closeChat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void closeChat </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/dc7/chat_8c_source.html#l00086">86</a> of file <a class="el" href="../../de/dc7/chat_8c_source.html">chat.c</a>.</p>
+
+</div>
+</div>
+<a id="ad721c85f2b3cf93bfa868cfbf144ad2f" name="ad721c85f2b3cf93bfa868cfbf144ad2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad721c85f2b3cf93bfa868cfbf144ad2f">&#9670;&nbsp;</a></span>handleCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool handleCommand </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>cmd</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/dc7/chat_8c_source.html#l00142">142</a> of file <a class="el" href="../../de/dc7/chat_8c_source.html">chat.c</a>.</p>
+
+</div>
+</div>
+<a id="ac79c3b2234769c7fd497702cf88e21bf" name="ac79c3b2234769c7fd497702cf88e21bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac79c3b2234769c7fd497702cf88e21bf">&#9670;&nbsp;</a></span>logout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void logout </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/dc7/chat_8c_source.html#l00137">137</a> of file <a class="el" href="../../de/dc7/chat_8c_source.html">chat.c</a>.</p>
+
+</div>
+</div>
+<a id="a8f3c1a34b47db63472e98d5bf6180066" name="a8f3c1a34b47db63472e98d5bf6180066"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f3c1a34b47db63472e98d5bf6180066">&#9670;&nbsp;</a></span>online_users()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void online_users </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/dc7/chat_8c_source.html#l00119">119</a> of file <a class="el" href="../../de/dc7/chat_8c_source.html">chat.c</a>.</p>
+
+</div>
+</div>
+<a id="ae7f8573f1ffa8a68af9849e36fe307b9" name="ae7f8573f1ffa8a68af9849e36fe307b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7f8573f1ffa8a68af9849e36fe307b9">&#9670;&nbsp;</a></span>openChat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void openChat </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/dc7/chat_8c_source.html#l00092">92</a> of file <a class="el" href="../../de/dc7/chat_8c_source.html">chat.c</a>.</p>
+
+</div>
+</div>
+<a id="a7039a1e25ba3aeef757d0c4964fd9890" name="a7039a1e25ba3aeef757d0c4964fd9890"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7039a1e25ba3aeef757d0c4964fd9890">&#9670;&nbsp;</a></span>receiveMessagesLoop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void receiveMessagesLoop </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/dc7/chat_8c_source.html#l00163">163</a> of file <a class="el" href="../../de/dc7/chat_8c_source.html">chat.c</a>.</p>
+
+</div>
+</div>
+<a id="a7e7be9e1ad5349a8502d6e0b0c557d55" name="a7e7be9e1ad5349a8502d6e0b0c557d55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e7be9e1ad5349a8502d6e0b0c557d55">&#9670;&nbsp;</a></span>show_chat_interface()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -92,9 +296,56 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void show_chat_interface </td>
           <td>(</td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>token</em></td><td>)</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>user</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/dc7/chat_8c_source.html#l00028">28</a> of file <a class="el" href="../../de/dc7/chat_8c_source.html">chat.c</a>.</p>
+
+</div>
+</div>
+<a id="a46b90d95e5b329527cca17cd36ba9487" name="a46b90d95e5b329527cca17cd36ba9487"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46b90d95e5b329527cca17cd36ba9487">&#9670;&nbsp;</a></span>show_description()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void show_description </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>username</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/dc7/chat_8c_source.html#l00019">19</a> of file <a class="el" href="../../de/dc7/chat_8c_source.html">chat.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="af2fba33a89bb7f0f63981d57da8641c2" name="af2fba33a89bb7f0f63981d57da8641c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2fba33a89bb7f0f63981d57da8641c2">&#9670;&nbsp;</a></span>chattername</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char chattername[32]</td>
         </tr>
       </table>
 </div><div class="memdoc">

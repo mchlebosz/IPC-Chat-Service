@@ -5,5 +5,7 @@ var searchData=
   ['newitem_2',['newitem',['../d1/d82/cJSON_8h.html#abd13e53985a93dee588f840f06aac973',1,'cJSON.h']]],
   ['next_3',['next',['../db/d68/structcJSON.html#ade862b880379b5e2a591f7326401fa8d',1,'cJSON']]],
   ['noalloc_4',['noalloc',['../d1/dc7/structprintbuffer.html#aa2a7966b71dc3535e4e3789c33ec5368',1,'printbuffer']]],
-  ['number_5',['number',['../d1/d82/cJSON_8h.html#a01b4671c6b7cc8f831c951c000a37735',1,'cJSON.h']]]
+  ['notifychatbeginmsg_5',['notifyChatBeginMsg',['../d5/d60/utils_8h.html#aed56f18bc945903f12df134cb124d7db',1,'utils.h']]],
+  ['notifychatendmsg_6',['notifyChatEndMsg',['../d5/d60/utils_8h.html#a83bee7479018c7d9fb0098cbfa11dc9a',1,'utils.h']]],
+  ['number_7',['number',['../d1/d82/cJSON_8h.html#a01b4671c6b7cc8f831c951c000a37735',1,'cJSON.h']]]
 ];

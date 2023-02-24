@@ -82,6 +82,7 @@ $(function() {
 <code>#include &lt;termios.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="../../dd/de0/chat_8h_source.html">chat.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d2/d70/communication_8h_source.html">communication.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d5/d60/utils_8h_source.html">../utils.h</a>&quot;</code><br />
 </div>
 <p><a href="../../dd/dda/interface_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -94,18 +95,14 @@ Macros</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:ad6123a818c252a27d574ed76f095f3af"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dda/interface_8c.html#ad6123a818c252a27d574ed76f095f3af">getpasswd</a> (char **pw, size_t sz, int mask, FILE *fp)</td></tr>
 <tr class="separator:ad6123a818c252a27d574ed76f095f3af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f31dcf9934581dc62de6407bba40652"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dda/interface_8c.html#a5f31dcf9934581dc62de6407bba40652">clientLogin</a> (void)</td></tr>
-<tr class="separator:a5f31dcf9934581dc62de6407bba40652"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ddb584a2f4f47eaf236a5938951cdd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dda/interface_8c.html#a6ddb584a2f4f47eaf236a5938951cdd1">clientLogin</a> ()</td></tr>
+<tr class="separator:a6ddb584a2f4f47eaf236a5938951cdd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b6dab8aeeb3bc0c0f912770d422da55"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dda/interface_8c.html#a9b6dab8aeeb3bc0c0f912770d422da55">checkUsername</a> (char *username)</td></tr>
 <tr class="separator:a9b6dab8aeeb3bc0c0f912770d422da55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15ef4f993e488e2ac381f43e17658024"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dda/interface_8c.html#a15ef4f993e488e2ac381f43e17658024">checkPassword</a> (char *password, char *confirmPassword)</td></tr>
 <tr class="separator:a15ef4f993e488e2ac381f43e17658024"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0122014731cffba2c320d93d0e0898a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dda/interface_8c.html#a0122014731cffba2c320d93d0e0898a6">clientRegister</a> (void)</td></tr>
-<tr class="separator:a0122014731cffba2c320d93d0e0898a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb9bdf30579a68e720934314ea43de89"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dda/interface_8c.html#afb9bdf30579a68e720934314ea43de89">isNumber</a> (const char *s)</td></tr>
-<tr class="separator:afb9bdf30579a68e720934314ea43de89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a962c2d8a71eb3973cd09d2220ed94d2f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dda/interface_8c.html#a962c2d8a71eb3973cd09d2220ed94d2f">scanfInt</a> (void)</td></tr>
-<tr class="separator:a962c2d8a71eb3973cd09d2220ed94d2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e160102634ac2e94db21def6fa5adc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dda/interface_8c.html#a6e160102634ac2e94db21def6fa5adc8">clientRegister</a> ()</td></tr>
+<tr class="separator:a6e160102634ac2e94db21def6fa5adc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85e0e5d25e4dfff02a7f38631fca658b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dda/interface_8c.html#a85e0e5d25e4dfff02a7f38631fca658b">showInterface</a> (void)</td></tr>
 <tr class="separator:a85e0e5d25e4dfff02a7f38631fca658b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -133,7 +130,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00016">16</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00017">17</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
 
 </div>
 </div>
@@ -164,7 +161,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00149">149</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00150">150</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
 
 </div>
 </div>
@@ -184,12 +181,12 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00127">127</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00128">128</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
 
 </div>
 </div>
-<a id="a5f31dcf9934581dc62de6407bba40652" name="a5f31dcf9934581dc62de6407bba40652"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f31dcf9934581dc62de6407bba40652">&#9670;&nbsp;</a></span>clientLogin()</h2>
+<a id="a6ddb584a2f4f47eaf236a5938951cdd1" name="a6ddb584a2f4f47eaf236a5938951cdd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ddb584a2f4f47eaf236a5938951cdd1">&#9670;&nbsp;</a></span>clientLogin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,12 +201,12 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00086">86</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00087">87</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
 
 </div>
 </div>
-<a id="a0122014731cffba2c320d93d0e0898a6" name="a0122014731cffba2c320d93d0e0898a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0122014731cffba2c320d93d0e0898a6">&#9670;&nbsp;</a></span>clientRegister()</h2>
+<a id="a6e160102634ac2e94db21def6fa5adc8" name="a6e160102634ac2e94db21def6fa5adc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e160102634ac2e94db21def6fa5adc8">&#9670;&nbsp;</a></span>clientRegister()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -224,7 +221,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00172">172</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00173">173</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
 
 </div>
 </div>
@@ -266,47 +263,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00022">22</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
-
-</div>
-</div>
-<a id="afb9bdf30579a68e720934314ea43de89" name="afb9bdf30579a68e720934314ea43de89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb9bdf30579a68e720934314ea43de89">&#9670;&nbsp;</a></span>isNumber()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool isNumber </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00245">245</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
-
-</div>
-</div>
-<a id="a962c2d8a71eb3973cd09d2220ed94d2f" name="a962c2d8a71eb3973cd09d2220ed94d2f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a962c2d8a71eb3973cd09d2220ed94d2f">&#9670;&nbsp;</a></span>scanfInt()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int scanfInt </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00253">253</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00023">23</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
 
 </div>
 </div>
@@ -326,7 +283,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00269">269</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00246">246</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
 
 </div>
 </div>
@@ -343,7 +300,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00115">115</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00116">116</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
 
 </div>
 </div>
@@ -359,7 +316,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00116">116</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00117">117</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
 
 </div>
 </div>
@@ -377,7 +334,7 @@ Variables</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line">=</div>
 <div class="line">    <span class="stringliteral">&quot;Password must contain at least 8 characters, maximum of 29 characters,\n &quot;</span></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00120">120</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00121">121</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
 
 </div>
 </div>
@@ -395,7 +352,7 @@ Variables</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line">=</div>
 <div class="line">    <span class="stringliteral">&quot;Username must contain at least 4 characters, maximum of 29 characters.\n&quot;</span></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00118">118</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dda/interface_8c_source.html#l00119">119</a> of file <a class="el" href="../../dd/dda/interface_8c_source.html">interface.c</a>.</p>
 
 </div>
 </div>

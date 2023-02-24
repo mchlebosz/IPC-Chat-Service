@@ -85,10 +85,10 @@ Functions</h2></td></tr>
 <tr class="separator:af2f44352231b61dea86e19029ac7f29c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5697d7b71e20fd2ad251d00b667202b0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a5697d7b71e20fd2ad251d00b667202b0">writeFile</a> (const char *filename, const char *data)</td></tr>
 <tr class="separator:a5697d7b71e20fd2ad251d00b667202b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39f8a132bbbaf1811912320e5b2e6007"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a39f8a132bbbaf1811912320e5b2e6007">getUserByName</a> (const char *file_name, <a class="el" href="../../d4/d05/structUser.html">User</a> *user, char *<a class="el" href="../../d1/d82/cJSON_8h.html#a25d22ecc7e656d2c59332072684e8766">name</a>)</td></tr>
-<tr class="separator:a39f8a132bbbaf1811912320e5b2e6007"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03a92e4ba06bfacef0c1ca5786e94807"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a03a92e4ba06bfacef0c1ca5786e94807">getUserById</a> (const char *file_name, <a class="el" href="../../d4/d05/structUser.html">User</a> *user, int <a class="el" href="../../d5/de1/communication_8c.html#a0b1ca4dcd178907e4151c7132e3b55f5">id</a>)</td></tr>
-<tr class="separator:a03a92e4ba06bfacef0c1ca5786e94807"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcdb3e020721a670753a4ca7c2d8ffd1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#afcdb3e020721a670753a4ca7c2d8ffd1">getUserByName</a> (const char *file_name, <a class="el" href="../../d4/d05/structUser.html">User</a> **user, char *<a class="el" href="../../d1/d82/cJSON_8h.html#a25d22ecc7e656d2c59332072684e8766">name</a>)</td></tr>
+<tr class="separator:afcdb3e020721a670753a4ca7c2d8ffd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f1637b48a0561df9a34e29c50e29df0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a5f1637b48a0561df9a34e29c50e29df0">getUserById</a> (const char *file_name, <a class="el" href="../../d4/d05/structUser.html">User</a> **user, int <a class="el" href="../../d5/de1/communication_8c.html#a0b1ca4dcd178907e4151c7132e3b55f5">id</a>)</td></tr>
+<tr class="separator:a5f1637b48a0561df9a34e29c50e29df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c816161abb8cbac6a578455e6f13dce"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a8c816161abb8cbac6a578455e6f13dce">getAllUsers</a> (const char *file_name, <a class="el" href="../../d4/d05/structUser.html">User</a> **users, int *<a class="el" href="../../d1/d82/cJSON_8h.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>)</td></tr>
 <tr class="separator:a8c816161abb8cbac6a578455e6f13dce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b0e84eaa2e007f6a364fc57f83a47a4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d53/dbHandler_8c.html#a8b0e84eaa2e007f6a364fc57f83a47a4">getGroupByName</a> (const char *file_name, <a class="el" href="../../d4/d91/structGroup.html">Group</a> *group, char *<a class="el" href="../../d1/d82/cJSON_8h.html#a25d22ecc7e656d2c59332072684e8766">name</a>)</td></tr>
@@ -140,7 +140,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The status code of the operation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00732">732</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00734">734</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
 
 </div>
 </div>
@@ -179,7 +179,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The return value is the status code of the operation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00682">682</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00684">684</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
 
 </div>
 </div>
@@ -225,7 +225,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a pointer to an array of groups. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00602">602</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00604">604</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
 
 </div>
 </div>
@@ -271,7 +271,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the status code of the operation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00325">325</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00327">327</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
 
 </div>
 </div>
@@ -317,7 +317,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the status code of the operation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00515">515</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00517">517</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
 
 </div>
 </div>
@@ -363,12 +363,12 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the status code of the operation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00427">427</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00429">429</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
 
 </div>
 </div>
-<a id="a03a92e4ba06bfacef0c1ca5786e94807" name="a03a92e4ba06bfacef0c1ca5786e94807"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03a92e4ba06bfacef0c1ca5786e94807">&#9670;&nbsp;</a></span>getUserById()</h2>
+<a id="a5f1637b48a0561df9a34e29c50e29df0" name="a5f1637b48a0561df9a34e29c50e29df0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f1637b48a0561df9a34e29c50e29df0">&#9670;&nbsp;</a></span>getUserById()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -382,7 +382,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d4/d05/structUser.html">User</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d4/d05/structUser.html">User</a> **&#160;</td>
           <td class="paramname"><em>user</em>, </td>
         </tr>
         <tr>
@@ -409,12 +409,12 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the status code of the operation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00221">221</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00222">222</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
 
 </div>
 </div>
-<a id="a39f8a132bbbaf1811912320e5b2e6007" name="a39f8a132bbbaf1811912320e5b2e6007"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39f8a132bbbaf1811912320e5b2e6007">&#9670;&nbsp;</a></span>getUserByName()</h2>
+<a id="afcdb3e020721a670753a4ca7c2d8ffd1" name="afcdb3e020721a670753a4ca7c2d8ffd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcdb3e020721a670753a4ca7c2d8ffd1">&#9670;&nbsp;</a></span>getUserByName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -428,7 +428,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d4/d05/structUser.html">User</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d4/d05/structUser.html">User</a> **&#160;</td>
           <td class="paramname"><em>user</em>, </td>
         </tr>
         <tr>
@@ -444,7 +444,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >It reads the file, parses the JSON, and then copies the data from the JSON into a <a class="el" href="../../d4/d05/structUser.html">User</a> struct</p>
+<p >It reads the file, parses the JSON, and then copies the data from the JSON into a <a class="el" href="../../d4/d05/structUser.html">User</a> struct Original user is overrided</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">file_name</td><td>the name of the file to read from </td></tr>
@@ -455,7 +455,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the status code of the operation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00109">109</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00110">110</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
 
 </div>
 </div>
@@ -559,7 +559,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00777">777</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d53/dbHandler_8c_source.html#l00779">779</a> of file <a class="el" href="../../db/d53/dbHandler_8c_source.html">dbHandler.c</a>.</p>
 
 </div>
 </div>

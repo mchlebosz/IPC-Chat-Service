@@ -68,6 +68,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">main.c File Reference</div></div>
 </div><!--header-->
@@ -78,6 +79,9 @@ $(function() {
 <code>#include &lt;time.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="../../d2/d70/communication_8h_source.html">communication.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d4/da9/interface_8h_source.html">interface.h</a>&quot;</code><br />
+<code>#include &lt;sys/ipc.h&gt;</code><br />
+<code>#include &lt;sys/msg.h&gt;</code><br />
+<code>#include &lt;signal.h&gt;</code><br />
 <code>#include &lt;arpa/inet.h&gt;</code><br />
 <code>#include &lt;netinet/in.h&gt;</code><br />
 <code>#include &lt;sys/socket.h&gt;</code><br />
@@ -85,11 +89,53 @@ $(function() {
 </div>
 <p><a href="../../de/d5f/client_2main_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a369266c24eacffb87046522897a570d5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d5f/client_2main_8c.html#a369266c24eacffb87046522897a570d5">_GNU_SOURCE</a></td></tr>
+<tr class="separator:a369266c24eacffb87046522897a570d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc4cc5c67b56f34138d786ef6331e3f4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d5f/client_2main_8c.html#adc4cc5c67b56f34138d786ef6331e3f4">__USE_GNU</a></td></tr>
+<tr class="separator:adc4cc5c67b56f34138d786ef6331e3f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ab10c0c50c02a59ae9bd74c78c49b559d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d5f/client_2main_8c.html#ab10c0c50c02a59ae9bd74c78c49b559d">sigint_handler</a> (int signum)</td></tr>
+<tr class="separator:ab10c0c50c02a59ae9bd74c78c49b559d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d5f/client_2main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
 <tr class="separator:a0ddf1224851353fc92bfbff6f499fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="adc4cc5c67b56f34138d786ef6331e3f4" name="adc4cc5c67b56f34138d786ef6331e3f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc4cc5c67b56f34138d786ef6331e3f4">&#9670;&nbsp;</a></span>__USE_GNU</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __USE_GNU</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/d5f/client_2main_8c_source.html#l00002">2</a> of file <a class="el" href="../../de/d5f/client_2main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+<a id="a369266c24eacffb87046522897a570d5" name="a369266c24eacffb87046522897a570d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a369266c24eacffb87046522897a570d5">&#9670;&nbsp;</a></span>_GNU_SOURCE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define _GNU_SOURCE</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/d5f/client_2main_8c_source.html#l00001">1</a> of file <a class="el" href="../../de/d5f/client_2main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a0ddf1224851353fc92bfbff6f499fa97" name="a0ddf1224851353fc92bfbff6f499fa97"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0ddf1224851353fc92bfbff6f499fa97">&#9670;&nbsp;</a></span>main()</h2>
@@ -117,7 +163,34 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d5f/client_2main_8c_source.html#l00019">19</a> of file <a class="el" href="../../de/d5f/client_2main_8c_source.html">main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d5f/client_2main_8c_source.html#l00034">34</a> of file <a class="el" href="../../de/d5f/client_2main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+<a id="ab10c0c50c02a59ae9bd74c78c49b559d" name="ab10c0c50c02a59ae9bd74c78c49b559d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab10c0c50c02a59ae9bd74c78c49b559d">&#9670;&nbsp;</a></span>sigint_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sigint_handler </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>signum</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >It sets the global variable <code>keep_running</code> to 0</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">signum</td><td>The signal number. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d5f/client_2main_8c_source.html#l00028">28</a> of file <a class="el" href="../../de/d5f/client_2main_8c_source.html">main.c</a>.</p>
 
 </div>
 </div>
