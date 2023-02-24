@@ -12,6 +12,7 @@
 
 #include "chat.h"
 #include "communication.h"
+#include "../utils.h"
 
 #define MAXPW 32
 /* read a string from fp into pw masking keypress with mask char.
@@ -83,7 +84,7 @@ ssize_t getpasswd(char** pw, size_t sz, int mask, FILE* fp) {
 	return idx; /* number of chars in passwd    */
 }
 
-void clientLogin(void) {
+void clientLogin() {
 	char username[32];
 	char password[32];
 	memset(username, 0, sizeof(username));
@@ -108,7 +109,7 @@ void clientLogin(void) {
 	if (response.mtext.header.statusCode != 200) {
 		printf("Login failed\n");
 	} else {
-		show_chat_interface(response.mtext.body);
+		show_chat_interface(username, response.mtext.body);
 	}
 }
 
@@ -169,7 +170,7 @@ short checkPassword(char* password, char* confirmPassword) {
 	return 0;
 }
 
-void clientRegister(void) {
+void clientRegister() {
 	char username[30];
 	char password[30];
 	char confirmPassword[30];
@@ -237,33 +238,9 @@ void clientRegister(void) {
 			response.mtext.header.statusCode != 200) {
 			printf("Login failed\n");
 		} else {
-			show_chat_interface(response.mtext.body);
+			show_chat_interface(username, response.mtext.body);
 		}
 	}
-}
-
-bool isNumber(const char* s) {
-	while (*s) {
-		if (!('0' <= *s && *s <= '9')) return false;
-		s++;
-	}
-	return true;
-}
-
-int scanfInt(void) {
-	char buff[64];
-	do {
-		memset(buff, 0, sizeof(buff));
-		if (scanf("%s", buff) != 1) {
-			printf("Wrong input\n> ");
-			continue;
-		}
-		if (isNumber(buff))
-			break;
-		else
-			printf("not a number!  try again\n> ");
-	} while (true);
-	return atoi(buff);
 }
 
 void showInterface(void) {

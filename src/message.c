@@ -19,6 +19,7 @@
  */
 void msgInit(Message* msg, long permission, short type, const char* sender,
 			 const char* receiver, short statusCode, const char* body) {
+	memset(msg, 0, sizeof(Message));
 	time_t t     = time(NULL);
 	struct tm tm = *localtime(&t);
 
@@ -26,12 +27,12 @@ void msgInit(Message* msg, long permission, short type, const char* sender,
 	msg->mtext.header.type = type;
 	strcpy(msg->mtext.header.sender, sender);
 	strcpy(msg->mtext.header.receiver, receiver);
-	char time[128];
-	sprintf(time, "%04d.%02d.%02d %02d:%02d:%02d", (tm.tm_year + 1900),
+	char time[20];
+	sprintf(time, "%04u.%02u.%02u %02u:%02u:%02u", (tm.tm_year + 1900),
 			(tm.tm_mon + 1), tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 	memcpy(msg->mtext.header.time, time, 20);
 	msg->mtext.header.statusCode = statusCode;
-	printf("[prebody]%s[/body]\n", body);
+	//printf("[body]%s[/body]\n", body);
 	strcpy(msg->mtext.body, body);
 }
 
@@ -41,13 +42,10 @@ void msgInit(Message* msg, long permission, short type, const char* sender,
  * @param msg The message to be cleared.
  */
 void msgClear(Message* msg) {
-	msg->mtype             = 0;
+	memset(msg, 0, sizeof(Message));
+	//msg->mtype             = 0;
 	msg->mtext.header.type = -1;
-	strcpy(msg->mtext.header.sender, "");
-	strcpy(msg->mtext.header.receiver, "");
-	strcpy(msg->mtext.header.time, "");
 	msg->mtext.header.statusCode = -1;
-	strcpy(msg->mtext.body, "");
 }
 
 /**
