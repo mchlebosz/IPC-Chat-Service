@@ -110,8 +110,8 @@ void serve(int* keep_running, int* msgid, char* db) {
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else if (status == 200) {
-				User* user  = malloc(sizeof(User));
-				int status1 = getUserByName(db, user, username);
+				User* user  = NULL;
+				int status1 = getUserByName(db, &user, username);
 				// Asociate clientID with session and UserID
 				int status2 = setSessionUserID(&sessions, receiver, user->id);
 
@@ -176,8 +176,8 @@ void serve(int* keep_running, int* msgid, char* db) {
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 				continue;
 			} else if (status == 200) {
-				User* user  = malloc(sizeof(User));
-				int status1 = getUserByName(db, user, username);
+				User* user  = NULL;
+				int status1 = getUserByName(db, &user, username);
 				// Asociate clientID with session and UserID
 				int status2 = setSessionUserID(&sessions, receiver, user->id);
 
@@ -189,6 +189,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 
 					// send response message
 					msgsnd(sessionQueue, &msg, sizeof(msg), 0);
+
 					continue;
 				}
 
@@ -223,14 +224,12 @@ void serve(int* keep_running, int* msgid, char* db) {
 		}
 		// Log out user
 		else if (msg.mtext.header.type == 12) {
-			// message format: ClientID;
-			char* messageBody = msg.mtext.body;
-			char* clientID    = strtok(messageBody, ";");
-
+			// client id (to log out): sender
 			char receiver[32];
-			strcpy(receiver, msg.mtext.header.sender);
 			char sender[32];
+			strcpy(receiver, msg.mtext.header.sender);
 			strcpy(sender, msg.mtext.header.sender);
+			char* clientID = sender;
 			// connect to session queue
 			int sessionQueue = getSessionQueue(&sessions, sender);
 
@@ -267,23 +266,37 @@ void serve(int* keep_running, int* msgid, char* db) {
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 			}
-
 		}
 		// Send Message to User
 		else if (msg.mtext.header.type == 24) {
 			// extract message body
 			// message format: message;
-			char* messageBody = msg.mtext.body;
-			char* sender      = msg.mtext.header.sender;
-			char* receiver    = msg.mtext.header.receiver;
+			char messageBody[1000];
+			char receiverUsername[32];
+			char senderClientId[32];
+			memcpy(messageBody, msg.mtext.body, 1000);
+			strcpy(receiverUsername, msg.mtext.header.receiver);
+			strcpy(senderClientId, msg.mtext.header.sender);
 
-			// find sender and receiver sessions
+			int status = 200;
 
-			// check if receiver exists and is online
+			// find sender username
+			char* senderUsername = getUsernamebyClientID(sessions, senderClientId, db);
 
-			int status = isSessionRunning(&sessions, receiver);
+			if (senderUsername == NULL) status = 500;
+
+			// get receiver session clientID
+			char* receiverClientID =
+				getClientIDbyUsername(sessions, receiverUsername, db);
+
+			if (receiverClientID == NULL && status == 200) status = 404;
+			// check if receiver is online
+			if (isSessionRunning(&sessions, receiverClientID) != 200 &&
+				status == 200)
+				status = 404;
+			// check if receiver exists
 			int userID;
-			if (getSessionUserID(&sessions, receiver, &userID) != 200)
+			if (getSessionUserID(&sessions, receiverClientID, &userID) != 200)
 				status = 404;
 			else if (getUserById(db, NULL, userID) != 200)
 				status = 404;
@@ -291,41 +304,50 @@ void serve(int* keep_running, int* msgid, char* db) {
 			if (status == 200) {
 				// send message to receiver
 				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, receiver);
-				// send response message
-				msgInit(&msg, 12, 34, sender, receiver, 200, messageBody);
+				int receiverSessionQueue = getSessionQueue(&sessions, receiverClientID);
+				// send response messa ge
+				msgInit(&msg, 13, 34, senderUsername, receiverUsername, 200,
+						messageBody);
 
+				memcpy(msg.mtext.body, messageBody, 1000);
+
+				msgsnd(receiverSessionQueue, &msg, sizeof(msg), 0);
+
+				int sessionQueue = getSessionQueue(&sessions, senderClientId);
+
+				msgInit(&msg, 12, 24, "server", senderClientId, 200, "OK");
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 
+				puts("Message delivered!");
 				continue;
 			} else if (status == 404) {
 				// user not found
 				// send response message to sender
-				msgInit(&msg, 12, 1, "server", sender, 404,
+				msgInit(&msg, 12, 1, "server", senderClientId, 404,
 						"Not Found (User does not exist)");
 
 				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, sender);
+				int sessionQueue = getSessionQueue(&sessions, senderClientId);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 			} else {
 				// internal server error - error opening database
 				//  send response message to sender
-				msgInit(&msg, 12, 1, "server", sender, 500,
+				msgInit(&msg, 12, 1, "server", senderClientId, 500,
 						"Internal Server Error (Send Message)");
 
 				// connect to session queue
-				int sessionQueue = getSessionQueue(&sessions, sender);
+				int sessionQueue = getSessionQueue(&sessions, senderClientId);
 				// send response message
 				msgsnd(sessionQueue, &msg, sizeof(msg), 0);
 			}
-
 			// transfer message to session
 		}
 		// Get list of active users
 		else if (msg.mtext.header.type == 13) {
 			// message format:
-			char* sender = msg.mtext.header.sender;
+			char sender[20];
+			strcpy(sender, msg.mtext.header.sender);
 
 			// check if client is logged in
 			int status = isSessionRunning(&sessions, sender);
@@ -333,7 +355,7 @@ void serve(int* keep_running, int* msgid, char* db) {
 			// if client is logged in
 			if (status == 200) {
 				// get list of active users
-				char* activeUsers = getOnlineUsersID(sessions);
+				char* activeUsers = getOnlineUsersID(sessions, db);
 
 				// if active users is empty
 				if (activeUsers == NULL) {
@@ -381,15 +403,17 @@ void serve(int* keep_running, int* msgid, char* db) {
 		// Add user to group
 		else if (msg.mtext.header.type == 25) {
 			// message format: groupname;username
-			char* messageBody = msg.mtext.body;
-			char* sender      = msg.mtext.header.sender;
+			char messageBody[1000];
+			char sender[20];
+			strcpy(messageBody, msg.mtext.body);
+			strcpy(sender, msg.mtext.header.sender);
 
 			char* groupName = strtok(messageBody, ";");
 			char* username  = strtok(NULL, ";");
 
 			// check if user exists
-			User* user = malloc(sizeof(User));
-			int status = getUserByName(db, user, username);
+			User* user = NULL;
+			int status = getUserByName(db, &user, username);
 
 			// check if group exists
 			Group* group    = malloc(sizeof(Group));
@@ -594,8 +618,8 @@ char* generateKey() {
  */
 int loginUser(char* username, char* password, char** key, char* db) {
 	// get user data
-	User* loggedUser = malloc(sizeof(User));
-	int status       = getUserByName(db, loggedUser, username);
+	User* loggedUser = NULL;
+	int status       = getUserByName(db, &loggedUser, username);
 	printf("status:%s %d\n", username, status);
 
 	if (status != 200) {
@@ -613,26 +637,107 @@ int loginUser(char* username, char* password, char** key, char* db) {
 	}
 }
 
-char* getOnlineUsersID(Sessions sessions) {
+/**
+ * It takes a Sessions struct and a database name, and returns a string of all
+ * the online users' names, seperated by semicolons
+ *
+ * @param sessions The sessions array
+ * @param db the database file
+ *
+ * @return A string of online users seperated by ;
+ */
+char* getOnlineUsersID(Sessions sessions, const char* db) {
 	// get string of inline clientIDs seperated by ;
 	char* onlineUsers = malloc(1000 * sizeof(char));
+	memset(onlineUsers, 0, 1000);
 	for (int i = 0; i < sessions.size; i++) {
-		char* userID = malloc(1000 * sizeof(char));
-		sprintf(userID, "%d", sessions.sessions[i].userLoggedInID);
-		strcat(onlineUsers, userID);
-		strcat(onlineUsers, ";");
+
+		char username[34];
+		memset(username, 0, 34);
+
+		User* user = NULL;
+		getUserById(db, &user, sessions.sessions[i].userLoggedInID);
+		sprintf(username, "%s;", user->name);
+
+		strcat(onlineUsers, username);
+
+		free(user);
 	}
 	return onlineUsers;
 }
 
+/**
+ * It takes a Sessions struct and returns a string of all the online clientIDs
+ * seperated by a semicolon
+ *
+ * @param sessions The sessions struct that contains all the sessions.
+ *
+ * @return A string of all the online clientIDs seperated by ;
+ */
 char* getOnlineClientID(Sessions sessions) {
 	// get string of inline clientIDs seperated by ;
 	char* onlineUsers = malloc(1000 * sizeof(char));
 	for (int i = 0; i < sessions.size; i++) {
-		char* clientID;
-		sprintf(clientID, "%s", sessions.sessions[i].clientID);
+		char clientID[33];
+		memset(clientID, 0, 33);
+		sprintf(clientID, "%s;", sessions.sessions[i].clientID);
 		strcat(onlineUsers, clientID);
-		strcat(onlineUsers, ";");
 	}
 	return onlineUsers;
+}
+
+/**
+ * It gets the username of the user logged in by the clientID
+ *
+ * @param sessions the sessions array
+ * @param clientID the client ID of the client that sent the message
+ * @param db the database file name
+ *
+ * @return A pointer to a char
+ * Question: What is the return type?
+ * Answer: char*
+ * Question: What is the name of the function?
+ * Answer: getUsernamebyClientID
+ * Question: What are the parameters?
+ * Answer: Sessions sessions, char* clientID, const char* db
+ * Question: What is the parameter type?
+ * Answer: Sessions, char*, const char
+ */
+char* getUsernamebyClientID(Sessions sessions, char* clientID, const char* db) {
+	for (int i = 0; i < sessions.size; i++) {
+		if (strcmp(sessions.sessions[i].clientID, clientID) == 0) {
+			// find username in database
+			User* user = NULL;
+			if (getUserById(db, &user, sessions.sessions[i].userLoggedInID) != 200) 
+				return NULL;
+			char* username = (char*)malloc(32);
+			strcpy(username, user->name);
+			free(user);
+			return username;
+		}
+	}
+	return NULL;
+}
+
+/**
+ * It gets the client ID of a user by their username
+ *
+ * @param sessions the sessions array
+ * @param username the username of the user you want to get the client id of
+ * @param db the database file
+ *
+ * @return A pointer to a char.
+ */
+char* getClientIDbyUsername(Sessions sessions, char* username, const char* db) {
+	// get user id
+	User* user;
+	getUserByName(db, &user, username);
+	// get client id
+	for (int i = 0; i < sessions.size; i++) {
+		if (sessions.sessions[i].userLoggedInID == user->id) {
+			free(user);
+			return sessions.sessions[i].clientID;
+		}
+	}
+	return NULL;
 }
